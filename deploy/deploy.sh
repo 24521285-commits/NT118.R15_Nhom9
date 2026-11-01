@@ -46,6 +46,9 @@ log "Cài thư viện"
 cd "$BACKEND_DIR"
 npm install --omit=dev --no-audit --no-fund
 
+log "Cập nhật database (migration, không xoá dữ liệu)"
+npm run db:migrate
+
 log "Reload app"
 pm2 startOrReload ecosystem.config.js --env production
 pm2 save >/dev/null

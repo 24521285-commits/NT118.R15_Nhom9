@@ -7,6 +7,7 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS user_taste;
 DROP TABLE IF EXISTS device_tokens;
 DROP TABLE IF EXISTS notifications;
 DROP TABLE IF EXISTS reports;
@@ -197,4 +198,20 @@ CREATE TABLE device_tokens (
   created_at  DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY uq_device_token (token),
   CONSTRAINT fk_device_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ---------------------------------------------------------------------
+-- 7. GỢI Ý CÁ NHÂN HOÁ
+-- ---------------------------------------------------------------------
+CREATE TABLE user_taste (
+  user_id          BIGINT UNSIGNED PRIMARY KEY,
+  swipe_count      INT UNSIGNED  NOT NULL DEFAULT 0,  -- số lượt quẹt lúc tính
+  like_count       INT UNSIGNED  NOT NULL DEFAULT 0,
+  age_mean         DECIMAL(5,2)  NULL,                -- tuổi trung bình của người đã like
+  age_std          DECIMAL(5,2)  NULL,
+  distance_mean    DECIMAL(7,2)  NULL,                -- khoảng cách trung bình (km) của người đã like
+  interest_affinity JSON         NULL,                -- {"<interestId>": độ ưa thích -1..1}
+  weights          JSON          NULL,                -- trọng số cá nhân {"interests":..,"distance":..,"age":..}
+  updated_at       DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_taste_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

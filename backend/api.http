@@ -89,3 +89,7 @@ Authorization: Bearer {{token}}
 ### (2) Tìm kiếm có filter (filter nào không cần thì xoá khỏi URL)
 GET {{baseUrl}}/home/search?gender=female&minAge=18&maxAge=25&maxDistanceKm=20&interestIds=1,2,3&hasPhoto=true&sort=score&limit=20
 Authorization: Bearer {{token}}
+
+### Gu đã học từ lịch sử quẹt (cá nhân hoá)
+GET {{baseUrl}}/home/taste
+Authorization: Bearer {{token}}

@@ -3,8 +3,17 @@ const ApiError = require('../../utils/ApiError');
 const { ageFromBirthday } = require('../../utils/age');
 const usersService = require('../users/users.service');
 const matching = require('./matching');
+const taste = require('./taste');
 
 const CANDIDATE_POOL = 300; // số ứng viên tối đa lấy ra để chấm điểm mỗi lần
+const MIN_FEED = 5; // feed mặc định có ít hơn số này thì tự nới filter (Mức 3)
+// Các bước nới: bán kính × factor, độ tuổi ± ageDelta
+const WIDEN_STEPS = [
+  { distanceFactor: 2, ageDelta: 2 },
+  { distanceFactor: 4, ageDelta: 5 },
+  { distanceFactor: 10, ageDelta: 10 },
+];
+const MAX_WIDEN_KM = 500;
 
 /** Thông tin người xem: giới tính, vị trí, tuổi, sở thích, tiêu chí đã lưu. */
 async function loadViewer(userId) {
@@ -39,8 +48,9 @@ async function loadViewer(userId) {
  * Lõi tìm ứng viên: lọc bằng SQL rồi chấm điểm bằng matching.js.
  * filters: { gender, minAge, maxAge, maxDistanceKm, strictDistance, interestIds, city, q,
  *            hasPhoto, sort: 'score'|'distance'|'newest'|'active', limit }
+ * userTaste: gu đã học (taste.js) hoặc null -> chấm điểm cá nhân hoá
  */
-async function findCandidates(viewer, f) {
+async function findCandidates(viewer, f, userTaste = null) {
   const hasLoc = viewer.lat != null && viewer.lng != null;
   // Toạ độ lấy từ DB (kiểu số) nên nhúng trực tiếp vào SQL an toàn
   const distanceExpr = hasLoc
@@ -99,7 +109,7 @@ async function findCandidates(viewer, f) {
             p.display_name, p.birthday, p.gender, p.bio, p.job_title, p.school, p.city,
             ${distanceExpr} AS distance_km,
             ${commonExpr} AS common_interests,
-            (SELECT COUNT(*) FROM user_interests ui2 WHERE ui2.user_id = u.id) AS interest_count,
+            (SELECT GROUP_CONCAT(ui2.interest_id) FROM user_interests ui2 WHERE ui2.user_id = u.id) AS interest_ids,
             EXISTS (SELECT 1 FROM photos ph2 WHERE ph2.user_id = u.id) AS has_photo,
             EXISTS (SELECT 1 FROM swipes s2 WHERE s2.swiper_id = u.id AND s2.swiped_id = ?
                                               AND s2.action IN ('like','superlike')) AS liked_me
@@ -113,49 +123,132 @@ async function findCandidates(viewer, f) {
   );
 
   const me = { age: viewer.age, interestCount: myInterests.length, radiusKm: f.maxDistanceKm };
-  const scored = rows.map((r) => ({
-    row: r,
-    ...matching.score(
-      {
-        distanceKm: r.distance_km == null ? null : Number(r.distance_km),
-        commonInterests: Number(r.common_interests),
-        lastActiveAt: r.last_active_at,
-        age: ageFromBirthday(r.birthday),
-        hasPhoto: Boolean(r.has_photo),
-        hasBio: Boolean(r.bio),
-        interestCount: Number(r.interest_count),
-        likedMe: Boolean(r.liked_me),
-      },
-      me,
-    ),
-  }));
+  const scored = rows.map((r) => {
+    const interestIds = taste.parseIds(r.interest_ids);
+    const c = {
+      distanceKm: r.distance_km == null ? null : Number(r.distance_km),
+      commonInterests: Number(r.common_interests),
+      interestIds,
+      lastActiveAt: r.last_active_at,
+      age: ageFromBirthday(r.birthday),
+      hasPhoto: Boolean(r.has_photo),
+      hasBio: Boolean(r.bio),
+      interestCount: interestIds.length,
+      likedMe: Boolean(r.liked_me),
+    };
+    return { row: r, c, ...matching.score(c, me, userTaste) };
+  });
 
   // Sắp xếp theo điểm (mặc định); các kiểu khác đã sắp sẵn bằng SQL
   if (!f.sort || f.sort === 'score') scored.sort((a, b) => b.rankScore - a.rankScore);
   const top = scored.slice(0, f.limit);
 
   const extras = await usersService.loadExtras(top.map((s) => Number(s.row.id)));
-  return top.map(({ row, matchScore }) => ({
-    ...usersService.toPublicProfile(row, extras),
-    matchScore,
-    commonInterestCount: Number(row.common_interests),
-  }));
+  const ctx = { myInterests: new Set(myInterests), taste: userTaste };
+  return top.map(({ row, c, matchScore }) => {
+    const profile = usersService.toPublicProfile(row, extras);
+    return {
+      ...profile,
+      matchScore,
+      commonInterestCount: c.commonInterests,
+      reasons: buildReasons(profile, c, ctx),
+    };
+  });
+}
+
+/** Lý do gợi ý hiển thị trên thẻ (tối đa 3). */
+function buildReasons(profile, c, { myInterests, taste: t }) {
+  const reasons = [];
+  const common = profile.interests.filter((i) => myInterests.has(i.id)).map((i) => i.name);
+  if (common.length) reasons.push(`Cùng thích ${common.slice(0, 2).join(', ')}`);
+
+  if (t && matching.personalizationLevel(t.swipeCount) > 0) {
+    const aff = t.interestAffinity || {};
+    const liked = profile.interests
+      .filter((i) => !myInterests.has(i.id) && Number(aff[i.id]) >= 0.3)
+      .map((i) => i.name);
+    if (liked.length) reasons.push(`Hợp gu của bạn: ${liked.slice(0, 2).join(', ')}`);
+    else if (t.ageMean != null && c.age != null && Math.abs(c.age - t.ageMean) <= Math.max(2, t.ageStd || 0)) {
+      reasons.push('Đúng độ tuổi bạn hay thích');
+    }
+  }
+  if (c.distanceKm != null && c.distanceKm < 5) reasons.push(`Cách bạn ${profile.distanceKm} km`);
+  if (c.lastActiveAt && Date.now() - new Date(c.lastActiveAt).getTime() < 24 * 3600 * 1000) {
+    reasons.push('Vừa hoạt động');
+  }
+  return reasons.slice(0, 3);
+}
+
+/** Thông tin cá nhân hoá trả kèm response (meta). */
+function personalizationMeta(userTaste, swipeCount) {
+  const level = matching.personalizationLevel(userTaste?.swipeCount);
+  return {
+    level, // α: 0 = thuật toán mặc định, tối đa 0.7
+    swipeCount,
+    minSwipes: matching.MIN_SWIPES,
+    swipesUntilPersonalized: Math.max(0, matching.MIN_SWIPES - swipeCount),
+  };
+}
+
+async function countSwipes(userId) {
+  const [{ total }] = await db.query('SELECT COUNT(*) AS total FROM swipes WHERE swiper_id = ?', [userId]);
+  return Number(total);
 }
 
 /**
  * (1) KẾT QUẢ MẶC ĐỊNH cho trang Home - chưa search / chưa thêm filter.
  * Dựa trên thông tin đã cung cấp khi đăng ký (giới tính muốn tìm, tuổi, vị trí, sở thích)
- * và tiêu chí đã lưu (preferences). Sắp xếp theo matchScore.
+ * và tiêu chí đã lưu (preferences). Sắp xếp theo matchScore (cá nhân hoá khi đủ lượt quẹt).
+ * Mức 3: có ít hơn MIN_FEED người thì tự nới bán kính / độ tuổi theo từng bước.
+ * Trả về { items, meta }.
  */
 async function getFeed(userId, limit) {
   const viewer = await loadViewer(userId);
-  return findCandidates(viewer, { ...viewer.prefs, limit, sort: 'score' });
+  const userTaste = await taste.getTaste(userId);
+  const base = { ...viewer.prefs, limit, sort: 'score' };
+
+  let items = await findCandidates(viewer, base, userTaste);
+  let expanded = null;
+  const want = Math.min(limit, MIN_FEED);
+
+  for (let i = 0; i < WIDEN_STEPS.length && items.length < want; i++) {
+    const step = WIDEN_STEPS[i];
+    const f = {
+      ...base,
+      minAge: Math.max(18, base.minAge - step.ageDelta),
+      maxAge: Math.min(100, base.maxAge + step.ageDelta),
+      maxDistanceKm: base.maxDistanceKm ? Math.min(MAX_WIDEN_KM, base.maxDistanceKm * step.distanceFactor) : null,
+    };
+    items = await findCandidates(viewer, f, userTaste);
+    expanded = { step: i + 1, minAge: f.minAge, maxAge: f.maxAge, maxDistanceKm: f.maxDistanceKm };
+  }
+
+  if (expanded) {
+    // Đánh dấu người nằm ngoài tiêu chí gốc và xếp họ sau người trong tiêu chí
+    const p = viewer.prefs;
+    for (const u of items) {
+      u.outsidePreferences =
+        u.age < p.minAge || u.age > p.maxAge || (u.distanceKm != null && p.maxDistanceKm && u.distanceKm > p.maxDistanceKm);
+      if (u.outsidePreferences) u.reasons = ['Ngoài phạm vi tìm kiếm', ...u.reasons].slice(0, 3);
+    }
+    items.sort((a, b) => Number(a.outsidePreferences) - Number(b.outsidePreferences));
+  }
+
+  return {
+    items,
+    meta: {
+      personalization: personalizationMeta(userTaste, await countSwipes(userId)),
+      expanded,
+      original: { minAge: viewer.prefs.minAge, maxAge: viewer.prefs.maxAge, maxDistanceKm: viewer.prefs.maxDistanceKm },
+    },
+  };
 }
 
 /**
  * (2) KẾT QUẢ KHI THÊM FILTER. Filter nào không gửi thì dùng tiêu chí đã lưu.
  * Filter chỉ áp dụng cho lần tìm này, không ghi đè preferences
  * (muốn lưu làm mặc định thì gọi PUT /users/me/preferences).
+ * Filter người dùng tự chọn là ranh giới cứng: KHÔNG tự nới, chỉ cá nhân hoá thứ tự sắp xếp.
  */
 async function search(userId, query) {
   const viewer = await loadViewer(userId);
@@ -173,7 +266,40 @@ async function search(userId, query) {
     limit: query.limit,
   };
   if (f.minAge > f.maxAge) throw ApiError.badRequest('minAge phải nhỏ hơn hoặc bằng maxAge');
-  return findCandidates(viewer, f);
+  const userTaste = await taste.getTaste(userId);
+  const items = await findCandidates(viewer, f, userTaste);
+  return { items, meta: { personalization: personalizationMeta(userTaste, await countSwipes(userId)) } };
+}
+
+/** Gu đã học của người dùng (tính lại ngay), kèm tên sở thích - cho màn hình "Gu của bạn" / báo cáo. */
+async function getTasteSummary(userId) {
+  const t = await taste.refresh(userId);
+  const affinity = t?.interestAffinity || {};
+  const ids = Object.keys(affinity).map(Number);
+  const names = ids.length ? await db.query('SELECT id, name FROM interests WHERE id IN (?)', [ids]) : [];
+  const nameOf = new Map(names.map((r) => [Number(r.id), r.name]));
+  const list = ids
+    .map((id) => ({ id, name: nameOf.get(id) || `#${id}`, affinity: affinity[id] }))
+    .sort((a, b) => b.affinity - a.affinity);
+
+  const level = matching.personalizationLevel(t?.swipeCount);
+  return {
+    personalization: personalizationMeta(t, t?.swipeCount || 0),
+    active: level > 0,
+    likeCount: t?.likeCount || 0,
+    preferredAge: t?.ageMean == null ? null : { mean: t.ageMean, std: t.ageStd },
+    preferredDistanceKm: t?.distanceMean ?? null,
+    likedInterests: list.filter((x) => x.affinity > 0),
+    dislikedInterests: list.filter((x) => x.affinity < 0),
+    weights: {
+      default: matching.DEFAULT_WEIGHTS,
+      personal: t?.weights ? Object.fromEntries(Object.entries(t.weights).filter(([k]) => k !== 'mix')) : null,
+      effective: Object.fromEntries(
+        Object.entries(matching.blendWeights(t?.weights, level)).map(([k, v]) => [k, Math.round(v * 10) / 10]),
+      ),
+      tasteMix: t?.weights?.mix || null,
+    },
+  };
 }
 
 /** Quẹt like / pass / superlike. Nếu hai bên cùng like thì tạo match. */
@@ -232,6 +358,9 @@ async function swipe(userId, targetId, action) {
     return { matched: true, matchId };
   });
 
+  // Cập nhật gu (mỗi 10 lượt quẹt) - chạy nền, không làm chậm response
+  taste.maybeUpdate(userId).catch((err) => console.error('[taste]', err.message));
+
   if (result.matched) {
     result.user = await usersService.getPublicProfile(userId, targetId);
   }
@@ -282,4 +411,4 @@ async function unmatch(userId, matchId) {
   if (!result.affectedRows) throw ApiError.notFound('Không tìm thấy match');
 }
 
-module.exports = { getFeed, search, swipe, getMatches, unmatch };
+module.exports = { getFeed, search, getTasteSummary, swipe, getMatches, unmatch, findCandidates, loadViewer };
