@@ -6,17 +6,23 @@ REST API viết bằng **Node.js (Express)** + **MySQL 8**. Android app (Retrofi
 
 ```
 backend/
-├── database/schema.sql      # Toàn bộ bảng (users, profiles, swipes, matches, messages, ...)
+├── database/
+│   ├── schema.sql           # Toàn bộ bảng (users, profiles, swipes, matches, messages, ...)
+│   └── migrations/          # Thay đổi schema cho DB đang có dữ liệu (npm run db:migrate)
 ├── scripts/
 │   ├── db-init.js           # Tạo DB + chạy schema.sql (XOÁ dữ liệu cũ)
-│   └── db-seed.js           # Dữ liệu mẫu: sở thích + tài khoản demo
+│   ├── db-migrate.js        # Chạy migrations (không xoá dữ liệu)
+│   ├── db-seed.js           # Dữ liệu mẫu: sở thích + tài khoản demo
+│   └── simulate-swipes.js   # Giả lập quẹt để chứng minh gợi ý cá nhân hoá
 ├── src/
 │   ├── config/              # env.js (đọc .env), db.js (MySQL pool)
 │   ├── middlewares/         # auth (JWT), validate (zod), upload (multer), errorHandler
 │   ├── modules/
 │   │   ├── auth/            # đăng ký, đăng nhập, refresh token, đổi mật khẩu
 │   │   ├── users/           # hồ sơ, tiêu chí, sở thích, ảnh
-│   │   └── home/            # feed gợi ý, swipe, match
+│   │   └── home/            # feed gợi ý, search, swipe, match
+│   │       ├── matching.js  #   thuật toán chấm điểm matchScore
+│   │       └── taste.js     #   học gu từ lịch sử quẹt (cá nhân hoá)
 │   ├── utils/
 │   ├── app.js               # khai báo middleware + routes
 │   └── server.js            # khởi động HTTP server
@@ -86,8 +92,9 @@ Phía Android nên có class chung `BaseResponse<T>` với `success`, `message`,
 | DELETE | `/api/users/me/photos/:photoId` | ✔ | Xoá ảnh |
 | GET | `/api/users/:id` | ✔ | Hồ sơ công khai của người khác (có `age`, `distanceKm`, không lộ email/ngày sinh/toạ độ) |
 | **Home** | | | |
-| GET | `/api/home/feed?limit=20` | ✔ | **(1) Kết quả mặc định** (chưa filter): dựa trên thông tin đăng ký + tiêu chí đã lưu, sắp theo `matchScore` |
-| GET | `/api/home/search?...` | ✔ | **(2) Kết quả khi thêm filter** (xem bảng filter bên dưới) |
+| GET | `/api/home/feed?limit=20` | ✔ | **(1) Kết quả mặc định** (chưa filter): dựa trên thông tin đăng ký + tiêu chí đã lưu, sắp theo `matchScore`, **cá nhân hoá theo gu**, tự nới filter khi ít người |
+| GET | `/api/home/search?...` | ✔ | **(2) Kết quả khi thêm filter** (xem bảng filter bên dưới), cá nhân hoá thứ tự, không tự nới |
+| GET | `/api/home/taste` | ✔ | Gu đã học từ lịch sử quẹt (tuổi / khoảng cách / sở thích hay like, trọng số riêng) |
 | POST | `/api/home/swipe` | ✔ | `{targetId, action: like\|pass\|superlike}` → `{matched, matchId?, user?}` |
 | GET | `/api/home/matches` | ✔ | Danh sách đã match + tin nhắn cuối |
 | DELETE | `/api/home/matches/:matchId` | ✔ | Huỷ match |
@@ -121,6 +128,8 @@ Sau đó feed chạy 2 bước:
 
 Người **đã like mình** được ưu tiên ẩn +8 khi sắp xếp (không cộng vào `matchScore` trả về, để không lộ ai đã like).
 
+Bảng trên là thuật toán **mặc định** cho người dùng mới. Khi đã quẹt đủ nhiều, điểm được cá nhân hoá - xem phần [Gợi ý cá nhân hoá](#gợi-ý-cá-nhân-hoá-dynamic-theo-từng-người-dùng).
+
 ### (2) Kết quả khi thêm filter — `GET /api/home/search`
 
 Mọi filter đều không bắt buộc; filter nào không gửi thì dùng tiêu chí đã lưu. Filter chỉ áp dụng cho lần tìm đó, **không** ghi đè tiêu chí mặc định (muốn lưu thì gọi `PUT /api/users/me/preferences`).
@@ -139,7 +148,74 @@ Mọi filter đều không bắt buộc; filter nào không gửi thì dùng ti�
 
 Ví dụ: `GET /api/home/search?gender=female&minAge=20&maxAge=25&maxDistanceKm=10&interestIds=1,3&sort=distance`
 
-Mỗi người trong kết quả của cả 2 API có thêm `matchScore` (0–100) và `commonInterestCount` (số sở thích chung), FE có thể hiện kiểu "Hợp nhau 86%".
+Mỗi người trong kết quả của cả 2 API có thêm:
+- `matchScore` (0–100) → FE hiện kiểu "Hợp nhau 86%"
+- `commonInterestCount` (số sở thích chung)
+- `reasons` (tối đa 3 lý do gợi ý), ví dụ `["Cùng thích Du lịch", "Hợp gu của bạn: Nhiếp ảnh", "Cách bạn 3 km"]`
+- `outsidePreferences: true` (chỉ ở feed khi đã tự nới filter) → người này nằm ngoài tiêu chí gốc
+
+## Gợi ý cá nhân hoá (dynamic theo từng người dùng)
+
+Thuật toán mặc định chấm điểm giống nhau cho mọi người. Phần này làm cho kết quả **khác nhau theo hành vi của từng người**: học từ lịch sử quẹt (`swipes`: like/superlike = thích, pass = không thích). Code: `src/modules/home/taste.js` (học gu) và `matching.js` (chấm điểm).
+
+### Mức 1 — Học gu từ những người đã like
+
+| Gu | Cách học | Dùng để |
+|---|---|---|
+| Tuổi hay like | Trung bình ± độ lệch chuẩn tuổi của người đã like | Ứng viên càng gần tuổi trung bình càng được điểm cao (phân phối chuẩn) |
+| Khoảng cách hay like | Khoảng cách trung bình của người đã like | Trong khoảng đó = điểm tối đa, xa hơn giảm dần |
+| Độ ưa thích từng sở thích (−1..1) | Tỉ lệ like khi người kia có sở thích X so với tỉ lệ like chung (có làm mượt, giảm độ tin khi còn ít like) | Ứng viên có sở thích mình hay like được cộng điểm, kể cả sở thích **mình không chọn** trong hồ sơ |
+
+→ **Điểm gu** (0–100) = trộn 3 phần trên. Tỉ trọng 3 phần cũng học riêng: phần nào phân biệt người mình like / pass rõ nhất thì chiếm nhiều nhất.
+
+### Mức 2 — Trọng số riêng cho từng người
+
+Với mỗi yếu tố *sở thích chung, khoảng cách, tuổi*: so độ phù hợp trung bình của người đã like với người đã pass (chênh lệch `d` từ −1 đến 1).
+Trọng số mới = trọng số mặc định × `(1 + 3d)` (giới hạn 0.3–2.5 lần), rồi chuẩn hoá để tổng vẫn = 100.
+Ví dụ: người like người ở xa cũng nhiều như người ở gần → `d ≈ 0` → không tăng khoảng cách; người chỉ like người gần → khoảng cách tăng từ 25 lên ~40.
+
+### Kết hợp & cold start
+
+```
+matchScore = (1 − α) · điểm cơ bản (trọng số đã cá nhân hoá) + α · điểm gu
+```
+
+| Số lượt quẹt | α (mức cá nhân hoá) |
+|---|---|
+| < 20 | 0 — dùng thuật toán mặc định (chưa đủ dữ liệu) |
+| 20 → 50 | tăng dần 0.2 → 0.7 |
+| ≥ 50 | 0.7 (luôn giữ 30% điểm cơ bản để không bị "đóng khung" một kiểu người) |
+
+Gu được tính lại tự động **sau mỗi 10 lượt quẹt** (chạy nền, không làm chậm API swipe), lưu ở bảng `user_taste`, chỉ học từ 500 lượt quẹt gần nhất (gu có thể thay đổi theo thời gian).
+Response của feed/search có `meta.personalization`: `{ level: α, swipeCount, minSwipes: 20, swipesUntilPersonalized }` → FE có thể hiện "Quẹt thêm 8 lượt để nhận gợi ý theo gu".
+
+### Mức 3 — Tự nới filter khi ít người
+
+Chỉ áp dụng cho **feed mặc định**. Feed có < 5 người thì tự mở rộng theo từng bước, dừng khi đủ người:
+
+| Bước | Bán kính | Độ tuổi |
+|---|---|---|
+| 1 | × 2 | ± 2 tuổi |
+| 2 | × 4 | ± 5 tuổi |
+| 3 | × 10 (tối đa 500 km) | ± 10 tuổi |
+
+Giới tính **không bao giờ** bị nới. Người ngoài tiêu chí gốc có `outsidePreferences: true`, xếp sau người trong tiêu chí; `meta.expanded` cho biết đã nới tới đâu và `message` có câu thông báo sẵn (VD: *"Ít người phù hợp, đã mở rộng tìm kiếm: 100 km, 18-35 tuổi"*).
+`/home/search` **không** tự nới: filter người dùng tự chọn là ranh giới cứng, cá nhân hoá chỉ thay đổi thứ tự sắp xếp.
+
+### Chứng minh bằng dữ liệu giả lập
+
+```bash
+npm run db:simulate            # tạo 100 user giả lập, cho An & Khoa quẹt 40 lượt theo 2 gu khác nhau
+npm run db:simulate -- --clean # dọn dữ liệu giả lập
+```
+
+Script in top 10 feed **trước / sau** khi quẹt và gu học được:
+- **An** — gu ẩn: thích người 20–23 tuổi hoặc thích "Nhiếp ảnh"
+- **Khoa** — gu ẩn: chỉ thích người trong 10 km
+
+Cùng tiêu chí khai báo (nữ, 18–35, 50 km) nhưng sau khi quẹt, feed mỗi người khác nhau và đúng gu. Kiểm tra lại qua Postman folder **6. Cá nhân hoá**.
+
+**Hướng phát triển (chưa làm):** lọc cộng tác — "người có gu giống bạn cũng đã like X" (cần nhiều người dùng thật mới hiệu quả).
 
 ## Database
 
@@ -151,6 +227,9 @@ Sơ đồ bảng (xem chi tiết trong `database/schema.sql`):
 - `messages` — chat (giai đoạn sau, qua WebSocket)
 - `blocks`, `reports` — an toàn & kiểm duyệt (Web Admin)
 - `notifications`, `device_tokens` — thông báo, FCM push
+- `user_taste` — gu đã học từ lịch sử quẹt (gợi ý cá nhân hoá)
+
+Thay đổi schema sau khi đã có dữ liệu: thêm file `database/migrations/NNN_ten.sql` (viết dạng idempotent, VD `CREATE TABLE IF NOT EXISTS`) rồi chạy `npm run db:migrate`. Không xoá dữ liệu, `deploy.sh` tự chạy lệnh này mỗi lần deploy.
 
 Đã tạo sẵn bảng cho các phần sau để không phải đổi schema giữa chừng; API của chúng sẽ thêm ở 3 tuần hoàn thiện.
 

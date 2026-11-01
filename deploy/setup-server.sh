@@ -135,6 +135,7 @@ if [[ "$TABLES" -eq 0 ]]; then
 else
   warn "Database đã có $TABLES bảng -> KHÔNG chạy lại schema (tránh mất dữ liệu)"
 fi
+as_app "npm run db:migrate"
 
 # ---------------------------------------------------------------------
 log "6/7 Cấu hình Nginx (port 80 -> Node :$APP_PORT)"

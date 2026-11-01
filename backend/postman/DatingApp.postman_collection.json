@@ -703,7 +703,7 @@
                 }
               ]
             },
-            "description": "Kết quả mặc định, chưa search/filter: dựa trên thông tin đăng ký + tiêu chí đã lưu, sắp theo matchScore."
+            "description": "Kết quả mặc định, chưa search/filter: dựa trên thông tin đăng ký + tiêu chí đã lưu, sắp theo matchScore.\nTừ 20 lượt quẹt trở lên: cá nhân hoá theo gu (xem meta.personalization). Ít hơn 5 người: tự nới filter (meta.expanded)."
           },
           "event": [
             {
@@ -713,8 +713,11 @@
                 "exec": [
                   "pm.test('Status 200', () => pm.response.to.have.status(200));",
                   "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
-                  "const list = pm.response.json().data;",
-                  "console.log(list.map(u => `${u.id} ${u.displayName} ${u.age}t ${u.distanceKm}km score=${u.matchScore} chung=${u.commonInterestCount}`).join('\\n'));",
+                  "const body = pm.response.json(); const list = body.data;",
+                  "console.log('meta', JSON.stringify(body.meta));",
+                  "console.log(list.map(u => `${u.id} ${u.displayName} ${u.age}t ${u.distanceKm}km score=${u.matchScore} ${u.outsidePreferences ? '(ngoài phạm vi) ' : ''}${(u.reasons || []).join(' | ')}`).join('\\n'));",
+                  "pm.test('Có meta.personalization', () => pm.expect(body.meta.personalization).to.have.property('level'));",
+                  "pm.test('Mỗi người có reasons', () => list.forEach(u => pm.expect(u.reasons).to.be.an('array')));",
                   "pm.test('Có matchScore 0-100', () => list.forEach(u => pm.expect(u.matchScore).to.be.within(0, 100)));",
                   "if (list.length) pm.collectionVariables.set('targetId', list[0].id);"
                 ]
@@ -783,6 +786,37 @@
                   "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
                   "const list = pm.response.json().data;",
                   "console.log(list.map(u => `${u.id} ${u.displayName} ${u.gender} ${u.age}t ${u.distanceKm}km score=${u.matchScore}`).join('\\n'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gu của tôi (cá nhân hoá)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/home/taste",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "home",
+                "taste"
+              ]
+            },
+            "description": "Gu đã học từ lịch sử quẹt: tuổi / khoảng cách hay like, sở thích ưa thích, trọng số riêng. active = true khi đã quẹt ≥ 20 lượt."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
+                  "console.log(JSON.stringify(pm.response.json().data, null, 2));"
                 ]
               }
             }
@@ -1006,20 +1040,28 @@
           ]
         },
         {
-          "name": "B3. An thấy Bình trong feed",
+          "name": "B3. An tìm thấy Bình",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/home/feed?limit=50",
+              "raw": "{{baseUrl}}/home/search?gender=everyone&q=Bình&limit=50",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "home",
-                "feed"
+                "search"
               ],
               "query": [
+                {
+                  "key": "gender",
+                  "value": "everyone"
+                },
+                {
+                  "key": "q",
+                  "value": "Bình"
+                },
                 {
                   "key": "limit",
                   "value": "50"
@@ -1085,20 +1127,28 @@
           ]
         },
         {
-          "name": "B5. Bình biến khỏi feed của An",
+          "name": "B5. Bình biến khỏi kết quả của An",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/home/feed?limit=50",
+              "raw": "{{baseUrl}}/home/search?gender=everyone&q=Bình&limit=50",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "home",
-                "feed"
+                "search"
               ],
               "query": [
+                {
+                  "key": "gender",
+                  "value": "everyone"
+                },
+                {
+                  "key": "q",
+                  "value": "Bình"
+                },
                 {
                   "key": "limit",
                   "value": "50"
@@ -1674,7 +1724,442 @@
       ]
     },
     {
-      "name": "6. Ca lỗi (phải trả lỗi)",
+      "name": "6. Cá nhân hoá (Run folder, sau khi chạy db:simulate)",
+      "description": "Trên VPS chạy trước: cd ~/NT118.R15_Nhom9/backend && npm run db:simulate\nScript cho An và Khoa quẹt 40 lượt theo 2 gu khác nhau. Folder này kiểm tra feed của mỗi người đã đúng gu.\nCuối folder: kiểm tra tự nới filter bằng 1 tài khoản mới.",
+      "item": [
+        {
+          "name": "P1. Đăng nhập An",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"an@demo.local\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200/201', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "const d = pm.response.json().data;",
+                  "if (d && d.tokens) {",
+                  "  pm.collectionVariables.set('accessToken', d.tokens.accessToken);",
+                  "  pm.collectionVariables.set('refreshToken', d.tokens.refreshToken);",
+                  "  pm.collectionVariables.set('myId', d.user ? d.user.id : '');",
+                  "  console.log('Đã lưu token của', d.user && d.user.email);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P2. Gu của An: thích \"Nhiếp ảnh\", tuổi ~20-23",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/home/taste",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "home",
+                "taste"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
+                  "const t = pm.response.json().data;",
+                  "console.log(JSON.stringify(t, null, 2));",
+                  "pm.test('Đã cá nhân hoá', () => pm.expect(t.active).to.eql(true));",
+                  "pm.test('Học được sở thích Nhiếp ảnh', () => pm.expect(t.likedInterests.map(i => i.name)).to.include('Nhiếp ảnh'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P3. Feed của An: phần lớn đúng gu",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/home/feed?limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "home",
+                "feed"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
+                  "const l = pm.response.json().data;",
+                  "const ok = l.filter(u => (u.age >= 20 && u.age <= 23) || u.interests.some(i => i.name === 'Nhiếp ảnh'));",
+                  "console.log(l.map(u => `${u.matchScore} ${u.displayName} ${u.age}t ${u.distanceKm}km [${u.interests.map(i => i.name)}]`).join('\\n'));",
+                  "pm.test(`Đúng gu ${ok.length}/${l.length} (cần ≥ 60%)`, () => pm.expect(ok.length).to.be.at.least(Math.ceil(l.length * 0.6)));",
+                  "pm.test('meta.personalization.level > 0', () => pm.expect(pm.response.json().meta.personalization.level).to.be.above(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P4. Đăng nhập Khoa",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"khoa@demo.local\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200/201', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "const d = pm.response.json().data;",
+                  "if (d && d.tokens) {",
+                  "  pm.collectionVariables.set('accessToken', d.tokens.accessToken);",
+                  "  pm.collectionVariables.set('refreshToken', d.tokens.refreshToken);",
+                  "  pm.collectionVariables.set('myId', d.user ? d.user.id : '');",
+                  "  console.log('Đã lưu token của', d.user && d.user.email);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P5. Gu của Khoa: khoảng cách quan trọng nhất",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/home/taste",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "home",
+                "taste"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
+                  "const t = pm.response.json().data;",
+                  "console.log(JSON.stringify(t, null, 2));",
+                  "pm.test('Đã cá nhân hoá', () => pm.expect(t.active).to.eql(true));",
+                  "pm.test('Khoảng cách chiếm tỉ trọng lớn nhất', () => { const m = t.weights.tasteMix; pm.expect(m.distance).to.be.above(m.age); pm.expect(m.distance).to.be.above(m.interests); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P6. Feed của Khoa: phần lớn trong 10 km",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/home/feed?limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "home",
+                "feed"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
+                  "const l = pm.response.json().data;",
+                  "const ok = l.filter(u => u.distanceKm != null && u.distanceKm <= 10);",
+                  "console.log(l.map(u => `${u.matchScore} ${u.displayName} ${u.age}t ${u.distanceKm}km`).join('\\n'));",
+                  "pm.test(`Trong 10km: ${ok.length}/${l.length} (cần ≥ 60%)`, () => pm.expect(ok.length).to.be.at.least(Math.ceil(l.length * 0.6)));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P7. Tạo tài khoản mới để test nới filter",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"widen{{$timestamp}}@demo.local\",\n  \"password\": \"123456\",\n  \"displayName\": \"Widen\",\n  \"birthday\": \"2004-06-01\",\n  \"gender\": \"male\",\n  \"interestedIn\": \"female\",\n  \"latitude\": 10.87,\n  \"longitude\": 106.8031\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200/201', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "const d = pm.response.json().data;",
+                  "if (d && d.tokens) {",
+                  "  pm.collectionVariables.set('accessToken', d.tokens.accessToken);",
+                  "  pm.collectionVariables.set('refreshToken', d.tokens.refreshToken);",
+                  "  pm.collectionVariables.set('myId', d.user ? d.user.id : '');",
+                  "  console.log('Đã lưu token của', d.user && d.user.email);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P8. Đặt tiêu chí rất hẹp: 1 km, đúng 18 tuổi",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/preferences",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "preferences"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"minAge\": 18,\n  \"maxAge\": 18,\n  \"maxDistanceKm\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P9. Feed tự nới filter",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/home/feed?limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "home",
+                "feed"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
+                  "const b = pm.response.json();",
+                  "console.log(b.message, JSON.stringify(b.meta.expanded));",
+                  "pm.test('meta.expanded có giá trị', () => pm.expect(b.meta.expanded).to.not.eql(null));",
+                  "pm.test('Có người ngoài phạm vi được đánh dấu', () => pm.expect(b.data.some(u => u.outsidePreferences)).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "P10. Search KHÔNG tự nới (filter là ranh giới cứng)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/home/search?maxDistanceKm=1&minAge=18&maxAge=18",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "home",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "maxDistanceKm",
+                  "value": "1"
+                },
+                {
+                  "key": "minAge",
+                  "value": "18"
+                },
+                {
+                  "key": "maxAge",
+                  "value": "18"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
+                  "pm.test('Không có meta.expanded', () => pm.expect(pm.response.json().meta).to.not.have.property('expanded'));",
+                  "pm.response.json().data.forEach(u => pm.test(`${u.displayName} trong 1km & 18t`, () => { pm.expect(u.age).to.eql(18); pm.expect(u.distanceKm).to.be.at.most(1); }));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "7. Ca lỗi (phải trả lỗi)",
       "item": [
         {
           "name": "Sai mật khẩu → 401",

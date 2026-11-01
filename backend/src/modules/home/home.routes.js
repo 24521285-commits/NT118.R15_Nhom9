@@ -9,6 +9,7 @@ router.use(requireAuth);
 
 router.get('/feed', validate({ query: schema.feedQuery }), h(ctrl.getFeed));
 router.get('/search', validate({ query: schema.searchQuery }), h(ctrl.search));
+router.get('/taste', h(ctrl.getTaste));
 router.post('/swipe', validate({ body: schema.swipe }), h(ctrl.swipe));
 router.get('/matches', h(ctrl.getMatches));
 router.delete('/matches/:matchId', validate({ params: schema.matchParam }), h(ctrl.unmatch));
