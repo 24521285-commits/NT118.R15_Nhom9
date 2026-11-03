@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="64"
+    android:viewportHeight="64">
+
+    <!-- Trái tim hồng -->
+    <path
+        android:fillColor="#EF1254"
+        android:pathData="M32,56
+            C27,51 6,37 6,23
+            C6,8 22,4 32,16
+            C42,4 58,8 58,23
+            C58,37 37,51 32,56 Z" />
+
+    <!-- Đầu người bên trái -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,21
+            a4.5,4.5 0,1 0,0 9
+            a4.5,4.5 0,1 0,0 -9" />
+
+    <!-- Thân người bên trái -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,32
+            C21.5,32 20,33.5 20,36
+            L20,43
+            C20,48.5 28,48.5 28,43
+            L28,36
+            C28,33.5 26.5,32 24,32 Z" />
+
+    <!-- Đầu người bên phải -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,24
+            a3.5,3.5 0,1 0,0 7
+            a3.5,3.5 0,1 0,0 -7" />
+
+    <!-- Thân người bên phải -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M38,33
+            C35.5,33 34,34.5 34,37
+            L34,43
+            C34,48.5 42,48.5 42,43
+            L42,37
+            C42,34.5 40.5,33 38,33 Z" />
+
+</vector>
