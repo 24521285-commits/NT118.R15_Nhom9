@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.content.Intent;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,11 +59,12 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.tvRegister).setOnClickListener(view -> {
-            Toast.makeText(
-                    this,
-                    "Màn hình đăng ký sẽ được làm ở bước tiếp theo",
-                    Toast.LENGTH_SHORT
-            ).show();
+            Intent intent = new Intent(
+                    LoginActivity.this,
+                    RegisterActivity.class
+            );
+
+            startActivity(intent);
         });
 
         findViewById(R.id.tvForgotPassword).setOnClickListener(view -> {
