@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/myProfileRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -372,39 +372,10 @@
     </androidx.core.widget.NestedScrollView>
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/myProfileBottomNavigation"
-        android:layout_width="0dp"
-        android:layout_height="56dp"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="12dp"
-        android:background="@color/discovery_navigation_background"
-        app:backgroundTint="@color/discovery_navigation_background"
-        app:elevation="0dp"
-        app:itemActiveIndicatorStyle="@null"
-        app:itemIconSize="24dp"
-        app:itemIconTint="@color/discovery_navigation_icon"
-        app:itemTextColor="@color/discovery_navigation_icon"
-        app:labelVisibilityMode="unlabeled"
+        style="@style/AppBottomNavigation"
         app:menu="@menu/profile_bottom_navigation"
+        tools:menu="@menu/profile_bottom_navigation"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-    <View
-        android:layout_width="48dp"
-        android:layout_height="2dp"
-        android:layout_marginEnd="16dp"
-        android:importantForAccessibility="no"
-        android:background="@color/brand_primary"
-        app:layout_constraintEnd_toEndOf="@id/myProfileBottomNavigation"
-        app:layout_constraintTop_toTopOf="@id/myProfileBottomNavigation" />
-    <View
-        android:layout_width="7dp"
-        android:layout_height="7dp"
-        android:layout_marginTop="14dp"
-        android:translationX="7dp"
-        android:background="@drawable/bg_circle_add"
-        android:importantForAccessibility="no"
-        app:layout_constraintHorizontal_bias="0.375"
-        app:layout_constraintStart_toStartOf="@id/myProfileBottomNavigation"
-        app:layout_constraintEnd_toEndOf="@id/myProfileBottomNavigation"
-        app:layout_constraintTop_toTopOf="@id/myProfileBottomNavigation" />
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

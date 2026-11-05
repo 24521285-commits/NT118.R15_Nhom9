@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="matches_title">Matches</string>
+    <string name="matches_subtitle">This is a list of people who have liked you\nand your matches.</string>
+    <string name="matches_today">Today</string>
+    <string name="matches_yesterday">Yesterday</string>
+    <string name="matches_sample_soi">Sói, 19</string>
+    <string name="matches_sample_nguyen">Nguyên, 20</string>
+    <string name="matches_sample_nguu">Ngưu, 24</string>
+    <string name="matches_sample_hadley">Hadley, 25</string>
+    <string name="matches_sample_kyle">Kyle, 24</string>
+    <string name="matches_sample_lisa">Lisa, 24</string>
+    <string name="matches_badge">Đã tương hợp</string>
+</resources>
