@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/otpRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/auth_screen_padding">
+
+        <!-- Nút quay lại top-left -->
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/AuthBackButton"
+            android:layout_marginTop="8dp" />
+
+        <!-- Logo Date Zone -->
+        <ImageView
+            style="@style/AuthLogoImage"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            style="@style/AuthLogoTitle"
+            android:layout_marginTop="4dp" />
+
+        <!-- Khung Xác thực OTP -->
+        <LinearLayout
+            style="@style/AuthCard"
+            android:layout_marginTop="24dp">
+
+            <TextView
+                style="@style/AuthCardTitle"
+                android:text="Xác thực OTP" />
+
+            <TextView
+                android:id="@+id/tvOtpSubtitle"
+                style="@style/AuthCardSubtitle"
+                android:lineSpacingExtra="3dp"
+                android:text="Nhập mã gồm 6 chữ số chúng tôi đã gửi tới\n+84 ••• ••• 123" />
+
+            <!-- 6 ô nhập OTP -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edtOtp1"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/auth_input_height"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_otp_input"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/font_size_otp_digit"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtOtp2"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/auth_input_height"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_otp_input"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/font_size_otp_digit"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtOtp3"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/auth_input_height"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_otp_input"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/font_size_otp_digit"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtOtp4"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/auth_input_height"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_otp_input"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/font_size_otp_digit"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtOtp5"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/auth_input_height"
+                    android:layout_marginHorizontal="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_otp_input"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/font_size_otp_digit"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtOtp6"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/auth_input_height"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_otp_input"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:maxLength="1"
+                    android:textColor="@color/text_primary"
+                    android:textSize="@dimen/font_size_otp_digit"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnVerify"
+                style="@style/AuthPrimaryButton"
+                android:layout_marginTop="28dp"
+                android:text="Xác nhận" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chưa nhận được mã? "
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/font_size_caption" />
+
+                <TextView
+                    android:id="@+id/tvResendOtp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:paddingHorizontal="4dp"
+                    android:text="Gửi lại mã sau 30s"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="@dimen/font_size_caption" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

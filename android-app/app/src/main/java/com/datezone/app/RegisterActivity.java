@@ -3,7 +3,6 @@ package com.datezone.app;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -20,31 +19,37 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(R.layout.lg_activity_register);
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
         View root = findViewById(R.id.registerRoot);
+        if (root != null) {
+            int left = root.getPaddingLeft();
+            int top = root.getPaddingTop();
+            int right = root.getPaddingRight();
+            int bottom = root.getPaddingBottom();
 
-        ViewCompat.setOnApplyWindowInsetsListener(root, (view, insets) -> {
-            Insets bars = insets.getInsets(
-                    WindowInsetsCompat.Type.systemBars()
-                            | WindowInsetsCompat.Type.ime()
-            );
+            ViewCompat.setOnApplyWindowInsetsListener(root, (view, insets) -> {
+                Insets bars = insets.getInsets(
+                        WindowInsetsCompat.Type.systemBars()
+                                | WindowInsetsCompat.Type.ime()
+                );
 
-            view.setPadding(
-                    bars.left,
-                    bars.top,
-                    bars.right,
-                    bars.bottom
-            );
+                view.setPadding(
+                        left + bars.left,
+                        top + bars.top,
+                        right + bars.right,
+                        bottom + bars.bottom
+                );
 
-            return insets;
-        });
+                return insets;
+            });
 
-        ViewCompat.requestApplyInsets(root);
+            ViewCompat.requestApplyInsets(root);
+        }
 
         edtFullName = findViewById(R.id.edtFullName);
         edtPhone = findViewById(R.id.edtPhone);
@@ -108,13 +113,11 @@ public class RegisterActivity extends AppCompatActivity {
 
         String normalizedPhone = "+84" + phone.substring(1);
 
-        // Sau này gọi API với fullName, normalizedPhone và password.
-        // Chỉ chuyển bước tiếp theo khi server trả về thành công.
-        Toast.makeText(
-                this,
-                "Thông tin hợp lệ. Chưa kết nối API đăng ký.",
-                Toast.LENGTH_LONG
-        ).show();
+        // Chuyển sang màn hình Xác thực OTP với flow Đăng ký
+        android.content.Intent intent = new android.content.Intent(RegisterActivity.this, OtpVerificationActivity.class);
+        intent.putExtra(OtpVerificationActivity.EXTRA_FLOW_TYPE, OtpVerificationActivity.FLOW_REGISTER);
+        intent.putExtra(OtpVerificationActivity.EXTRA_PHONE_NUMBER, normalizedPhone);
+        startActivity(intent);
     }
 
     private void showError(EditText input, String message) {

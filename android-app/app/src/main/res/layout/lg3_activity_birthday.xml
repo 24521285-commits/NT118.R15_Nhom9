@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/birthdayRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/auth_screen_padding"
+    android:paddingTop="16dp"
+    android:paddingEnd="@dimen/auth_screen_padding"
+    android:paddingBottom="@dimen/auth_screen_padding">
+
+    <!-- Thanh điều hướng và tiến trình -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/AuthBackButton" />
+
+        <ProgressBar
+            android:id="@+id/progressProfile"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:indeterminate="false"
+            android:max="16"
+            android:progress="3"
+            android:progressBackgroundTint="@color/border_input"
+            android:progressTint="@color/brand_primary" />
+
+        <TextView
+            android:id="@+id/tvStep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3/16"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/AuthCardTitle"
+        android:layout_marginTop="28dp"
+        android:text="Ngày sinh của bạn?"
+        android:textSize="28sp" />
+
+    <TextView
+        style="@style/AuthCardSubtitle"
+        android:layout_marginTop="8dp"
+        android:text="Chúng tôi dùng ngày sinh để tính tuổi hiển thị trên hồ sơ." />
+
+    <!-- Các ô nhập Ngày, Tháng, Năm -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <!-- Ô Ngày (DD) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AuthFieldLabel"
+                android:labelFor="@id/edtDay"
+                android:text="Ngày" />
+
+            <EditText
+                android:id="@+id/edtDay"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/n_bg_birthday"
+                android:gravity="center"
+                android:hint="DD"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textColor="@color/text_primary"
+                android:textColorHint="#94A3B8"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Ô Tháng (MM) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AuthFieldLabel"
+                android:labelFor="@id/edtMonth"
+                android:text="Tháng" />
+
+            <EditText
+                android:id="@+id/edtMonth"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/n_bg_birthday"
+                android:gravity="center"
+                android:hint="MM"
+                android:inputType="number"
+                android:maxLength="2"
+                android:textColor="@color/text_primary"
+                android:textColorHint="#94A3B8"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Ô Năm (YYYY) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/AuthFieldLabel"
+                android:labelFor="@id/edtYear"
+                android:text="Năm" />
+
+            <EditText
+                android:id="@+id/edtYear"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/n_bg_birthday"
+                android:gravity="center"
+                android:hint="YYYY"
+                android:inputType="number"
+                android:maxLength="4"
+                android:textColor="@color/text_primary"
+                android:textColorHint="#94A3B8"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Khung hiển thị tính tuổi -->
+    <LinearLayout
+        android:id="@+id/layoutAgeBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/n_bg_age"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tvAgeResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nhập ngày sinh để tính tuổi"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <!-- Mô tả ghi chú -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:lineSpacingExtra="3dp"
+        android:text="Bạn phải từ 18 tuổi trở lên để dùng Date Zone. Chúng tôi chỉ hiển thị tuổi, không hiển thị ngày sinh."
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp" />
+
+    <Space
+        android:layout_width="1dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinue"
+        style="@style/AuthPrimaryButton"
+        android:layout_marginTop="20dp"
+        android:text="Tiếp tục" />
+
+</LinearLayout>

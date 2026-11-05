@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Screen & Card paddings -->
+    <dimen name="auth_screen_padding">24dp</dimen>
+    <dimen name="auth_card_padding">24dp</dimen>
+    <dimen name="auth_card_elevation">4dp</dimen>
+
+    <!-- Component Sizes -->
+    <dimen name="auth_logo_size">56dp</dimen>
+    <dimen name="auth_back_button_size">40dp</dimen>
+    <dimen name="auth_input_height">52dp</dimen>
+    <dimen name="auth_button_height">52dp</dimen>
+
+    <!-- Font Sizes -->
+    <dimen name="font_size_brand">18sp</dimen>
+    <dimen name="font_size_title">24sp</dimen>
+    <dimen name="font_size_subtitle">14sp</dimen>
+    <dimen name="font_size_label">14sp</dimen>
+    <dimen name="font_size_input">14sp</dimen>
+    <dimen name="font_size_button">16sp</dimen>
+    <dimen name="font_size_caption">13sp</dimen>
+    <dimen name="font_size_otp_digit">18sp</dimen>
+</resources>

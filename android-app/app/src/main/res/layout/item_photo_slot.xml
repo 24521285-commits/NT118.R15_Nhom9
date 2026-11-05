@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardPhotoSlot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardBackgroundColor="#F1F5F9"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_photo_slot">
+
+        <!-- Ảnh đã chọn -->
+        <ImageView
+            android:id="@+id/ivPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Ảnh đã chọn"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <!-- Placeholder khi chưa có ảnh -->
+        <LinearLayout
+            android:id="@+id/layoutPlaceholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_circle_add"
+                android:contentDescription="Thêm ảnh"
+                android:padding="6dp"
+                android:src="@drawable/ic_add" />
+
+        </LinearLayout>
+
+        <!-- Nút Xóa ảnh góc trên bên phải -->
+        <ImageView
+            android:id="@+id/btnRemovePhoto"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="6dp"
+            android:background="@drawable/bg_circle_remove"
+            android:contentDescription="Xóa ảnh"
+            android:padding="6dp"
+            android:src="@drawable/ic_remove"
+            android:visibility="gone" />
+
+    </FrameLayout>
+</androidx.cardview.widget.CardView>

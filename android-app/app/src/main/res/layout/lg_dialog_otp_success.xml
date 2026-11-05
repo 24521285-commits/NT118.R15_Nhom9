@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="24dp"
+    android:background="@drawable/bg_auth_card"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="28dp">
+
+    <!-- Icon thành công -->
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:contentDescription="Xác thực OTP thành công"
+        android:src="@drawable/ic_success_badge" />
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="Xác thực OTP thành công!"
+        android:textColor="@color/text_primary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Nội dung mô tả -->
+    <TextView
+        android:id="@+id/tvSuccessMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:lineSpacingExtra="2dp"
+        android:text="Mã OTP của bạn đã được xác minh thành công.\nNhấn Tiếp tục để sang bước tiếp theo."
+        android:textColor="@color/text_secondary"
+        android:textSize="@dimen/font_size_subtitle" />
+
+    <!-- Nút Tiếp tục -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinue"
+        style="@style/AuthPrimaryButton"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:text="Tiếp tục" />
+
+</LinearLayout>

@@ -2,7 +2,6 @@ package com.datezone.app;
 
 import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -23,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.lg_activity_login);
 
         // Giữ nội dung cách thanh trạng thái và thanh điều hướng.
         android.view.View root = findViewById(R.id.main);
@@ -68,11 +67,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.tvForgotPassword).setOnClickListener(view -> {
-            Toast.makeText(
-                    this,
-                    "Màn hình quên mật khẩu sẽ được làm sau",
-                    Toast.LENGTH_SHORT
-            ).show();
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -108,11 +104,10 @@ public class LoginActivity extends AppCompatActivity {
 
         String normalizedPhone = "+84" + phone.substring(1);
 
-        // Sẽ gửi normalizedPhone và password đến API đăng nhập.
-        Toast.makeText(
-                this,
-                "Thông tin hợp lệ. Chưa kết nối API đăng nhập.",
-                Toast.LENGTH_LONG
-        ).show();
+        // Chuyển sang xác thực OTP cho luồng đăng nhập
+        Intent intent = new Intent(LoginActivity.this, OtpVerificationActivity.class);
+        intent.putExtra(OtpVerificationActivity.EXTRA_FLOW_TYPE, OtpVerificationActivity.FLOW_LOGIN);
+        intent.putExtra(OtpVerificationActivity.EXTRA_PHONE_NUMBER, normalizedPhone);
+        startActivity(intent);
     }
 }
