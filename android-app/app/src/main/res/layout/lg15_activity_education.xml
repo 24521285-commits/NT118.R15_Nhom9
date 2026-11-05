@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/educationRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/auth_screen_padding"
+    android:paddingTop="16dp"
+    android:paddingEnd="@dimen/auth_screen_padding"
+    android:paddingBottom="@dimen/auth_screen_padding">
+
+    <!-- Thanh điều hướng và tiến trình -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/AuthBackButton" />
+
+        <ProgressBar
+            android:id="@+id/progressProfile"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:indeterminate="false"
+            android:max="16"
+            android:progress="15"
+            android:progressBackgroundTint="@color/border_input"
+            android:progressTint="@color/brand_primary" />
+
+        <TextView
+            android:id="@+id/tvStep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15/16"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                style="@style/AuthCardTitle"
+                android:text="Trình độ học vấn của bạn?"
+                android:textSize="28sp" />
+
+            <TextView
+                style="@style/AuthCardSubtitle"
+                android:layout_marginTop="8dp"
+                android:text="Chọn mức cao nhất bạn đã đạt được." />
+
+            <!-- Lựa chọn trình độ học vấn -->
+            <RadioGroup
+                android:id="@+id/rgEducation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:checkedButton="@id/rbUniversity"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbInHighSchool"
+                    style="@style/RelationshipGoalOption"
+                    android:text="Đang học trung học phổ thông" />
+
+                <RadioButton
+                    android:id="@+id/rbHighSchool"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Tốt nghiệp trung học phổ thông" />
+
+                <RadioButton
+                    android:id="@+id/rbVocational"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Trung cấp hoặc cao đẳng nghề" />
+
+                <RadioButton
+                    android:id="@+id/rbCollege"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Cao đẳng" />
+
+                <RadioButton
+                    android:id="@+id/rbInUniversity"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Đang học đại học" />
+
+                <RadioButton
+                    android:id="@+id/rbUniversity"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Đại học" />
+
+                <RadioButton
+                    android:id="@+id/rbMasters"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Sau đại học / Thạc sĩ" />
+
+                <RadioButton
+                    android:id="@+id/rbDoctorate"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Tiến sĩ" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinue"
+        style="@style/AuthPrimaryButton"
+        android:layout_marginTop="16dp"
+        android:text="Tiếp tục" />
+
+    <TextView
+        android:id="@+id/btnSkip"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Bỏ qua bước này"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

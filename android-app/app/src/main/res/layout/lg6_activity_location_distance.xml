@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/locationDistanceRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/auth_screen_padding"
+    android:paddingTop="16dp"
+    android:paddingEnd="@dimen/auth_screen_padding"
+    android:paddingBottom="@dimen/auth_screen_padding">
+
+    <!-- Thanh điều hướng và tiến trình -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/AuthBackButton" />
+
+        <ProgressBar
+            android:id="@+id/progressProfile"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:indeterminate="false"
+            android:max="16"
+            android:progress="6"
+            android:progressBackgroundTint="@color/border_input"
+            android:progressTint="@color/brand_primary" />
+
+        <TextView
+            android:id="@+id/tvStep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6/16"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                style="@style/AuthCardTitle"
+                android:text="Vị trí và khoảng cách"
+                android:textSize="26sp" />
+
+            <TextView
+                style="@style/AuthCardSubtitle"
+                android:layout_marginTop="8dp"
+                android:text="Khám phá những người phù hợp ở gần bạn." />
+
+            <TextView
+                style="@style/AuthFieldLabel"
+                android:layout_marginTop="24dp"
+                android:text="Vị trí hiện tại" />
+
+            <!-- Khung Vị trí hiện tại -->
+            <LinearLayout
+                android:id="@+id/layoutLocationContainer"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/n_bg_birthday"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="14dp"
+                android:paddingEnd="4dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:contentDescription="Vị trí"
+                    android:src="@drawable/n_ic_location" />
+
+                <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Thành phố Hồ Chí Minh"
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnChangeLocation"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:text="Đổi"
+                    android:textColor="@color/brand_primary"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <TextView
+                style="@style/AuthFieldLabel"
+                android:layout_marginTop="24dp"
+                android:text="Khoảng cách tối đa" />
+
+            <!-- Giá trị khoảng cách -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="25"
+                    android:textColor="@color/brand_primary"
+                    android:textSize="56sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="km"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Thanh trượt chọn khoảng cách (1 - 100 km) -->
+            <SeekBar
+                android:id="@+id/seekDistance"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:contentDescription="Khoảng cách tối đa"
+                android:max="99"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:progress="24"
+                android:progressBackgroundTint="@color/border_input"
+                android:progressTint="@color/brand_primary"
+                android:splitTrack="false"
+                android:thumbTint="@color/brand_primary" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1 km"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100 km"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Kéo thanh trượt để chọn phạm vi khám phá."
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+
+            <!-- Thông tin quyền riêng tư -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/n_bg_age"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:contentDescription="Khóa riêng tư"
+                    android:src="@drawable/n_ic_lock" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:lineSpacingExtra="3dp"
+                    android:text="Vị trí giúp gợi ý người ở gần. Chúng tôi không hiển thị địa chỉ chính xác của bạn."
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinue"
+        style="@style/AuthPrimaryButton"
+        android:layout_marginTop="16dp"
+        android:text="Tiếp tục" />
+
+</LinearLayout>

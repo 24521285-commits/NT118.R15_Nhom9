@@ -2,4 +2,24 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Brand Colors -->
+    <color name="brand_primary">#EF1254</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#172033</color>
+    <color name="text_secondary">#687386</color>
+    <color name="text_hint">#8A93A3</color>
+    <color name="text_link_blue">#245BFF</color>
+
+    <!-- Background & Borders -->
+    <color name="bg_main">#F7F8FA</color>
+    <color name="bg_card">#FFFFFF</color>
+    <color name="border_input">#E5E7EB</color>
+
+    <!-- Status Colors -->
+    <color name="success_green">#10B981</color>
+
+    <!-- Switch Track Color -->
+    <color name="gender_switch_track">#FDA4AF</color>
 </resources>

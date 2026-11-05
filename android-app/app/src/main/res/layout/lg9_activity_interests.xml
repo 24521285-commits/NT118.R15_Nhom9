@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/interestsRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/auth_screen_padding"
+    android:paddingTop="16dp"
+    android:paddingEnd="@dimen/auth_screen_padding"
+    android:paddingBottom="@dimen/auth_screen_padding">
+
+    <!-- Thanh điều hướng và tiến trình -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            style="@style/AuthBackButton" />
+
+        <ProgressBar
+            android:id="@+id/progressProfile"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:indeterminate="false"
+            android:max="16"
+            android:progress="9"
+            android:progressBackgroundTint="@color/border_input"
+            android:progressTint="@color/brand_primary" />
+
+        <TextView
+            android:id="@+id/tvStep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9/16"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+
+            <TextView
+                style="@style/AuthCardTitle"
+                android:text="Bạn thích làm gì?"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/tvInterestCount"
+                style="@style/AuthCardSubtitle"
+                android:layout_marginTop="8dp"
+                android:text="Chọn ít nhất 3 sở thích · Đã chọn 0" />
+
+            <!-- Danh sách Chip sở thích -->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupInterests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="8dp"
+                app:singleLine="false"
+                app:singleSelection="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTravel"
+                    style="@style/InterestChip"
+                    android:text="Du lịch" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMusic"
+                    style="@style/InterestChip"
+                    android:text="Âm nhạc" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipMovies"
+                    style="@style/InterestChip"
+                    android:text="Xem phim và series" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipReading"
+                    style="@style/InterestChip"
+                    android:text="Đọc sách" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCooking"
+                    style="@style/InterestChip"
+                    android:text="Nấu ăn" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipGaming"
+                    style="@style/InterestChip"
+                    android:text="Chơi game" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipSports"
+                    style="@style/InterestChip"
+                    android:text="Thể thao" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipGym"
+                    style="@style/InterestChip"
+                    android:text="Tập gym" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipCoffee"
+                    style="@style/InterestChip"
+                    android:text="Cà phê" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipFood"
+                    style="@style/InterestChip"
+                    android:text="Ẩm thực" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPhotography"
+                    style="@style/InterestChip"
+                    android:text="Nhiếp ảnh" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipArt"
+                    style="@style/InterestChip"
+                    android:text="Nghệ thuật" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipTechnology"
+                    style="@style/InterestChip"
+                    android:text="Công nghệ" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipPets"
+                    style="@style/InterestChip"
+                    android:text="Thú cưng" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipNature"
+                    style="@style/InterestChip"
+                    android:text="Thiên nhiên và cắm trại" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipFashion"
+                    style="@style/InterestChip"
+                    android:text="Thời trang" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipDance"
+                    style="@style/InterestChip"
+                    android:text="Khiêu vũ" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipExploring"
+                    style="@style/InterestChip"
+                    android:text="Khám phá địa điểm mới" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipOutdoor"
+                    style="@style/InterestChip"
+                    android:text="Hoạt động ngoài trời" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chipVolunteering"
+                    style="@style/InterestChip"
+                    android:text="Tình nguyện" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinue"
+        style="@style/AuthPrimaryButton"
+        android:layout_marginTop="16dp"
+        android:text="Tiếp tục" />
+
+</LinearLayout>
