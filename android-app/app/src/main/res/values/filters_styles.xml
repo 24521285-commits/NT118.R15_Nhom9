@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="filters_background">#FFFAFB</color>
+    <style name="FiltersFieldLabel" parent="AuthFieldLabel">
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="FiltersChoiceChip" parent="InterestChip">
+        <item name="android:textSize">13sp</item>
+        <item name="chipMinHeight">36dp</item>
+        <item name="chipStrokeWidth">1dp</item>
+    </style>
+    <style name="FiltersSlider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="thumbColor">@color/brand_primary</item>
+        <item name="trackColorActive">@color/brand_primary</item>
+        <item name="trackColorInactive">@color/border_input</item>
+        <item name="haloColor">@color/gender_switch_track</item>
+        <item name="tickVisible">false</item>
+        <item name="labelBehavior">floating</item>
+    </style>
+    <style name="FiltersRangeValue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/brand_primary</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+    <style name="FiltersRangeLimit">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/text_hint</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+    <style name="FiltersGenderButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">14dp</item>
+        <item name="strokeColor">@color/border_input</item>
+        <item name="backgroundTint">@color/filters_gender_background</item>
+        <item name="android:textColor">@color/selector_chip_text_color</item>
+    </style>
+</resources>

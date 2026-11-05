@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_edit_title">Chỉnh sửa hồ sơ</string>
+    <string name="profile_edit_save">Lưu</string>
+    <string name="profile_edit_save_changes">Lưu thay đổi</string>
+    <string name="profile_edit_photos">Ảnh của bạn</string>
+    <string name="profile_edit_change_photos">Thay ảnh</string>
+    <string name="profile_edit_main_photo">Ảnh chính</string>
+    <string name="profile_edit_photo1">Ảnh hồ sơ thứ nhất</string>
+    <string name="profile_edit_photo2">Ảnh hồ sơ thứ hai</string>
+    <string name="profile_edit_remove1">Xóa ảnh thứ nhất</string>
+    <string name="profile_edit_remove2">Xóa ảnh thứ hai</string>
+    <string name="profile_edit_photo_hint">Giữ và kéo để đổi thứ tự. Cần tối thiểu 2 ảnh; ảnh đầu tiên là ảnh chính của bạn.</string>
+    <string name="profile_edit_bio">Giới thiệu bản thân</string>
+    <string name="profile_edit_bio_hint">Tối đa 300 ký tự · Hãy là chính mình!</string>
+    <string name="profile_edit_basic">Thông tin cơ bản</string>
+    <string name="profile_edit_display_name">Tên hiển thị</string>
+    <string name="profile_edit_birthday">Ngày sinh · Chỉ mình bạn</string>
+    <string name="profile_edit_birthday_value">15/8/2000</string>
+    <string name="profile_edit_age_hint">Tuổi hiển thị: 26. Ngày sinh không công khai; liên hệ hỗ trợ nếu cần điều chỉnh tuổi.</string>
+    <string name="profile_edit_gender">Giới tính</string>
+    <string name="profile_edit_gender_value">Nữ</string>
+    <string name="profile_edit_height">Chiều cao</string>
+    <string name="profile_edit_height_value">172 cm</string>
+    <string name="profile_edit_weight">Cân nặng</string>
+    <string name="profile_edit_weight_value">58 kg</string>
+    <string name="profile_edit_work_school">Nghề nghiệp / Trường học</string>
+    <string name="profile_edit_location">Vị trí</string>
+    <string name="profile_edit_interests">Sở thích</string>
+    <string name="profile_edit_adjust">Chỉnh sửa</string>
+    <string name="profile_edit_interests_hint">Đã chọn 4 sở thích · Chọn ít nhất 3</string>
+    <string name="profile_edit_lifestyle">Mối quan hệ &amp; lối sống</string>
+    <string name="profile_edit_looking_for">Đang tìm kiếm</string>
+    <string name="profile_edit_zodiac">Cung hoàng đạo</string>
+    <string name="profile_edit_smoking">Hút thuốc</string>
+    <string name="profile_edit_drinking">Uống rượu bia</string>
+    <string name="profile_edit_exercise">Tập luyện</string>
+    <string name="profile_edit_education">Học vấn</string>
+    <string name="profile_edit_missing">Chưa bổ sung</string>
+    <string name="profile_edit_dating_preferences">Tùy chọn hẹn hò</string>
+    <string name="profile_edit_interested_in">Quan tâm đến</string>
+    <string name="profile_edit_max_distance">Khoảng cách tối đa</string>
+    <string name="profile_edit_distance_value">40 km</string>
+    <string name="profile_edit_preferences_hint">Chỉ dùng để gợi ý người phù hợp, không hiển thị trên hồ sơ của bạn.</string>
+</resources>

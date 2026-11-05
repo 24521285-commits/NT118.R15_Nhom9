@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="filters_age_initial_values"><item>22.0</item><item>28.0</item></array>
+    <array name="filters_height_initial_values"><item>155.0</item><item>175.0</item></array>
+    <array name="filters_weight_initial_values"><item>45.0</item><item>65.0</item></array>
+</resources>

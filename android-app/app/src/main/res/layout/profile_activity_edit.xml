@@ -1,0 +1,696 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/editProfileRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/filters_background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/editProfileHeader"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnEditProfileBack"
+            style="@style/AuthBackButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_photo_viewer_back"
+            app:tint="@color/brand_primary" />
+        <TextView
+            style="@style/AuthCardTitle"
+            android:layout_width="0dp"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:text="@string/profile_edit_title"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/btnEditProfileSave"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/profile_edit_save"
+            android:textColor="@color/brand_primary"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/border_input" />
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/editProfileScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="24dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/AuthFieldLabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/profile_edit_photos"
+                    android:textSize="17sp" />
+                <TextView
+                    android:id="@+id/btnEditProfileChangePhotos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:text="@string/profile_edit_change_photos"
+                    android:textColor="@color/brand_primary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+            <HorizontalScrollView
+                android:id="@+id/editProfilePhotosScroll"
+                android:layout_width="match_parent"
+                android:layout_height="280dp"
+                android:overScrollMode="ifContentScrolls"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:id="@+id/editProfilePhotos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="104dp"
+                        android:layout_height="136dp"
+                        android:layout_marginEnd="12dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp"
+                        app:cardPreventCornerOverlap="false">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:id="@+id/ivEditProfilePhoto1"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/profile_edit_photo1"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/discovery_profile_placeholder" />
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/btnEditProfileRemovePhoto1"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="top|end"
+                                android:layout_margin="4dp"
+                                android:background="@drawable/bg_circle_button"
+                                android:contentDescription="@string/profile_edit_remove1"
+                                android:padding="10dp"
+                                app:srcCompat="@drawable/ic_remove"
+                                app:tint="@color/brand_primary" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|start"
+                                android:layout_margin="6dp"
+                                android:background="@drawable/bg_auth_button"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp"
+                                android:text="@string/profile_edit_main_photo"
+                                android:textColor="@color/white"
+                                android:textSize="11sp" />
+                        </FrameLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="104dp"
+                        android:layout_height="136dp"
+                        android:layout_marginEnd="12dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp"
+                        app:cardPreventCornerOverlap="false">
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <ImageView
+                                android:id="@+id/ivEditProfilePhoto2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/profile_edit_photo2"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/discovery_profile_placeholder" />
+                            <androidx.appcompat.widget.AppCompatImageButton
+                                android:id="@+id/btnEditProfileRemovePhoto2"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="top|end"
+                                android:layout_margin="4dp"
+                                android:background="@drawable/bg_circle_button"
+                                android:contentDescription="@string/profile_edit_remove2"
+                                android:padding="10dp"
+                                app:srcCompat="@drawable/ic_remove"
+                                app:tint="@color/brand_primary" />
+                        </FrameLayout>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </HorizontalScrollView>
+            <TextView
+                style="@style/ProfileEditHint"
+                android:text="@string/profile_edit_photo_hint" />
+            <TextView
+                style="@style/ProfileSectionTitle"
+                android:labelFor="@id/edtEditProfileBio"
+                android:text="@string/profile_edit_bio" />
+            <EditText
+                android:id="@+id/edtEditProfileBio"
+                style="@style/ProfileEditInput"
+                android:layout_height="128dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine|textCapSentences"
+                android:lineSpacingExtra="3dp"
+                android:maxLength="300"
+                android:maxLines="6"
+                android:padding="12dp"
+                android:scrollbars="vertical"
+                android:text="@string/profile_home_bio" />
+            <TextView
+                style="@style/ProfileEditHint"
+                android:text="@string/profile_edit_bio_hint" />
+            <TextView
+                style="@style/ProfileSectionTitle"
+                android:text="@string/profile_edit_basic" />
+            <TextView
+                style="@style/ProfileEditLabel"
+                android:labelFor="@id/edtEditProfileName"
+                android:text="@string/profile_edit_display_name" />
+            <EditText
+                android:id="@+id/edtEditProfileName"
+                style="@style/ProfileEditInput"
+                android:inputType="textPersonName|textCapWords"
+                android:maxLines="1"
+                android:text="@string/profile_home_name" />
+            <TextView
+                style="@style/ProfileEditLabel"
+                android:labelFor="@id/edtEditProfileBirthday"
+                android:text="@string/profile_edit_birthday" />
+            <EditText
+                android:id="@+id/edtEditProfileBirthday"
+                style="@style/ProfileEditInput"
+                android:inputType="date"
+                android:maxLines="1"
+                android:text="@string/profile_edit_birthday_value" />
+            <TextView
+                style="@style/ProfileEditHint"
+                android:text="@string/profile_edit_age_hint" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/ProfileEditLabel"
+                        android:labelFor="@id/edtEditProfileGender"
+                        android:text="@string/profile_edit_gender" />
+                    <EditText
+                        android:id="@+id/edtEditProfileGender"
+                        style="@style/ProfileEditInput"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="@string/profile_edit_gender_value" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/ProfileEditLabel"
+                        android:labelFor="@id/edtEditProfileHeight"
+                        android:text="@string/profile_edit_height" />
+                    <EditText
+                        android:id="@+id/edtEditProfileHeight"
+                        style="@style/ProfileEditInput"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="@string/profile_edit_height_value" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/ProfileEditLabel"
+                        android:labelFor="@id/edtEditProfileWeight"
+                        android:text="@string/profile_edit_weight" />
+                    <EditText
+                        android:id="@+id/edtEditProfileWeight"
+                        style="@style/ProfileEditInput"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="@string/profile_edit_weight_value" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                style="@style/ProfileEditLabel"
+                android:labelFor="@id/edtEditProfileWorkSchool"
+                android:text="@string/profile_edit_work_school" />
+            <EditText
+                android:id="@+id/edtEditProfileWorkSchool"
+                style="@style/ProfileEditInput"
+                android:inputType="textCapSentences"
+                android:maxLines="1" />
+            <TextView
+                style="@style/ProfileEditLabel"
+                android:labelFor="@id/edtEditProfileLocation"
+                android:text="@string/profile_edit_location" />
+            <EditText
+                android:id="@+id/edtEditProfileLocation"
+                style="@style/ProfileEditInput"
+                android:inputType="textPostalAddress"
+                android:maxLines="1"
+                android:text="@string/profile_home_location" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <TextView
+                    style="@style/AuthFieldLabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/profile_edit_interests"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/btnEditProfileInterests"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:text="@string/profile_edit_adjust"
+                    android:textColor="@color/brand_primary"
+                    android:textSize="13sp" />
+            </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/tagEditProfileTravel"
+                    style="@style/ProfileInterestTagSelected"
+                    android:minHeight="32dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="6dp"
+                    android:text="@string/profile_home_travel" />
+                <TextView
+                    android:id="@+id/tagEditProfileCoffee"
+                    style="@style/ProfileInterestTagSelected"
+                    android:minHeight="32dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="6dp"
+                    android:text="@string/profile_home_coffee" />
+                <TextView
+                    android:id="@+id/tagEditProfileMusic"
+                    style="@style/ProfileInterestTagSelected"
+                    android:minHeight="32dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="6dp"
+                    android:text="@string/profile_home_music" />
+                <TextView
+                    android:id="@+id/tagEditProfileFood"
+                    style="@style/ProfileInterestTagSelected"
+                    android:minHeight="32dp"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="6dp"
+                    android:text="@string/profile_home_food" />
+                <androidx.constraintlayout.helper.widget.Flow
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="tagEditProfileTravel,tagEditProfileCoffee,tagEditProfileMusic,tagEditProfileFood"
+                    app:flow_wrapMode="chain"
+                    app:flow_horizontalStyle="packed"
+                    app:flow_horizontalBias="0"
+                    app:flow_horizontalGap="6dp"
+                    app:flow_verticalGap="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                style="@style/ProfileEditHint"
+                android:text="@string/profile_edit_interests_hint" />
+            <TextView
+                style="@style/ProfileSectionTitle"
+                android:text="@string/profile_edit_lifestyle" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardEditProfileLifestyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/border_input"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="14dp">
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileRelationship"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_looking_for" />
+                            <TextView
+                                android:id="@+id/tvEditProfileRelationship"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_input" />
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileZodiac"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_zodiac" />
+                            <TextView
+                                android:id="@+id/tvEditProfileZodiac"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_input" />
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileSmoking"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_smoking" />
+                            <TextView
+                                android:id="@+id/tvEditProfileSmoking"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_input" />
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileDrinking"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_drinking" />
+                            <TextView
+                                android:id="@+id/tvEditProfileDrinking"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_input" />
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileExercise"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_exercise" />
+                            <TextView
+                                android:id="@+id/tvEditProfileExercise"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_input" />
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileEducation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_education" />
+                            <TextView
+                                android:id="@+id/tvEditProfileEducation"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                style="@style/ProfileSectionTitle"
+                android:text="@string/profile_edit_dating_preferences" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardEditProfileDating"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/border_input"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="14dp">
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileInterestedIn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="60dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <TextView
+                            style="@style/AuthFieldLabel"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="@string/profile_edit_interested_in"
+                            android:textStyle="normal" />
+                        <TextView
+                            android:id="@+id/tvEditProfileInterestedIn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="8dp"
+                            android:text="@string/profile_edit_gender_value"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:importantForAccessibility="no"
+                            android:rotation="180"
+                            app:srcCompat="@drawable/ic_back"
+                            app:tint="@color/brand_primary" />
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_input" />
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileDistance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="60dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+                        <TextView
+                            style="@style/AuthFieldLabel"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="@string/profile_edit_max_distance"
+                            android:textStyle="normal" />
+                        <TextView
+                            android:id="@+id/tvEditProfileDistance"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginHorizontal="8dp"
+                            android:text="@string/profile_edit_distance_value"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="13sp" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:importantForAccessibility="no"
+                            android:rotation="180"
+                            app:srcCompat="@drawable/ic_back"
+                            app:tint="@color/brand_primary" />
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <TextView
+                style="@style/ProfileEditHint"
+                android:text="@string/profile_edit_preferences_hint" />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEditProfileSaveChanges"
+                style="@style/AuthPrimaryButton"
+                android:layout_marginTop="20dp"
+                android:text="@string/profile_edit_save_changes" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

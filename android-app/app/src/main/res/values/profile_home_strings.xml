@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_home_title">Hồ sơ của tôi</string>
+    <string name="profile_home_name">Minh Anh</string>
+    <string name="profile_home_age_gender">26 tuổi · Nữ</string>
+    <string name="profile_home_measurements">172 cm · 58 kg</string>
+    <string name="profile_home_edit">Chỉnh sửa hồ sơ</string>
+    <string name="profile_home_preview">Xem trước</string>
+    <string name="profile_home_about">Đôi điều về tôi</string>
+    <string name="profile_home_bio">Học ở UIT\nThích những buổi cà phê, âm nhạc và những chuyến đi. Chỉ thích trà dâu.</string>
+    <string name="profile_home_location">P. Đông Hòa, Thành phố Hồ Chí Minh</string>
+    <string name="profile_home_interests">Sở thích của tôi</string>
+    <string name="profile_home_travel">Du lịch</string>
+    <string name="profile_home_coffee">Cà phê</string>
+    <string name="profile_home_music">Âm nhạc</string>
+    <string name="profile_home_food">Ẩm thực</string>
+    <string name="profile_home_settings">Cài đặt</string>
+    <string name="profile_home_settings_summary">Tài khoản, tùy chọn hẹn hò và thông báo</string>
+    <string name="profile_home_privacy">Quyền riêng tư &amp; an toàn</string>
+    <string name="profile_home_privacy_summary">Bạn kiểm soát những gì mình chia sẻ</string>
+    <string name="profile_home_help">Trợ giúp &amp; hỗ trợ</string>
+    <string name="profile_home_avatar">Ảnh đại diện của bạn</string>
+</resources>

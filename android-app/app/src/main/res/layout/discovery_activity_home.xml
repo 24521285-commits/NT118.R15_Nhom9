@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/discoveryRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fitsSystemWindows="true">
+    <LinearLayout
+        android:id="@+id/discoveryHeader"
+        android:layout_width="0dp"
+        android:layout_height="88dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView
+                style="@style/AuthLogoImage"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <TextView
+                style="@style/AuthLogoTitle"
+                android:layout_width="wrap_content"
+                android:textSize="14sp" />
+        </LinearLayout>
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnDiscoveryFilters"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/discovery_filters"
+            android:padding="8dp"
+            app:srcCompat="@drawable/ic_discovery_filters"
+            app:tint="@color/brand_primary" />
+    </LinearLayout>
+    <!-- The card fills the space between the header and the action buttons. -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardDiscoveryProfile"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="6dp"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toTopOf="@id/discoveryActions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/discoveryHeader">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!-- Replace srcCompat with a profile photo when one is available. -->
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivDiscoveryPhoto"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:contentDescription="@string/discovery_profile_photo"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toTopOf="@id/discoveryProfileInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/discovery_profile_placeholder" />
+            <LinearLayout
+                android:id="@+id/discoveryPhotoIndicators"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:importantForAccessibility="no"
+                app:layout_constraintEnd_toEndOf="@id/ivDiscoveryPhoto"
+                app:layout_constraintStart_toStartOf="@id/ivDiscoveryPhoto"
+                app:layout_constraintTop_toTopOf="@id/ivDiscoveryPhoto">
+                <View
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@drawable/bg_circle_remove"
+                    android:backgroundTint="@color/discovery_muted" />
+                <View
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@drawable/bg_circle_add" />
+                <View
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@drawable/bg_circle_remove"
+                    android:backgroundTint="@color/discovery_muted" />
+                <View
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@drawable/bg_circle_remove"
+                    android:backgroundTint="@color/discovery_muted" />
+                <View
+                    android:layout_width="7dp"
+                    android:layout_height="7dp"
+                    android:layout_marginHorizontal="4dp"
+                    android:background="@drawable/bg_circle_remove"
+                    android:backgroundTint="@color/discovery_muted" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/discoveryProfileInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="14dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="14dp"
+                android:paddingBottom="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingEnd="36dp">
+                    <TextView
+                        android:id="@+id/tvDiscoveryName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/discovery_sample_name"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tvDiscoveryAge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/discovery_sample_age"
+                        android:textColor="@color/text_hint"
+                        android:textSize="12sp" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/tvDiscoveryDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="@string/discovery_sample_details"
+                    android:textColor="@color/text_hint"
+                    android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/tvDiscoveryDistance"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/discovery_sample_distance"
+                    android:textColor="@color/brand_primary"
+                    android:textSize="12sp"
+                    app:drawableStartCompat="@drawable/n_ic_location" />
+            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btnDiscoveryProfileDetails"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/bg_circle_add"
+                android:contentDescription="@string/discovery_profile_details"
+                android:elevation="4dp"
+                android:padding="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/ivDiscoveryPhoto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ivDiscoveryPhoto"
+                app:srcCompat="@drawable/ic_discovery_arrow_up"
+                app:tint="@color/white" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+    <LinearLayout
+        android:id="@+id/discoveryActions"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:layout_marginHorizontal="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/discoveryBottomNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnDiscoveryPass"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_circle_button"
+            android:contentDescription="@string/discovery_pass"
+            android:elevation="3dp"
+            android:padding="18dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_remove"
+            app:tint="@color/discovery_pass_orange" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnDiscoveryLike"
+            android:layout_width="84dp"
+            android:layout_height="84dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/bg_circle_add"
+            android:contentDescription="@string/discovery_like"
+            android:elevation="8dp"
+            android:padding="18dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_discovery_heart"
+            app:tint="@color/white" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnDiscoverySuperLike"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/bg_circle_button"
+            android:contentDescription="@string/discovery_super_like"
+            android:elevation="3dp"
+            android:padding="16dp"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_discovery_star"
+            app:tint="@color/discovery_star_purple" />
+    </LinearLayout>
+    <!-- Four navigation buttons: explore, likes, messages, and profile. -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/discoveryBottomNavigation"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="12dp"
+        android:background="@color/discovery_navigation_background"
+        app:backgroundTint="@color/discovery_navigation_background"
+        app:elevation="0dp"
+        app:itemActiveIndicatorStyle="@null"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@color/discovery_navigation_icon"
+        app:itemTextColor="@color/discovery_navigation_icon"
+        app:labelVisibilityMode="unlabeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/discovery_bottom_navigation"
+        tools:ignore="BottomAppBar" />
+    <View
+        android:layout_width="48dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="20dp"
+        android:background="@color/brand_primary"
+        android:importantForAccessibility="no"
+        app:layout_constraintStart_toStartOf="@id/discoveryBottomNavigation"
+        app:layout_constraintTop_toTopOf="@id/discoveryBottomNavigation" />
+    <View
+        android:id="@+id/discoveryLikesNotificationDot"
+        android:layout_width="7dp"
+        android:layout_height="7dp"
+        android:layout_marginTop="14dp"
+        android:translationX="7dp"
+        android:background="@drawable/bg_circle_add"
+        android:importantForAccessibility="no"
+        app:layout_constraintEnd_toEndOf="@id/discoveryBottomNavigation"
+        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintStart_toStartOf="@id/discoveryBottomNavigation"
+        app:layout_constraintTop_toTopOf="@id/discoveryBottomNavigation" />
+</androidx.constraintlayout.widget.ConstraintLayout>

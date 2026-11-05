@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="privacy_intro_title">An tâm kết nối theo cách của bạn</string>
+    <string name="privacy_intro_summary">Chọn cách hồ sơ xuất hiện và những thông tin bạn muốn chia sẻ.</string>
+    <string name="privacy_visibility_title">Hiển thị hồ sơ</string>
+    <string name="privacy_discovery">Hiển thị trong Khám phá</string>
+    <string name="privacy_discovery_summary">Cho phép người mới tìm thấy hồ sơ của bạn.</string>
+    <string name="privacy_distance">Hiển thị khoảng cách</string>
+    <string name="privacy_distance_summary">Chỉ hiển thị khoảng cách ước tính. Không chia sẻ vị trí chính xác.</string>
+    <string name="privacy_visibility_hint">Khi tắt Khám phá, hồ sơ sẽ không được gợi ý cho người mới. Bạn vẫn có thể trò chuyện với những người đã tương hợp.</string>
+    <string name="privacy_chat_title">Riêng tư khi trò chuyện</string>
+    <string name="privacy_active_status">Trạng thái hoạt động</string>
+    <string name="privacy_active_status_summary">Cho người tương hợp biết khi bạn trực tuyến.</string>
+    <string name="privacy_read_receipts">Xác nhận đã đọc</string>
+    <string name="privacy_read_receipts_summary">Cho đối phương biết bạn đã đọc tin nhắn.</string>
+    <string name="privacy_safety_title">An toàn của bạn</string>
+    <string name="privacy_blocked_users">Người dùng đã chặn</string>
+    <string name="privacy_blocked_users_summary">Xem và quản lý danh sách chặn</string>
+    <string name="privacy_safe_dating">Hướng dẫn hẹn hò an toàn</string>
+    <string name="privacy_report">Báo cáo sự cố</string>
+    <string name="privacy_report_summary">Thông báo trợ giúp khi cảm thấy không an toàn</string>
+    <string name="privacy_footer">Ngày sinh và thông tin đăng nhập không hiển thị trên hồ sơ. Bạn có thể chặn hoặc báo cáo bất kỳ người dùng nào từ trang cá nhân.</string>
+</resources>

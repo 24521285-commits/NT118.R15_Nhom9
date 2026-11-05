@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/navDiscoveryExplore" android:icon="@drawable/ic_discovery_cards" android:title="@string/discovery_tab_explore" />
+    <item android:id="@+id/navDiscoveryLikes" android:icon="@drawable/ic_discovery_heart" android:title="@string/discovery_tab_likes" />
+    <item android:id="@+id/navDiscoveryChat" android:icon="@drawable/ic_discovery_chat" android:title="@string/discovery_tab_chat" />
+    <item android:id="@+id/navDiscoveryProfile" android:icon="@drawable/ic_discovery_person" android:title="@string/discovery_tab_profile" android:checked="true" />
+</menu>
