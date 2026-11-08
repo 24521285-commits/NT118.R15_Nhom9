@@ -93,3 +93,69 @@ Authorization: Bearer {{token}}
 ### Gu đã học từ lịch sử quẹt (cá nhân hoá)
 GET {{baseUrl}}/home/taste
 Authorization: Bearer {{token}}
+
+### ===== App Android: số điện thoại + OTP =====
+@phone = 0909123456
+
+### Danh mục lựa chọn (không cần token)
+GET {{baseUrl}}/meta/options
+
+### Gửi OTP đăng ký (mã nằm ở data.devOtp hoặc trong pm2 logs)
+POST {{baseUrl}}/auth/otp/send
+Content-Type: application/json
+
+{ "phone": "{{phone}}", "purpose": "register" }
+
+### Đăng ký bằng SĐT (thay otp)
+POST {{baseUrl}}/auth/register/phone
+Content-Type: application/json
+
+{ "phone": "{{phone}}", "otp": "123456", "password": "matkhau123", "displayName": "Lan" }
+
+### Đăng nhập bước 1: SĐT + mật khẩu -> gửi OTP
+POST {{baseUrl}}/auth/login/phone
+Content-Type: application/json
+
+{ "phone": "0901000001", "password": "123456" }
+
+### Đăng nhập bước 2: OTP -> token
+POST {{baseUrl}}/auth/login/phone/verify
+Content-Type: application/json
+
+{ "phone": "0901000001", "otp": "123456" }
+
+### Quên mật khẩu: gửi OTP
+POST {{baseUrl}}/auth/otp/send
+Content-Type: application/json
+
+{ "phone": "{{phone}}", "purpose": "reset_password" }
+
+### Quên mật khẩu: xác thực OTP -> resetToken
+POST {{baseUrl}}/auth/otp/verify
+Content-Type: application/json
+
+{ "phone": "{{phone}}", "otp": "123456" }
+
+### Đặt mật khẩu mới
+POST {{baseUrl}}/auth/password/reset
+Content-Type: application/json
+
+{ "resetToken": "PASTE_RESET_TOKEN", "newPassword": "matkhaumoi1" }
+
+### Onboarding: gửi nhãn tiếng Việt như trên app
+PUT {{baseUrl}}/users/me/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "birthday": "12/03/2004", "gender": "Nữ", "heightCm": 160, "smoking": "Không hút thuốc", "zodiac": "Song Ngư" }
+
+### Onboarding: sở thích theo tên
+PUT {{baseUrl}}/users/me/interests
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "interestNames": ["Du lịch", "Cà phê", "Nhiếp ảnh"] }
+
+### Onboarding: hoàn tất hồ sơ
+POST {{baseUrl}}/users/me/onboarding/complete
+Authorization: Bearer {{token}}
