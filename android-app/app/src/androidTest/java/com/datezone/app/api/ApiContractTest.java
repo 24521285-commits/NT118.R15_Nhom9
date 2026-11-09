@@ -67,6 +67,120 @@ public class ApiContractTest {
         }
     }
 
+    @Test public void publicLoginSendsCredentialsWithoutAnExistingSession() throws Exception {
+        try (FakeServer server = new FakeServer(new Reply(200,
+                "{\"success\":true,\"data\":{\"user\":{\"id\":3,\"onboarding\":{\"completed\":true}},"
+                + "\"tokens\":{\"accessToken\":\"access\",\"refreshToken\":\"refresh\"}}}"))) {
+            JSONObject body = ApiUi.data("email", "an@demo.local", "password", "password123");
+            JSONObject response = new ApiClient(context).executePublic("POST", "auth/login", body);
+            session.saveTokens(response.getJSONObject("data").getJSONObject("tokens"));
+            assertEquals("access", session.accessToken());
+            assertEquals(com.datezone.app.HomeActivity.class, AuthFlow.destination(response.getJSONObject("data").getJSONObject("user")));
+            String request = server.requests().get(0);
+            assertTrue(request.contains("POST /api/auth/login"));
+            assertTrue(request.endsWith(body.toString()));
+            assertFalse(request.contains("Authorization:"));
+        }
+    }
+
+    @Test public void invalidPublicLoginDoesNotRefreshOrOverwriteExistingSession() throws Exception {
+        session.saveTokens(ApiUi.data("accessToken", "existing", "refreshToken", "existing-refresh"));
+        try (FakeServer server = new FakeServer(new Reply(401, "{\"success\":false,\"message\":\"Wrong password\"}"))) {
+            try {
+                new ApiClient(context).executePublic("POST", "auth/login", ApiUi.data("email", "an@demo.local", "password", "wrong"));
+                fail("Invalid login must fail");
+            } catch (java.io.IOException expected) { assertEquals("Wrong password", expected.getMessage()); }
+            assertEquals(1, server.requests().size());
+            assertEquals("existing", session.accessToken());
+        }
+    }
+
+    @Test public void emailRegistrationRequiresOnlyEmailAndPassword() throws Exception {
+        try (FakeServer server = new FakeServer(new Reply(201, "{\"success\":true,\"data\":{}}"))) {
+            JSONObject body = ApiUi.data("email", "new@demo.local", "password", "password123");
+            new ApiClient(context).executePublic("POST", "auth/register", body);
+            assertEquals(2, body.length());
+            assertTrue(server.requests().get(0).endsWith(body.toString()));
+        }
+    }
+
+    @Test public void resetPasswordUsesVerifiedResetTokenWithoutBearerToken() throws Exception {
+        try (FakeServer server = new FakeServer(
+                new Reply(200, "{\"success\":true,\"data\":{\"resetToken\":\"verified-token\",\"expiresIn\":600}}"),
+                new Reply(200, "{\"success\":true,\"data\":null}"))) {
+            ApiClient api = new ApiClient(context);
+            JSONObject verified = api.executePublic("POST", "auth/password/verify-otp", ApiUi.data("email", "an@demo.local", "otp", "123456"));
+            String resetToken = verified.getJSONObject("data").getString("resetToken");
+            JSONObject body = ApiUi.data("resetToken", resetToken, "newPassword", "changed123");
+            api.executePublic("POST", "auth/password/reset", body);
+            List<String> requests = server.requests();
+            assertTrue(requests.get(0).contains("POST /api/auth/password/verify-otp"));
+            assertTrue(requests.get(1).contains("POST /api/auth/password/reset"));
+            assertTrue(requests.get(1).endsWith(body.toString()));
+            assertFalse(requests.get(1).contains("Authorization:"));
+        }
+    }
+
+    @Test public void loginResumesEarliestRequiredOnboardingStep() throws Exception {
+        assertEquals(com.datezone.app.AddPhotosActivity.class, AuthFlow.destination(new JSONObject(
+                "{\"onboarding\":{\"completed\":false,\"missing\":[\"gender\",\"photos\"]}}")));
+        assertEquals(com.datezone.app.EnterNameActivity.class, AuthFlow.destination(new JSONObject(
+                "{\"onboarding\":{\"completed\":false,\"missing\":[\"photos\",\"displayName\"]}}")));
+        assertEquals(com.datezone.app.ProfileReadyActivity.class, AuthFlow.destination(new JSONObject(
+                "{\"onboarding\":{\"completed\":false,\"missing\":[]}}")));
+    }
+
+    @Test public void hiddenGenderDoesNotBecomeAnotherGender() throws Exception {
+        RemoteProfile profile = new RemoteProfile(new JSONObject(
+                "{\"id\":3,\"displayName\":\"An\",\"gender\":null,\"heightCm\":170}"));
+        assertEquals("Cao 170 cm", profile.details);
+        assertEquals("", new RemoteProfile(new JSONObject("{\"id\":4,\"displayName\":\"Chi\",\"gender\":null}")).details);
+    }
+
+    @Test public void staleRefreshCannotRestoreTokensAfterLogout() throws Exception {
+        session.saveTokens(ApiUi.data("accessToken", "old", "refreshToken", "old-refresh"));
+        String generation = session.snapshot()[1];
+        session.clear();
+        assertFalse(session.saveRefreshedTokens(generation, ApiUi.data("accessToken", "stale", "refreshToken", "stale-refresh")));
+        assertTrue(session.accessToken().isEmpty());
+        session.saveTokens(ApiUi.data("accessToken", "other-user", "refreshToken", "other-refresh"));
+        session.clearIfCurrent(generation);
+        assertEquals("other-user", session.accessToken());
+    }
+
+    @Test public void photoUploadUsesMultipartPhotoFieldAndBearerToken() throws Exception {
+        session.saveTokens(ApiUi.data("accessToken", "access", "refreshToken", "refresh"));
+        java.io.File photo = java.io.File.createTempFile("contract-photo", ".jpg", context.getCacheDir());
+        try {
+            try (java.io.FileOutputStream out = new java.io.FileOutputStream(photo)) {
+                out.write("test-image-bytes".getBytes(StandardCharsets.UTF_8));
+            }
+            try (FakeServer server = new FakeServer(new Reply(201,
+                    "{\"success\":true,\"data\":{\"id\":12,\"url\":\"/uploads/photo.jpg\",\"position\":0}}"))) {
+                JSONObject response = new ApiClient(context).executePhoto(android.net.Uri.fromFile(photo));
+                assertEquals(12, response.getJSONObject("data").getInt("id"));
+                String request = server.requests().get(0);
+                assertTrue(request.contains("POST /api/users/me/photos"));
+                assertTrue(request.contains("Bearer access"));
+                assertTrue(request.contains("multipart/form-data; boundary=DateZone"));
+                assertTrue(request.contains("name=\"photo\"; filename=\"photo.jpg\""));
+                assertTrue(request.contains("Content-Type: image/jpeg"));
+                assertTrue(request.contains("test-image-bytes"));
+            }
+        } finally { photo.delete(); }
+    }
+
+    @Test public void oversizedPhotoFailsBeforeUpload() throws Exception {
+        java.io.File photo = java.io.File.createTempFile("contract-large-photo", ".jpg", context.getCacheDir());
+        try {
+            try (java.io.RandomAccessFile file = new java.io.RandomAccessFile(photo, "rw")) { file.setLength(5 * 1024 * 1024 + 1); }
+            try {
+                new ApiClient(context).executePhoto(android.net.Uri.fromFile(photo));
+                fail("Oversized file must fail locally");
+            } catch (java.io.IOException expected) { assertTrue(expected.getMessage().contains("5 MB")); }
+        } finally { photo.delete(); }
+    }
+
     @Test public void expiredAccessTokenRotatesTokensAndRetriesSwipeWithSameBody() throws Exception {
         session.saveTokens(new JSONObject("{\"accessToken\":\"old-access\",\"refreshToken\":\"old-refresh\"}"));
         try (FakeServer server = new FakeServer(

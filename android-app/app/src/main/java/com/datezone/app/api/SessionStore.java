@@ -15,13 +15,38 @@ public final class SessionStore {
 
     public String accessToken() { return prefs.getString("accessToken", ""); }
     public String refreshToken() { return prefs.getString("refreshToken", ""); }
+    public JSONObject user() {
+        try { return new JSONObject(prefs.getString("user", "{}")); }
+        catch (JSONException e) { return new JSONObject(); }
+    }
+    public void saveUser(JSONObject user) { prefs.edit().putString("user", user.toString()).apply(); }
 
     public void saveTokens(JSONObject tokens) throws JSONException {
         String access = tokens.getString("accessToken");
         String refresh = tokens.getString("refreshToken");
         if (access.isEmpty() || refresh.isEmpty()) throw new JSONException("Thiếu token đăng nhập");
-        prefs.edit().putString("accessToken", access).putString("refreshToken", refresh).apply();
+        synchronized (SessionStore.class) {
+            prefs.edit().putString("accessToken", access).putString("refreshToken", refresh).apply();
+        }
     }
 
-    public void clear() { prefs.edit().clear().apply(); }
+    String[] snapshot() {
+        synchronized (SessionStore.class) { return new String[]{accessToken(), generation()}; }
+    }
+    String generation() { return prefs.getString("generation", ""); }
+    boolean saveRefreshedTokens(String generation, JSONObject tokens) throws JSONException {
+        synchronized (SessionStore.class) {
+            if (!generation.equals(generation())) return false;
+            saveTokens(tokens);
+            return true;
+        }
+    }
+    void clearIfCurrent(String generation) {
+        synchronized (SessionStore.class) { if (generation.equals(generation())) clear(); }
+    }
+    public void clear() {
+        synchronized (SessionStore.class) {
+            prefs.edit().clear().putString("generation", java.util.UUID.randomUUID().toString()).apply();
+        }
+    }
 }

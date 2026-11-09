@@ -14,7 +14,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        buildConfigField("String", "API_BASE_URL", "\"${providers.gradleProperty("datezone.apiBaseUrl").getOrElse("http://10.0.2.2:3000/api/")}\"")
+        buildConfigField("String", "API_BASE_URL", "\"${providers.gradleProperty("datezone.apiBaseUrl").getOrElse("http://13.228.203.107/api/")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

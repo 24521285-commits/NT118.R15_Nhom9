@@ -128,6 +128,7 @@ public class ProfileObject2Activity extends AppCompatActivity {
                 populateInterestsChips(remoteProfile.interests);
                 findViewById(R.id.tvProfilePersonalInfoTitle).setVisibility(View.GONE);
                 ((View) findViewById(R.id.tvProfileGoal).getParent()).setVisibility(View.GONE);
+                loadRemotePersonalInfo();
                 ImageView[] views = {ivProfileCover, ivGallery1, ivGallery2, ivGallery3, ivGallery4};
                 for (int i = 0; i < views.length; i++) {
                     com.datezone.app.api.RemoteImages.load(views[i], i < remoteProfile.photos.length ? remoteProfile.photos[i] : null);
@@ -336,6 +337,40 @@ public class ProfileObject2Activity extends AppCompatActivity {
                 .putExtra(EXTRA_NAME, remoteProfile.name).putExtra(EXTRA_ACTION, action);
         setResult(RESULT_OK, result);
         finish();
+    }
+
+    private void loadRemotePersonalInfo() {
+        new com.datezone.app.api.ApiClient(this).publicRequest(this, "GET", "meta/options", null,
+                new com.datezone.app.api.ApiClient.Callback() {
+                    @Override public void onSuccess(org.json.JSONObject response) throws Exception {
+                        org.json.JSONObject options = response.getJSONObject("data");
+                        String[] keys = {"relationshipGoal", "zodiac", "smoking", "drinking", "exercise", "education"};
+                        String[] titles = {"Mục tiêu", "Cung hoàng đạo", "Hút thuốc", "Rượu bia", "Tập luyện", "Học vấn"};
+                        int[] ids = {R.id.tvProfileGoal, R.id.tvProfileZodiac, R.id.tvProfileSmoking,
+                                R.id.tvProfileDrinking, R.id.tvProfileExercise, R.id.tvProfileEducation};
+                        boolean hasInfo = false;
+                        for (int i = 0; i < keys.length; i++) {
+                            TextView text = findViewById(ids[i]);
+                            text.setVisibility(View.GONE);
+                            if (remoteProfile.json.isNull(keys[i])) continue;
+                            String code = remoteProfile.json.getString(keys[i]);
+                            org.json.JSONArray choices = options.optJSONArray(keys[i]);
+                            if (choices == null) continue;
+                            for (int j = 0; j < choices.length(); j++) {
+                                org.json.JSONObject choice = choices.getJSONObject(j);
+                                if (code.equals(choice.getString("code"))) {
+                                    text.setText(titles[i] + ": " + choice.getString("label"));
+                                    text.setVisibility(View.VISIBLE);
+                                    hasInfo = true;
+                                    break;
+                                }
+                            }
+                        }
+                        findViewById(R.id.tvProfilePersonalInfoTitle).setVisibility(hasInfo ? View.VISIBLE : View.GONE);
+                        ((View) findViewById(R.id.tvProfileGoal).getParent()).setVisibility(hasInfo ? View.VISIBLE : View.GONE);
+                    }
+                    @Override public void onError(String message) { /* Keep unavailable fields hidden. */ }
+                });
     }
 
     private void executePassAction() {

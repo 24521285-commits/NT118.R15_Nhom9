@@ -15,10 +15,13 @@ public final class RemoteProfile {
     public RemoteProfile(JSONObject data) throws JSONException {
         json = data;
         id = data.getLong("id");
-        name = data.getString("displayName");
+        name = string(data, "displayName");
         age = data.isNull("age") ? "" : data.getInt("age") + " tuổi";
-        String gender = data.optString("gender");
-        details = "male".equals(gender) ? "Nam" : "female".equals(gender) ? "Nữ" : "Khác";
+        String gender = string(data, "gender");
+        String genderLabel = "male".equals(gender) ? "Nam" : "female".equals(gender) ? "Nữ"
+                : "other".equals(gender) ? "Phi nhị nguyên" : "";
+        String height = data.isNull("heightCm") ? "" : "Cao " + data.getInt("heightCm") + " cm";
+        details = height + (!height.isEmpty() && !genderLabel.isEmpty() ? " • " : "") + genderLabel;
         String city = string(data, "city");
         distance = city + (data.isNull("distanceKm") ? "" : (city.isEmpty() ? "" : " • ")
                 + "Cách bạn " + data.getInt("distanceKm") + " km");
