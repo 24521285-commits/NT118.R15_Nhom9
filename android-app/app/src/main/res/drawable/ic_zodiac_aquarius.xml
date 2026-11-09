@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#92269C"
+        android:pathData="M5,2h14c1.66,0 3,1.34 3,3v14c0,1.66 -1.34,3 -3,3H5c-1.66,0 -3,-1.34 -3,-3V5c0,-1.66 1.34,-3 3,-3z" />
+    <!-- Biểu tượng Bảo Bình ♒ -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M4.5,9.5L7.5,6.5L10.5,9.5L13.5,6.5L16.5,9.5L19.5,6.5v2.83l-3,3l-3,-3l-3,3l-3,-3l-3,3H4.5V9.5zm0,6L7.5,12.5l3,3l3,-3l3,3l3,-3v2.83l-3,3l-3,-3l-3,3l-3,-3H4.5v-2.83z" />
+</vector>

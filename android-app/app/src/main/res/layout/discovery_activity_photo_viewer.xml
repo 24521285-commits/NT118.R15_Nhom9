@@ -4,8 +4,7 @@
     android:id="@+id/photoViewerRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fitsSystemWindows="true">
+    android:background="@color/white">
 
     <FrameLayout
         android:id="@+id/photoViewerHeader"
@@ -17,15 +16,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/btnPhotoViewerBack"
             style="@style/AuthBackButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical"
-            android:background="@drawable/bg_photo_viewer_back"
-            android:padding="12dp"
-            app:tint="@color/brand_primary" />
+            android:layout_gravity="center_vertical" />
     </FrameLayout>
 
     <!-- Keep the photo and the thumbnail strip visible together. -->
@@ -53,19 +47,6 @@
             android:contentDescription="@string/photo_viewer_main_photo"
             android:scaleType="centerCrop"
             android:src="@drawable/discovery_profile_placeholder" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btnPhotoViewerSend"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@drawable/bg_photo_viewer_send"
-            android:contentDescription="@string/photo_viewer_send"
-            android:padding="12dp"
-            app:srcCompat="@drawable/ic_photo_viewer_send"
-            app:tint="@color/brand_primary" />
     </FrameLayout>
 
     <HorizontalScrollView

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/intimacyCompletedRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <!-- Icon Trái tim lớn -->
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/bg_circle_pink_check">
+
+        <ImageView
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_gravity="center"
+            android:contentDescription="Đủ độ thân thiết"
+            android:src="@drawable/ic_discovery_heart"
+            app:tint="@color/brand_primary"
+            xmlns:app="http://schemas.android.com/apk/res-auto" />
+
+    </FrameLayout>
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="Hai bạn đã đủ thân thiết!"
+        android:textColor="@color/text_primary"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Nội dung mô tả -->
+    <TextView
+        android:id="@+id/tvIntimacyCompletedMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:text="Chúc mừng! Bạn và đối phương đã nhắn đủ số tin nhắn cần thiết. Tất cả tính năng Gửi ảnh, Gọi điện &amp; Gọi Video đã được mở khóa toàn bộ!"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <!-- Nút Tiếp tục -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinueIntimacy"
+        style="@style/AuthPrimaryButton"
+        android:text="Tiếp tục" />
+
+</LinearLayout>

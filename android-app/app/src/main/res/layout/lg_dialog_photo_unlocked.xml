@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/photoUnlockedRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="32dp">
+
+    <!-- Icon Gửi ảnh lớn -->
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/bg_circle_pink_check">
+
+        <ImageView
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_gravity="center"
+            android:contentDescription="Mở khóa gửi ảnh"
+            android:src="@drawable/ic_attach_image"
+            app:tint="@color/brand_primary" />
+
+    </FrameLayout>
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:text="Đã mở khóa Gửi ảnh!"
+        android:textColor="@color/text_primary"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Nội dung mô tả -->
+    <TextView
+        android:id="@+id/tvPhotoUnlockedMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:text="Chúc mừng! Bạn và đối phương đã nhắn đủ 10 tin nhắn mỗi người. Tính năng Gửi ảnh trong cuộc trò chuyện đã được mở khóa thành công!"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <!-- Nút Tiếp tục -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinuePhotoUnlocked"
+        style="@style/AuthPrimaryButton"
+        android:text="Tiếp tục" />
+
+</LinearLayout>

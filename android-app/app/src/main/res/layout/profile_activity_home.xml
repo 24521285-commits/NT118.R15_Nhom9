@@ -3,8 +3,7 @@
     android:id="@+id/myProfileRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/filters_background"
-    android:fitsSystemWindows="true">
+    android:background="@color/filters_background">
     <LinearLayout
         android:id="@+id/myProfileHeader"
         android:layout_width="0dp"
@@ -267,95 +266,6 @@
                                 android:layout_marginTop="4dp"
                                 android:text="@string/profile_home_settings_summary"
                                 android:textSize="12sp" />
-                        </LinearLayout>
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="8dp"
-                            android:importantForAccessibility="no"
-                            android:rotation="180"
-                            app:srcCompat="@drawable/ic_back"
-                            app:tint="@color/brand_primary" />
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="48dp"
-                        android:background="@color/border_input" />
-                    <LinearLayout
-                        android:id="@+id/rowMyProfilePrivacy"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="64dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingVertical="10dp">
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="@drawable/n_bg_age"
-                            android:importantForAccessibility="no"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_profile_shield" />
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <TextView
-                                style="@style/AuthFieldLabel"
-                                android:text="@string/profile_home_privacy" />
-                            <TextView
-                                style="@style/AuthCardSubtitle"
-                                android:layout_marginTop="4dp"
-                                android:text="@string/profile_home_privacy_summary"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="8dp"
-                            android:importantForAccessibility="no"
-                            android:rotation="180"
-                            app:srcCompat="@drawable/ic_back"
-                            app:tint="@color/brand_primary" />
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="48dp"
-                        android:background="@color/border_input" />
-                    <LinearLayout
-                        android:id="@+id/rowMyProfileHelp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="64dp"
-                        android:background="?attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:paddingVertical="10dp">
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:background="@drawable/n_bg_age"
-                            android:importantForAccessibility="no"
-                            android:padding="8dp"
-                            android:src="@drawable/ic_profile_help" />
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <TextView
-                                style="@style/AuthFieldLabel"
-                                android:text="@string/profile_home_help" />
                         </LinearLayout>
                         <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="20dp"

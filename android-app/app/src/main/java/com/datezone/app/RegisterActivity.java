@@ -1,6 +1,8 @@
 package com.datezone.app;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 
@@ -12,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class RegisterActivity extends AppCompatActivity {
 
     private EditText edtFullName;
-    private EditText edtPhone;
+    private EditText edtEmail;
     private EditText edtPassword;
     private EditText edtConfirmPassword;
 
@@ -52,50 +54,36 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         edtFullName = findViewById(R.id.edtFullName);
-        edtPhone = findViewById(R.id.edtPhone);
+        edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
 
-        findViewById(R.id.btnRegister).setOnClickListener(view -> {
-            checkRegisterInput();
-        });
+        findViewById(R.id.btnRegister).setOnClickListener(view -> checkRegisterInput());
 
-        // Đóng màn đăng ký để trở về đăng nhập.
-        findViewById(R.id.tvLogin).setOnClickListener(view -> {
-            finish();
-        });
+        findViewById(R.id.tvLogin).setOnClickListener(view -> finish());
     }
 
     private void checkRegisterInput() {
         String fullName = edtFullName.getText().toString().trim();
-
-        String phone = edtPhone.getText().toString().trim()
-                .replaceAll("[\\s().-]", "");
-
+        String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString();
-        String confirmPassword =
-                edtConfirmPassword.getText().toString();
+        String confirmPassword = edtConfirmPassword.getText().toString();
 
         if (fullName.isEmpty()) {
             showError(edtFullName, "Vui lòng nhập họ và tên");
             return;
         }
 
-        if (phone.isEmpty()) {
-            showError(edtPhone, "Vui lòng nhập số điện thoại");
+        if (email.isEmpty()) {
+            showError(edtEmail, "Vui lòng nhập địa chỉ email");
             return;
         }
 
-        if (phone.startsWith("+84")) {
-            phone = "0" + phone.substring(3);
-        }
-
-        if (!phone.matches("^0[35789][0-9]{8}$")) {
-            showError(edtPhone, "Số điện thoại không hợp lệ");
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            showError(edtEmail, "Địa chỉ email không hợp lệ");
             return;
         }
 
-        // Quy tắc tạm cho giao diện, cần thống nhất với backend.
         if (password.length() < 8) {
             showError(edtPassword, "Mật khẩu cần ít nhất 8 ký tự");
             return;
@@ -111,12 +99,10 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        String normalizedPhone = "+84" + phone.substring(1);
-
         // Chuyển sang màn hình Xác thực OTP với flow Đăng ký
-        android.content.Intent intent = new android.content.Intent(RegisterActivity.this, OtpVerificationActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, OtpVerificationActivity.class);
         intent.putExtra(OtpVerificationActivity.EXTRA_FLOW_TYPE, OtpVerificationActivity.FLOW_REGISTER);
-        intent.putExtra(OtpVerificationActivity.EXTRA_PHONE_NUMBER, normalizedPhone);
+        intent.putExtra(OtpVerificationActivity.EXTRA_EMAIL, email);
         startActivity(intent);
     }
 

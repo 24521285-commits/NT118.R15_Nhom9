@@ -57,5 +57,22 @@
             android:src="@drawable/ic_remove"
             android:visibility="gone" />
 
+        <!-- Ghi chú "(Ảnh chính)" cho khung ảnh đầu tiên -->
+        <TextView
+            android:id="@+id/tvMainPhotoTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="6dp"
+            android:background="@drawable/n_bg_birthday"
+            android:elevation="4dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
+            android:text="(Ảnh chính)"
+            android:textColor="@color/brand_primary"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
     </FrameLayout>
 </androidx.cardview.widget.CardView>

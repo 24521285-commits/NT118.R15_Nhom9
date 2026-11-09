@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chatDetailRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- Header Top Bar -->
+    <LinearLayout
+        android:id="@+id/chatDetailHeader"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageButton
+            android:id="@+id/btnChatBack"
+            style="@style/AuthBackButton" />
+
+        <FrameLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp">
+
+            <!-- Avatar Ảnh -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivChatAvatar"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center"
+                android:contentDescription="Avatar"
+                android:scaleType="centerCrop"
+                android:src="@drawable/discovery_photo_1"
+                app:shapeAppearanceOverlay="@style/CircleImageStyle" />
+
+            <!-- Avatar Chữ cái (A, E, P, C, G) -->
+            <TextView
+                android:id="@+id/tvChatAvatarLetter"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_circle_avatar_grace"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <!-- Chấm xanh lá online -->
+            <View
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/bg_circle_green_online" />
+
+            <!-- Bong bóng Trái tim Thân thiết trên Avatar (xuất hiện khi đủ 20 tin nhắn) -->
+            <ImageView
+                android:id="@+id/ivHeaderHeartBadge"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="top|end"
+                android:background="@drawable/bg_circle_add"
+                android:contentDescription="Thân thiết"
+                android:elevation="4dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_discovery_heart"
+                android:visibility="gone"
+                app:tint="@color/white" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvChatPartnerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grace, 26"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvChatPartnerStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text="Đang online"
+                android:textColor="#22C55E"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- Nút Gọi thoại -->
+        <FrameLayout
+            android:id="@+id/btnVoiceCallContainer"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp">
+
+            <ImageButton
+                android:id="@+id/btnVoiceCall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Gọi thoại"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_call" />
+
+            <ImageView
+                android:id="@+id/ivLockVoice"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="top|end"
+                android:contentDescription="Khóa"
+                android:src="@drawable/ic_lock" />
+
+        </FrameLayout>
+
+        <!-- Nút Gọi Video -->
+        <FrameLayout
+            android:id="@+id/btnVideoCallContainer"
+            android:layout_width="40dp"
+            android:layout_height="40dp">
+
+            <ImageButton
+                android:id="@+id/btnVideoCall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Gọi Video"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_videocam" />
+
+            <ImageView
+                android:id="@+id/ivLockVideo"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="top|end"
+                android:contentDescription="Khóa"
+                android:src="@drawable/ic_lock" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <!-- Khung Độ Thân Thiết (Hiển thị khi CHƯA đủ 20 tin nhắn) -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardIntimacyProgress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="4dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+        app:strokeColor="#FFCCD5"
+        app:strokeWidth="1.5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Hàng tiêu đề khung độ thân thiết (Bấm vào để thu gọn/mở rộng) -->
+            <LinearLayout
+                android:id="@+id/rowIntimacyTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_circle_add"
+                    android:contentDescription="Độ thân thiết"
+                    android:padding="7dp"
+                    android:src="@drawable/ic_discovery_heart"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:text="Độ thân thiết"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <!-- Badge đếm tin nhắn e.g. 12 / 20 tin -->
+                <TextView
+                    android:id="@+id/tvIntimacyCountBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_warning_pink"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:text="12 / 20 tin"
+                    android:textColor="@color/brand_primary"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <!-- Nút Mũi tên Thu gọn / Mở rộng -->
+                <ImageButton
+                    android:id="@+id/btnToggleIntimacyCard"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Thu gọn"
+                    android:padding="6dp"
+                    android:rotation="0"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_filters_expand"
+                    app:tint="@color/text_primary" />
+
+            </LinearLayout>
+
+            <!-- Thanh tiến trình độ thân thiết (Luôn hiển thị kể cả khi thu gọn) -->
+            <ProgressBar
+                android:id="@+id/progressIntimacy"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="6dp"
+                android:layout_marginTop="12dp"
+                android:indeterminate="false"
+                android:max="20"
+                android:progress="12"
+                android:progressBackgroundTint="#F1F5F9"
+                android:progressTint="@color/brand_primary" />
+
+            <!-- Chi tiết mốc mở khóa (Thu gọn mặc định như mẫu) -->
+            <LinearLayout
+                android:id="@+id/layoutMilestoneDetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Dòng nhãn cột mốc mở khóa 10 tin & 20 tin -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Cột mốc 1: 10 tin (Gửi ảnh) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivCheckpoint10"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Mở khóa"
+                                android:src="@drawable/ic_check_circle_small" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="10 tin · Gửi ảnh"
+                                android:textColor="@color/text_primary"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvMilestone10Status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Đã mở khóa"
+                            android:textColor="@color/brand_primary"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <!-- Cột mốc 2: 20 tin (Gọi & Video) -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/ivCheckpoint20"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:contentDescription="Còn khóa"
+                                android:src="@drawable/ic_lock_small" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:text="20 tin · Gọi &amp; Video"
+                                android:textColor="@color/text_primary"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvMilestone20Status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Còn 8 tin nữa"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Dòng chú thích bên dưới -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Tiến độ tính theo bên nhắn ít hơn."
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Khung tin nhắn cuộn -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollMessages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls">
+
+        <LinearLayout
+            android:id="@+id/layoutMessagesList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="16dp">
+
+            <!-- Các tin nhắn mẫu -->
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Thanh nhập tin nhắn ở đáy -->
+    <LinearLayout
+        android:id="@+id/chatInputBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp">
+
+        <!-- Nút Gửi ảnh (Khóa nếu < 10 tin nhắn) -->
+        <FrameLayout
+            android:id="@+id/btnAttachPhotoContainer"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="8dp">
+
+            <ImageButton
+                android:id="@+id/btnAttachPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Gửi ảnh"
+                android:padding="10dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_attach_image" />
+
+            <ImageView
+                android:id="@+id/ivLockAttachPhoto"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="top|end"
+                android:contentDescription="Khóa"
+                android:src="@drawable/ic_lock" />
+
+        </FrameLayout>
+
+        <!-- Ô nhập tin nhắn -->
+        <EditText
+            android:id="@+id/edtChatMessage"
+            style="@style/AuthInputEditText"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="1"
+            android:hint="Nhập tin nhắn..."
+            android:inputType="textMultiLine|textCapSentences"
+            android:maxLines="3"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="14sp" />
+
+        <!-- Nút Gửi tin nhắn -->
+        <ImageButton
+            android:id="@+id/btnSendMessage"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_circle_add"
+            android:contentDescription="Gửi"
+            android:elevation="2dp"
+            android:padding="11dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_send" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,223 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/profileDetailRoot"
+    android:id="@+id/userProfileRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:fitsSystemWindows="true"
+    android:background="@color/bg_main"
     android:orientation="vertical">
 
+    <!-- Header top bar -->
     <LinearLayout
-        android:id="@+id/profileDetailHeader"
+        android:id="@+id/userProfileHeader"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="64dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp">
 
-        <androidx.appcompat.widget.AppCompatImageButton
+        <ImageButton
             android:id="@+id/btnProfileBack"
-            style="@style/AuthBackButton"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="@color/brand_primary" />
+            style="@style/AuthBackButton" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:text="@string/profile_title"
+            android:text="Xem trước hồ sơ cá nhân"
             android:textColor="@color/text_primary"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <ImageView
                 style="@style/AuthLogoImage"
-                android:layout_width="36dp"
-                android:layout_height="36dp" />
+                android:layout_width="32dp"
+                android:layout_height="32dp" />
 
             <TextView
                 style="@style/AuthLogoTitle"
                 android:layout_width="wrap_content"
                 android:textSize="10sp" />
+
         </LinearLayout>
+
     </LinearLayout>
 
-    <!-- Native scrolling works without adding a Java controller. -->
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/profileDetailScroll"
+        android:id="@+id/userProfileScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:clipChildren="false"
+        android:clipToPadding="false"
         android:fillViewport="true"
-        android:overScrollMode="ifContentScrolls"
-        android:scrollbars="vertical">
+        android:overScrollMode="ifContentScrolls">
 
         <LinearLayout
+            android:id="@+id/userProfileContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Bind the real profile photo here when profile data is available. -->
+            <!-- Ảnh bìa / Ảnh đại diện chính -->
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ivProfileCover"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
-                android:contentDescription="@string/discovery_profile_photo"
+                android:layout_height="340dp"
+                android:contentDescription="Ảnh bìa hồ sơ"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/discovery_profile_placeholder" />
+                app:srcCompat="@drawable/discovery_photo_1" />
 
+            <!-- Thẻ nội dung chi tiết -->
             <LinearLayout
-                android:id="@+id/profileDetailContent"
+                android:id="@+id/userProfileContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-24dp"
                 android:background="@drawable/bg_auth_card"
+                android:elevation="6dp"
                 android:orientation="vertical"
                 android:paddingStart="20dp"
                 android:paddingTop="28dp"
                 android:paddingEnd="20dp"
-                android:paddingBottom="24dp">
+                android:paddingBottom="28dp">
 
+                <!-- Tên và Tuổi -->
                 <TextView
                     android:id="@+id/tvProfileNameAge"
                     style="@style/AuthCardTitle"
-                    android:text="@string/profile_sample_name_age"
-                    android:textSize="22sp" />
+                    android:text="Trương Vĩnh Nguyên, 20"
+                    android:textSize="24sp" />
 
+                <!-- Thông tin cơ bản: Chiều cao, Cân nặng, Giới tính -->
                 <TextView
                     android:id="@+id/tvProfileGender"
                     style="@style/AuthCardSubtitle"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/profile_sample_gender"
+                    android:layout_marginTop="6dp"
+                    android:text="Chiều cao 170 cm  Cân nặng 65 kg  Giới tính Nam"
+                    android:textColor="@color/text_secondary"
                     android:textSize="13sp" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <!-- Vị trí & Khoảng cách -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp">
-
-                    <TextView
-                        android:id="@+id/tvProfileLocationTitle"
-                        style="@style/ProfileSectionTitle"
-                        android:layout_width="0dp"
-                        android:layout_marginTop="0dp"
-                        android:text="@string/profile_location_title"
-                        app:layout_constraintEnd_toStartOf="@id/btnProfileLike"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tvProfileLocation"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
-                        android:layout_marginEnd="12dp"
-                        android:lineSpacingExtra="2dp"
-                        android:text="@string/profile_sample_location"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="13sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/btnProfileLike"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tvProfileLocationTitle" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/btnProfileLike"
-                        android:layout_width="wrap_content"
-                        android:layout_height="48dp"
-                        android:minWidth="76dp"
-                        android:minHeight="48dp"
-                        android:background="@drawable/n_bg_age"
-                        android:paddingHorizontal="12dp"
                         android:drawablePadding="6dp"
-                        android:text="@string/profile_like"
-                        android:textAllCaps="false"
+                        android:gravity="center_vertical"
+                        android:text="Thành phố Hồ Chí Minh, Việt Nam"
                         android:textColor="@color/brand_primary"
                         android:textSize="13sp"
-                        app:drawableStartCompat="@drawable/ic_discovery_heart"
-                        app:drawableTint="@color/brand_primary"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:textStyle="bold"
+                        app:drawableStartCompat="@drawable/n_ic_location" />
 
+                </LinearLayout>
+
+                <!-- Giới thiệu bản thân (Bio) -->
                 <TextView
                     style="@style/ProfileSectionTitle"
-                    android:text="@string/profile_about_title" />
+                    android:layout_marginTop="24dp"
+                    android:text="Giới thiệu bản thân" />
 
                 <TextView
                     android:id="@+id/tvProfileBio"
                     style="@style/AuthCardSubtitle"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="8dp"
                     android:lineSpacingExtra="4dp"
-                    android:text="@string/profile_sample_bio" />
+                    android:text="Thích du lịch, cà phê và trải nghiệm các địa điểm mới. Mong muốn kết nối với những người bạn tích cực và chân thành." />
 
+                <!-- Các thông tin chi tiết hồ sơ -->
                 <TextView
                     style="@style/ProfileSectionTitle"
-                    android:text="@string/profile_interests_title" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp">
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tagProfileMusic"
-                        style="@style/ProfileInterestTagSelected"
-                        android:text="@string/profile_interest_music"
-                        app:drawableStartCompat="@drawable/ic_profile_music" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tagProfileGaming"
-                        style="@style/ProfileInterestTagSelected"
-                        android:text="@string/profile_interest_gaming"
-                        app:drawableStartCompat="@drawable/ic_profile_game" />
-
-                    <TextView
-                        android:id="@+id/tagProfileTravel"
-                        style="@style/ProfileInterestTag"
-                        android:text="@string/profile_interest_travel" />
-
-                    <TextView
-                        android:id="@+id/tagProfileReading"
-                        style="@style/ProfileInterestTag"
-                        android:text="@string/profile_interest_reading" />
-
-                    <TextView
-                        android:id="@+id/tagProfileBadminton"
-                        style="@style/ProfileInterestTag"
-                        android:text="@string/profile_interest_badminton" />
-
-                    <androidx.constraintlayout.helper.widget.Flow
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:constraint_referenced_ids="tagProfileMusic,tagProfileGaming,tagProfileTravel,tagProfileReading,tagProfileBadminton"
-                        app:flow_horizontalBias="0"
-                        app:flow_horizontalGap="8dp"
-                        app:flow_horizontalStyle="packed"
-                        app:flow_verticalAlign="center"
-                        app:flow_verticalGap="8dp"
-                        app:flow_wrapMode="chain"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_marginTop="24dp"
+                    android:text="Thông tin cá nhân" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvProfileGoal"
+                        style="@style/AuthCardSubtitle"
+                        android:text="Mục tiêu: Mối quan hệ nghiêm túc" />
+
+                    <TextView
+                        android:id="@+id/tvProfileZodiac"
+                        style="@style/AuthCardSubtitle"
+                        android:layout_marginTop="4dp"
+                        android:text="Cung hoàng đạo: Bảo Bình" />
+
+                    <TextView
+                        android:id="@+id/tvProfileSmoking"
+                        style="@style/AuthCardSubtitle"
+                        android:layout_marginTop="4dp"
+                        android:text="Hút thuốc: Không bao giờ" />
+
+                    <TextView
+                        android:id="@+id/tvProfileDrinking"
+                        style="@style/AuthCardSubtitle"
+                        android:layout_marginTop="4dp"
+                        android:text="Rượu bia: Thỉnh thoảng" />
+
+                    <TextView
+                        android:id="@+id/tvProfileExercise"
+                        style="@style/AuthCardSubtitle"
+                        android:layout_marginTop="4dp"
+                        android:text="Tập luyện: Mỗi ngày" />
+
+                    <TextView
+                        android:id="@+id/tvProfileEducation"
+                        style="@style/AuthCardSubtitle"
+                        android:layout_marginTop="4dp"
+                        android:text="Học vấn: Đại học" />
+
+                </LinearLayout>
+
+                <!-- Sở thích -->
+                <TextView
+                    style="@style/ProfileSectionTitle"
+                    android:layout_marginTop="24dp"
+                    android:text="Sở thích" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupProfileInterests"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:chipSpacingHorizontal="8dp"
+                    app:chipSpacingVertical="8dp"
+                    app:singleLine="false"
+                    app:singleSelection="false">
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/InterestChip"
+                        android:checkable="false"
+                        android:clickable="false"
+                        android:text="Du lịch" />
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/InterestChip"
+                        android:checkable="false"
+                        android:clickable="false"
+                        android:text="Âm nhạc" />
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/InterestChip"
+                        android:checkable="false"
+                        android:clickable="false"
+                        android:text="Cà phê" />
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/InterestChip"
+                        android:checkable="false"
+                        android:clickable="false"
+                        android:text="Ẩm thực" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+                <!-- Album ảnh cá nhân -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -226,26 +244,30 @@
                         android:layout_width="0dp"
                         android:layout_marginTop="0dp"
                         android:layout_weight="1"
-                        android:text="@string/profile_gallery_title" />
+                        android:text="Album ảnh" />
 
                     <TextView
                         android:id="@+id/btnProfileViewAllPhotos"
                         android:layout_width="wrap_content"
-                        android:layout_height="48dp"
+                        android:layout_height="44dp"
                         android:background="?attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="center"
                         android:paddingHorizontal="8dp"
-                        android:text="@string/profile_view_all"
+                        android:text="Xem tất cả ảnh"
                         android:textColor="@color/brand_primary"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
                 </LinearLayout>
 
+                <!-- Lưới ảnh đại diện -->
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/profilePhotoGallery"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/profileGalleryCenter"
@@ -255,8 +277,10 @@
                         app:layout_constraintGuide_percent="0.5" />
 
                     <androidx.cardview.widget.CardView
-                        style="@style/ProfileGalleryCard"
                         android:id="@+id/profileGalleryCard1"
+                        style="@style/ProfileGalleryCard"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:layout_marginEnd="4dp"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toStartOf="@id/profileGalleryCenter"
@@ -266,12 +290,15 @@
                         <ImageView
                             android:id="@+id/ivProfileGalleryPhoto1"
                             style="@style/ProfileGalleryImage"
-                            android:contentDescription="@string/profile_gallery_photo_1" />
+                            android:contentDescription="Ảnh album 1"
+                            android:src="@drawable/discovery_photo_1" />
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        style="@style/ProfileGalleryCard"
                         android:id="@+id/profileGalleryCard2"
+                        style="@style/ProfileGalleryCard"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:layout_marginStart="4dp"
                         app:layout_constraintDimensionRatio="1:1"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -281,12 +308,15 @@
                         <ImageView
                             android:id="@+id/ivProfileGalleryPhoto2"
                             style="@style/ProfileGalleryImage"
-                            android:contentDescription="@string/profile_gallery_photo_2" />
+                            android:contentDescription="Ảnh album 2"
+                            android:src="@drawable/discovery_photo_2" />
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        style="@style/ProfileGalleryCard"
                         android:id="@+id/profileGalleryCard3"
+                        style="@style/ProfileGalleryCard"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:layout_marginTop="8dp"
                         android:layout_marginEnd="4dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -298,12 +328,15 @@
                         <ImageView
                             android:id="@+id/ivProfileGalleryPhoto3"
                             style="@style/ProfileGalleryImage"
-                            android:contentDescription="@string/profile_gallery_photo_3" />
+                            android:contentDescription="Ảnh album 3"
+                            android:src="@drawable/discovery_photo_3" />
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        style="@style/ProfileGalleryCard"
                         android:id="@+id/profileGalleryCard4"
+                        style="@style/ProfileGalleryCard"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -315,10 +348,16 @@
                         <ImageView
                             android:id="@+id/ivProfileGalleryPhoto4"
                             style="@style/ProfileGalleryImage"
-                            android:contentDescription="@string/profile_gallery_photo_4" />
+                            android:contentDescription="Ảnh album 4"
+                            android:src="@drawable/discovery_photo_4" />
                     </androidx.cardview.widget.CardView>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
+
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
+
 </LinearLayout>

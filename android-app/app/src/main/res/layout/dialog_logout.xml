@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_dialog_rounded"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="28dp"
+    android:paddingBottom="24dp">
+
+    <!-- Circle Icon -->
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/bg_circle_pink_check"
+        android:backgroundTint="#FDE8EE"
+        android:contentDescription="Đăng xuất"
+        android:padding="14dp"
+        android:src="@drawable/ic_settings_logout"
+        app:tint="@color/brand_primary" />
+
+    <!-- Title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Đăng xuất?"
+        android:textColor="@color/text_primary"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <!-- Message -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:lineSpacingExtra="3dp"
+        android:text="Bạn sẽ không nhận được thông báo tin nhắn mới trên thiết bị này. Hồ sơ của bạn vẫn được giữ nguyên."
+        android:textColor="#666668"
+        android:textSize="14sp" />
+
+    <!-- Button Đăng xuất -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnDialogConfirmLogout"
+        style="@style/AuthPrimaryButton"
+        android:layout_marginTop="24dp"
+        android:text="Đăng xuất" />
+
+    <!-- Link Hủy -->
+    <TextView
+        android:id="@+id/btnDialogCancelLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:text="Hủy"
+        android:textColor="@color/text_primary"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+</LinearLayout>

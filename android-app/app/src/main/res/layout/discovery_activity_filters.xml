@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/filters_background"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
     <LinearLayout
         android:id="@+id/filtersHeader"
@@ -453,15 +452,137 @@
                                 android:id="@+id/tvFiltersInterestsSummary"
                                 style="@style/AuthCardSubtitle"
                                 android:layout_marginTop="3dp"
-                                android:text="@string/filters_interests_value"
+                                android:text="Chọn nhiều • Chưa chọn"
                                 android:textColor="@color/brand_primary"
                                 android:textSize="12sp" />
                         </LinearLayout>
                         <ImageView
+                            android:id="@+id/ivFiltersInterestsArrow"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:importantForAccessibility="no"
                             android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+
+                    <!-- Khung mở rộng danh sách sở thích (mặc định tất cả TRẮNG/chưa chọn) -->
+                    <LinearLayout
+                        android:id="@+id/containerFiltersInterestsExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupFiltersInterests"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="false">
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Du lịch" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Âm nhạc" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Xem phim và series" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Đọc sách" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Nấu ăn" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Chơi game" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Thể thao" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Tập gym" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Cà phê" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Ẩm thực" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Nhiếp ảnh" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Nghệ thuật" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Công nghệ" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Thú cưng" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Thiên nhiên và cắm trại" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Thời trang" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Khiêu vũ" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Khám phá địa điểm mới" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Hoạt động ngoài trời" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Tình nguyện" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -486,20 +607,82 @@
                             android:orientation="vertical">
                             <TextView
                                 style="@style/AuthFieldLabel"
-                                android:text="@string/filters_relationship" />
+                                android:text="Đang tìm kiếm" />
                             <TextView
                                 android:id="@+id/tvFiltersRelationshipSummary"
                                 style="@style/AuthCardSubtitle"
                                 android:layout_marginTop="3dp"
-                                android:text="@string/filters_relationship_value"
+                                android:text="Nghiêm túc, Lâu dài"
                                 android:textColor="@color/brand_primary"
                                 android:textSize="12sp" />
                         </LinearLayout>
                         <ImageView
+                            android:id="@+id/ivFiltersRelationshipArrow"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:importantForAccessibility="no"
                             android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+
+                    <!-- Khung mở rộng mục Đang tìm kiếm (khớp với lg10 Relationship Goal) -->
+                    <LinearLayout
+                        android:id="@+id/containerFiltersRelationshipExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupFiltersRelationship"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="false">
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="true"
+                                android:text="Mối quan hệ nghiêm túc" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="true"
+                                android:text="Tìm hiểu để tiến tới mối quan hệ lâu dài" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Hẹn hò và tìm hiểu" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Kết hôn" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Kết bạn" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Gặp gỡ và kết nối người mới" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Mối quan hệ không ràng buộc" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Chưa xác định, cứ tìm hiểu trước" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
@@ -524,26 +707,139 @@
                             android:orientation="vertical">
                             <TextView
                                 style="@style/AuthFieldLabel"
-                                android:text="@string/filters_zodiac" />
+                                android:text="Cung hoàng đạo" />
                             <TextView
                                 android:id="@+id/tvFiltersZodiacSummary"
                                 style="@style/AuthCardSubtitle"
                                 android:layout_marginTop="3dp"
-                                android:text="@string/filters_any"
+                                android:text="Không quan trọng"
                                 android:textColor="@color/brand_primary"
                                 android:textSize="12sp" />
                         </LinearLayout>
                         <ImageView
+                            android:id="@+id/ivFiltersZodiacArrow"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:importantForAccessibility="no"
                             android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+
+                    <!-- Khung mở rộng Cung hoàng đạo -->
+                    <LinearLayout
+                        android:id="@+id/containerFiltersZodiacExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupFiltersZodiac"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="false">
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipFiltersZodiacAny"
+                                style="@style/InterestChip"
+                                android:checked="true"
+                                android:text="Không quan trọng" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Bạch Dương"
+                                app:chipIcon="@drawable/ic_zodiac_aries"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Kim Ngưu"
+                                app:chipIcon="@drawable/ic_zodiac_taurus"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Song Tử"
+                                app:chipIcon="@drawable/ic_zodiac_gemini"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Cự Giải"
+                                app:chipIcon="@drawable/ic_zodiac_cancer"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Sư Tử"
+                                app:chipIcon="@drawable/ic_zodiac_leo"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Xử Nữ"
+                                app:chipIcon="@drawable/ic_zodiac_virgo"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Thiên Bình"
+                                app:chipIcon="@drawable/ic_zodiac_libra"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Bọ Cạp"
+                                app:chipIcon="@drawable/ic_zodiac_scorpio"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Nhân Mã"
+                                app:chipIcon="@drawable/ic_zodiac_sagittarius"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Ma Kết"
+                                app:chipIcon="@drawable/ic_zodiac_capricorn"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Bảo Bình"
+                                app:chipIcon="@drawable/ic_zodiac_aquarius"
+                                app:chipIconVisible="true" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Song Ngư"
+                                app:chipIcon="@drawable/ic_zodiac_pisces"
+                                app:chipIconVisible="true" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
                     </LinearLayout>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
                         android:background="@color/border_input" />
+                    <!-- Hút thuốc -->
                     <LinearLayout
                         android:id="@+id/rowFiltersSmoking"
                         android:layout_width="match_parent"
@@ -562,26 +858,76 @@
                             android:orientation="vertical">
                             <TextView
                                 style="@style/AuthFieldLabel"
-                                android:text="@string/filters_smoking" />
+                                android:text="Hút thuốc" />
                             <TextView
                                 android:id="@+id/tvFiltersSmokingSummary"
                                 style="@style/AuthCardSubtitle"
                                 android:layout_marginTop="3dp"
-                                android:text="@string/filters_smoking_value"
+                                android:text="Không quan trọng"
                                 android:textColor="@color/brand_primary"
                                 android:textSize="12sp" />
                         </LinearLayout>
                         <ImageView
+                            android:id="@+id/ivFiltersSmokingArrow"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:importantForAccessibility="no"
                             android:src="@drawable/ic_filters_expand" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerFiltersSmokingExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupFiltersSmoking"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Không hút thuốc" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Chỉ hút trong một số dịp" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Thỉnh thoảng hút thuốc" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Hút thuốc thường xuyên" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipFiltersSmokingAny"
+                                style="@style/InterestChip"
+                                android:checked="true"
+                                android:text="Không quan trọng" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
                         android:background="@color/border_input" />
+
+                    <!-- Uống rượu bia -->
                     <LinearLayout
                         android:id="@+id/rowFiltersDrinking"
                         android:layout_width="match_parent"
@@ -600,26 +946,76 @@
                             android:orientation="vertical">
                             <TextView
                                 style="@style/AuthFieldLabel"
-                                android:text="@string/filters_drinking" />
+                                android:text="Uống rượu bia" />
                             <TextView
                                 android:id="@+id/tvFiltersDrinkingSummary"
                                 style="@style/AuthCardSubtitle"
                                 android:layout_marginTop="3dp"
-                                android:text="@string/filters_drinking_value"
+                                android:text="Không quan trọng"
                                 android:textColor="@color/brand_primary"
                                 android:textSize="12sp" />
                         </LinearLayout>
                         <ImageView
+                            android:id="@+id/ivFiltersDrinkingArrow"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:importantForAccessibility="no"
                             android:src="@drawable/ic_filters_expand" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerFiltersDrinkingExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupFiltersDrinking"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Không uống" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Chỉ uống trong các dịp đặc biệt" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Thỉnh thoảng uống" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Uống khá thường xuyên" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipFiltersDrinkingAny"
+                                style="@style/InterestChip"
+                                android:checked="true"
+                                android:text="Không quan trọng" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
                         android:background="@color/border_input" />
+
+                    <!-- Tập luyện -->
                     <LinearLayout
                         android:id="@+id/rowFiltersExercise"
                         android:layout_width="match_parent"
@@ -638,26 +1034,81 @@
                             android:orientation="vertical">
                             <TextView
                                 style="@style/AuthFieldLabel"
-                                android:text="@string/filters_exercise" />
+                                android:text="Tập luyện" />
                             <TextView
                                 android:id="@+id/tvFiltersExerciseSummary"
                                 style="@style/AuthCardSubtitle"
                                 android:layout_marginTop="3dp"
-                                android:text="@string/filters_exercise_value"
+                                android:text="Không quan trọng"
                                 android:textColor="@color/brand_primary"
                                 android:textSize="12sp" />
                         </LinearLayout>
                         <ImageView
+                            android:id="@+id/ivFiltersExerciseArrow"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:importantForAccessibility="no"
                             android:src="@drawable/ic_filters_expand" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerFiltersExerciseExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupFiltersExercise"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Tập luyện thường xuyên" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Tập vài lần mỗi tuần" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Thỉnh thoảng tập luyện" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Hiếm khi tập luyện" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Không tập luyện" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipFiltersExerciseAny"
+                                style="@style/InterestChip"
+                                android:checked="true"
+                                android:text="Không quan trọng" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
+                    </LinearLayout>
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="8dp"
                         android:background="@color/border_input" />
+
+                    <!-- Giáo dục -->
                     <LinearLayout
                         android:id="@+id/rowFiltersEducation"
                         android:layout_width="match_parent"
@@ -676,20 +1127,87 @@
                             android:orientation="vertical">
                             <TextView
                                 style="@style/AuthFieldLabel"
-                                android:text="@string/filters_education" />
+                                android:text="Giáo dục" />
                             <TextView
                                 android:id="@+id/tvFiltersEducationSummary"
                                 style="@style/AuthCardSubtitle"
                                 android:layout_marginTop="3dp"
-                                android:text="@string/filters_education_value"
+                                android:text="Không quan trọng"
                                 android:textColor="@color/brand_primary"
                                 android:textSize="12sp" />
                         </LinearLayout>
                         <ImageView
+                            android:id="@+id/ivFiltersEducationArrow"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:importantForAccessibility="no"
                             android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerFiltersEducationExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="10dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupFiltersEducation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Đang học trung học phổ thông" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Tốt nghiệp trung học phổ thông" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Trung cấp hoặc cao đẳng nghề" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Cao đẳng" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Đại học" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Sau đại học / Thạc sĩ" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Tiến sĩ" />
+
+                            <com.google.android.material.chip.Chip
+                                style="@style/InterestChip"
+                                android:checked="false"
+                                android:text="Đang học đại học" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chipFiltersEducationAny"
+                                style="@style/InterestChip"
+                                android:checked="true"
+                                android:text="Không quan trọng" />
+
+                        </com.google.android.material.chip.ChipGroup>
+
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
