@@ -2,34 +2,27 @@ const { z } = require('zod');
 const v = require('../../utils/validators');
 
 const email = z.string().trim().toLowerCase().email('Email không hợp lệ').max(255);
+// Đổi mật khẩu trong Cài đặt: ≥ 6 ký tự (như màn ChangePassword)
 const password = z.string().min(6, 'Mật khẩu tối thiểu 6 ký tự').max(72, 'Mật khẩu tối đa 72 ký tự');
 
-// ── Đăng ký / đăng nhập bằng EMAIL (bản v1 - giữ cho Postman, Web Admin, test nhanh) ──
-const register = z
-  .object({
-    email,
-    password,
-    displayName: z.string().trim().min(1, 'Tên hiển thị không được trống').max(100),
-    birthday: v.birthday,
-    gender: v.option('gender'),
-    // Không bắt buộc - dùng để tạo kết quả mặc định cho trang Home
-    interestedIn: v.option('interestedIn').optional(),
-    city: z.string().trim().max(100).optional(),
-    latitude: z.number().min(-90).max(90).optional(),
-    longitude: z.number().min(-180).max(180).optional(),
-    interestIds: z.array(z.number().int().positive()).max(20, 'Tối đa 20 sở thích').optional(),
-  })
-  .refine((d) => (d.latitude === undefined) === (d.longitude === undefined), {
-    message: 'Phải gửi cả latitude và longitude',
-    path: ['latitude'],
-  });
+// ── EMAIL (đang dùng, khớp app Android) ──
+
+/** Đăng ký: CHỈ email + mật khẩu (≥ 8 ký tự như màn Register). Hồ sơ điền sau khi đăng ký. */
+const register = z.object({
+  email,
+  password: v.password8,
+});
 
 const login = z.object({
   email,
   password: z.string().min(1, 'Vui lòng nhập mật khẩu'),
 });
 
-// ── SỐ ĐIỆN THOẠI + OTP (khớp app Android) ──
+const forgotPassword = z.object({ email });
+
+const verifyResetOtpEmail = z.object({ email, otp: v.otp });
+
+// ── SỐ ĐIỆN THOẠI + OTP (tạm ngừng) ──
 const otpSend = z.object({
   phone: v.phone,
   purpose: z.enum(['register', 'login', 'reset_password'], {
@@ -59,9 +52,10 @@ const otpVerifyReset = z.object({
   otp: v.otp,
 });
 
+/** Mật khẩu mới: ≥ 8 ký tự và có ít nhất 1 chữ số (như màn ResetPassword) */
 const passwordReset = z.object({
   resetToken: z.string().min(1, 'Thiếu resetToken'),
-  newPassword: v.password8,
+  newPassword: v.password8.regex(/\d/, 'Mật khẩu cần có ít nhất 1 chữ số'),
 });
 
 const refresh = z.object({
@@ -76,6 +70,8 @@ const changePassword = z.object({
 module.exports = {
   register,
   login,
+  forgotPassword,
+  verifyResetOtpEmail,
   otpSend,
   registerPhone,
   loginPhone,

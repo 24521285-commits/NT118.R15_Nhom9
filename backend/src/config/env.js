@@ -34,6 +34,19 @@ const env = {
 
   corsOrigins: (process.env.CORS_ORIGINS || '*').split(',').map((s) => s.trim()),
 
+  // Đăng ký / đăng nhập bằng số điện thoại: TẠM NGỪNG (true để bật lại)
+  phoneAuthEnabled: bool(process.env.PHONE_AUTH_ENABLED, false),
+
+  mail: {
+    // console = in email ra log server; smtp = gửi thật (VD Gmail + App Password). Xem src/services/mail.js
+    provider: process.env.MAIL_PROVIDER || 'console',
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: Number(process.env.SMTP_PORT || 465),
+    user: process.env.SMTP_USER || '',
+    pass: process.env.SMTP_PASS || '',
+    from: process.env.MAIL_FROM || process.env.SMTP_USER || 'DateZone <no-reply@datezone.local>',
+  },
+
   otp: {
     // console = in mã OTP ra log server (chưa có nhà mạng SMS). Xem src/services/sms.js
     provider: process.env.SMS_PROVIDER || 'console',

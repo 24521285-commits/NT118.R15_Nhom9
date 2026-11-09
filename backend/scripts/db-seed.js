@@ -1,6 +1,6 @@
 /**
  * Thêm dữ liệu mẫu: 20 sở thích (như app) + tài khoản demo.
- * Đăng nhập bằng email HOẶC số điện thoại, mật khẩu: 123456
+ * Đăng nhập bằng email, mật khẩu: 123456 (SĐT lưu sẵn cho khi bật lại đăng nhập bằng SĐT)
  *   npm run db:seed      (chạy lại nhiều lần không sao; tài khoản đã có sẽ được bổ sung SĐT nếu thiếu)
  */
 const bcrypt = require('bcryptjs');
@@ -75,7 +75,7 @@ async function main() {
   }
 
   console.log(`[db:seed] ${APP_INTERESTS.length} sở thích, ${created} tài khoản demo mới, ${updated} tài khoản cũ được bổ sung SĐT`);
-  console.log('[db:seed] Đăng nhập: an@demo.local hoặc 0901000001 (An) ... 0901000007 (Khoa), mật khẩu 123456');
+  console.log('[db:seed] Đăng nhập: an@demo.local, binh@demo.local ... khoa@demo.local, mật khẩu 123456');
   await db.pool.end();
 }
 

@@ -30,7 +30,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ---------------------------------------------------------------------
 -- 1. USER & AUTH
 -- ---------------------------------------------------------------------
--- Đăng nhập bằng email HOẶC số điện thoại (ít nhất 1 trong 2, kiểm tra ở tầng code)
+-- Đăng nhập bằng email (số điện thoại: đang tạm ngừng, giữ cột để bật lại sau)
 CREATE TABLE users (
   id                 BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   email              VARCHAR(255)  NULL,
@@ -46,17 +46,17 @@ CREATE TABLE users (
   UNIQUE KEY uq_users_phone (phone)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Mã OTP gửi qua SMS (đăng ký, đăng nhập 2 bước, quên mật khẩu)
+-- Mã OTP gửi qua email hoặc SMS (quên mật khẩu; đăng ký / đăng nhập bằng SĐT khi bật lại)
 CREATE TABLE otp_codes (
   id           BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  phone        VARCHAR(20)     NOT NULL,
+  target       VARCHAR(255)    NOT NULL,           -- email hoặc SĐT +84...
   purpose      ENUM('register','login','reset_password') NOT NULL,
-  code_hash    CHAR(64)        NOT NULL,           -- SHA-256(phone:purpose:code)
+  code_hash    CHAR(64)        NOT NULL,           -- SHA-256(target:purpose:code)
   attempts     TINYINT UNSIGNED NOT NULL DEFAULT 0,
   expires_at   DATETIME        NOT NULL,
   consumed_at  DATETIME        NULL,
   created_at   DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  KEY idx_otp_phone (phone, purpose, created_at)
+  KEY idx_otp_target (target, purpose, created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE refresh_tokens (
@@ -74,12 +74,12 @@ CREATE TABLE refresh_tokens (
 -- ---------------------------------------------------------------------
 -- 2. PROFILE
 -- ---------------------------------------------------------------------
--- birthday / gender cho phép NULL: tài khoản tạo xong mới điền dần qua các màn hình onboarding.
+-- Đăng ký chỉ cần email + mật khẩu -> hồ sơ tạo trống, tên / ngày sinh / giới tính... điền dần qua onboarding.
 -- completed_at: thời điểm hoàn tất hồ sơ; chỉ hồ sơ đã hoàn tất mới hiện trên trang Home.
 -- Các cột lựa chọn (relationship_goal, zodiac, ...) lưu mã tiếng Anh, danh sách mã: GET /api/meta/options
 CREATE TABLE profiles (
   user_id            BIGINT UNSIGNED PRIMARY KEY,
-  display_name       VARCHAR(100)  NOT NULL,
+  display_name       VARCHAR(100)  NULL,                   -- điền ở màn EnterName sau khi đăng ký
   birthday           DATE          NULL,
   gender             ENUM('male','female','other') NULL,   -- other = phi nhị nguyên
   show_gender        TINYINT(1)    NOT NULL DEFAULT 1,

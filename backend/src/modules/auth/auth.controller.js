@@ -2,7 +2,15 @@ const authService = require('./auth.service');
 const { ok, created } = require('../../utils/response');
 
 exports.register = async (req, res) => {
-  created(res, await authService.register(req.body), 'Đăng ký thành công');
+  created(res, await authService.register(req.body), 'Đăng ký thành công, hãy hoàn tất hồ sơ');
+};
+
+exports.forgotPassword = async (req, res) => {
+  ok(res, await authService.forgotPassword(req.body), 'Đã gửi mã OTP tới email của bạn');
+};
+
+exports.verifyResetOtpEmail = async (req, res) => {
+  ok(res, await authService.verifyResetOtpByEmail(req.body), 'Xác thực thành công, hãy đặt mật khẩu mới');
 };
 
 exports.login = async (req, res) => {

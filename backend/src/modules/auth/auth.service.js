@@ -5,7 +5,6 @@ const jwt = require('jsonwebtoken');
 const env = require('../../config/env');
 const db = require('../../config/db');
 const ApiError = require('../../utils/ApiError');
-const { ageFromBirthday } = require('../../utils/age');
 const usersService = require('../users/users.service');
 const otpService = require('../../services/otp.service');
 
@@ -33,51 +32,23 @@ async function issueTokens(user, conn = db) {
   };
 }
 
-/**
- * Tiêu chí tìm kiếm mặc định suy ra từ thông tin đăng ký:
- *  - interestedIn: người dùng chọn lúc đăng ký, không chọn thì 'everyone'
- *  - độ tuổi: quanh tuổi của người dùng (±5, tối thiểu 18)
- *  - khoảng cách: 50km
- */
-function defaultPreferences(birthday, interestedIn) {
-  if (!birthday) return { interestedIn: interestedIn || 'everyone', minAge: 18, maxAge: 35, maxDistanceKm: 50 };
-  const age = ageFromBirthday(birthday);
-  return {
-    interestedIn: interestedIn || 'everyone',
-    minAge: Math.max(18, age - 5),
-    maxAge: Math.min(100, Math.max(age + 5, 23)),
-    maxDistanceKm: 50,
-  };
-}
+// ═════════════════════ EMAIL (đang dùng) ═════════════════════
 
-async function register(data) {
-  const { email, password, displayName, birthday, gender } = data;
+/**
+ * POST /auth/register - chỉ cần email + mật khẩu.
+ * Tạo tài khoản + HỒ SƠ TRỐNG + tiêu chí mặc định, trả token để app đi tiếp các màn hình onboarding
+ * (tên, ảnh, ngày sinh, giới tính... điền bằng PUT /users/me/profile, xong gọi POST /users/me/onboarding/complete).
+ */
+async function register({ email, password }) {
   const [existing] = await db.query('SELECT id FROM users WHERE email = ?', [email]);
   if (existing) throw ApiError.conflict('Email đã được sử dụng');
 
   const passwordHash = await bcrypt.hash(password, 10);
-  const pref = defaultPreferences(birthday, data.interestedIn);
-
   const user = await db.transaction(async (conn) => {
     const [result] = await conn.query('INSERT INTO users (email, password_hash) VALUES (?, ?)', [email, passwordHash]);
     const userId = result.insertId;
-    await conn.query(
-      // Đăng ký email đã có đủ ngày sinh + giới tính -> coi như hoàn tất hồ sơ (luồng test nhanh / web)
-      `INSERT INTO profiles (user_id, display_name, birthday, gender, city, latitude, longitude, completed_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP())`,
-      [userId, displayName, birthday, gender, data.city || null, data.latitude ?? null, data.longitude ?? null],
-    );
-    await conn.query(
-      'INSERT INTO preferences (user_id, interested_in, min_age, max_age, max_distance_km) VALUES (?, ?, ?, ?, ?)',
-      [userId, pref.interestedIn, pref.minAge, pref.maxAge, pref.maxDistanceKm],
-    );
-    if (data.interestIds?.length) {
-      // Bỏ qua id sở thích không tồn tại
-      await conn.query(
-        'INSERT IGNORE INTO user_interests (user_id, interest_id) SELECT ?, id FROM interests WHERE id IN (?)',
-        [userId, [...new Set(data.interestIds)]],
-      );
-    }
+    await conn.query('INSERT INTO profiles (user_id) VALUES (?)', [userId]);
+    await conn.query('INSERT INTO preferences (user_id) VALUES (?)', [userId]);
     return { id: userId, role: 'user' };
   });
 
@@ -85,11 +56,38 @@ async function register(data) {
   return { user: await usersService.getMe(user.id), tokens };
 }
 
-// ═════════════════════ SỐ ĐIỆN THOẠI + OTP ═════════════════════
+/** POST /auth/password/forgot - gửi (hoặc gửi lại sau 30 giây) mã OTP 6 số tới email. */
+async function forgotPassword({ email }) {
+  const [user] = await db.query('SELECT id, status FROM users WHERE email = ?', [email]);
+  if (!user) throw ApiError.notFound('Email chưa được đăng ký');
+  if (user.status !== 'active') throw ApiError.forbidden('Tài khoản đã bị khoá');
+  return otpService.send(email, 'reset_password');
+}
 
-/** Mật khẩu đặt lại dùng secret riêng -> không thể dùng thay access token. */
+/** POST /auth/password/verify-otp - đúng mã -> resetToken (10 phút) cho màn hình Đặt lại mật khẩu. */
+async function verifyResetOtpByEmail({ email, otp }) {
+  const [user] = await db.query('SELECT id, password_hash FROM users WHERE email = ?', [email]);
+  if (!user) throw ApiError.notFound('Email chưa được đăng ký');
+  await otpService.verify(email, 'reset_password', otp);
+  return issueResetToken(user);
+}
+
+// ═════════════════════ ĐẶT LẠI MẬT KHẨU (dùng chung) ═════════════════════
+
+/** Token đặt lại mật khẩu dùng secret riêng -> không thể dùng thay access token. */
 const resetSecret = () => `${env.jwt.accessSecret}:reset_password`;
 const passwordFingerprint = (hash) => sha256(hash).slice(0, 16);
+
+function issueResetToken(user) {
+  const resetToken = jwt.sign(
+    { sub: String(user.id), pwf: passwordFingerprint(user.password_hash) },
+    resetSecret(),
+    { expiresIn: '10m' },
+  );
+  return { resetToken, expiresIn: 600 };
+}
+
+// ═════════════════════ SỐ ĐIỆN THOẠI + OTP (TẠM NGỪNG - bật bằng PHONE_AUTH_ENABLED=true) ═════════════════════
 
 async function findByPhone(phone) {
   const [user] = await db.query('SELECT id, role, status, password_hash FROM users WHERE phone = ?', [phone]);
@@ -171,13 +169,10 @@ async function verifyResetOtp({ phone, otp }) {
   const user = await findByPhone(phone);
   if (!user) throw ApiError.notFound('Số điện thoại chưa được đăng ký');
   await otpService.verify(phone, 'reset_password', otp);
-  const resetToken = jwt.sign(
-    { sub: String(user.id), pwf: passwordFingerprint(user.password_hash) },
-    resetSecret(),
-    { expiresIn: '10m' },
-  );
-  return { resetToken, expiresIn: 600 };
+  return issueResetToken(user);
 }
+
+// ═════════════════════════════════════════════════════════════════
 
 /** POST /auth/password/reset - đặt mật khẩu mới bằng resetToken (dùng 1 lần), đăng xuất mọi thiết bị. */
 async function resetPassword({ resetToken, newPassword }) {
@@ -196,8 +191,7 @@ async function resetPassword({ resetToken, newPassword }) {
   await db.query('UPDATE refresh_tokens SET revoked_at = UTC_TIMESTAMP() WHERE user_id = ? AND revoked_at IS NULL', [user.id]);
 }
 
-// ═════════════════════ EMAIL (v1) ═════════════════════
-
+/** POST /auth/login - email + mật khẩu -> token. */
 async function login({ email, password }) {
   const [user] = await db.query('SELECT id, role, status, password_hash FROM users WHERE email = ?', [email]);
   const valid = user && (await bcrypt.compare(password, user.password_hash));
@@ -247,6 +241,8 @@ async function changePassword(userId, { currentPassword, newPassword }) {
 module.exports = {
   register,
   login,
+  forgotPassword,
+  verifyResetOtpByEmail,
   sendOtp,
   registerByPhone,
   loginByPhone,
@@ -256,5 +252,4 @@ module.exports = {
   refresh,
   logout,
   changePassword,
-  defaultPreferences,
 };

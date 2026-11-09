@@ -7,17 +7,11 @@
 ### Health check
 GET {{baseUrl}}/health
 
-### Đăng ký
+### Đăng ký (chỉ email + mật khẩu ≥ 8 ký tự, hồ sơ điền sau)
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
-{
-  "email": "test@demo.local",
-  "password": "123456",
-  "displayName": "Test",
-  "birthday": "2004-06-01",
-  "gender": "male"
-}
+{ "email": "test@demo.local", "password": "matkhau123" }
 
 ### Đăng nhập (tài khoản seed)
 POST {{baseUrl}}/auth/login
@@ -94,53 +88,35 @@ Authorization: Bearer {{token}}
 GET {{baseUrl}}/home/taste
 Authorization: Bearer {{token}}
 
-### ===== App Android: số điện thoại + OTP =====
-@phone = 0909123456
+### ===== App Android: email =====
 
 ### Danh mục lựa chọn (không cần token)
 GET {{baseUrl}}/meta/options
 
-### Gửi OTP đăng ký (mã nằm ở data.devOtp hoặc trong pm2 logs)
-POST {{baseUrl}}/auth/otp/send
+### Quên mật khẩu: gửi OTP tới email (mã nằm ở data.devOtp hoặc trong pm2 logs)
+POST {{baseUrl}}/auth/password/forgot
 Content-Type: application/json
 
-{ "phone": "{{phone}}", "purpose": "register" }
-
-### Đăng ký bằng SĐT (thay otp)
-POST {{baseUrl}}/auth/register/phone
-Content-Type: application/json
-
-{ "phone": "{{phone}}", "otp": "123456", "password": "matkhau123", "displayName": "Lan" }
-
-### Đăng nhập bước 1: SĐT + mật khẩu -> gửi OTP
-POST {{baseUrl}}/auth/login/phone
-Content-Type: application/json
-
-{ "phone": "0901000001", "password": "123456" }
-
-### Đăng nhập bước 2: OTP -> token
-POST {{baseUrl}}/auth/login/phone/verify
-Content-Type: application/json
-
-{ "phone": "0901000001", "otp": "123456" }
-
-### Quên mật khẩu: gửi OTP
-POST {{baseUrl}}/auth/otp/send
-Content-Type: application/json
-
-{ "phone": "{{phone}}", "purpose": "reset_password" }
+{ "email": "test@demo.local" }
 
 ### Quên mật khẩu: xác thực OTP -> resetToken
-POST {{baseUrl}}/auth/otp/verify
+POST {{baseUrl}}/auth/password/verify-otp
 Content-Type: application/json
 
-{ "phone": "{{phone}}", "otp": "123456" }
+{ "email": "test@demo.local", "otp": "123456" }
 
-### Đặt mật khẩu mới
+### Đặt mật khẩu mới (≥ 8 ký tự, có chữ số)
 POST {{baseUrl}}/auth/password/reset
 Content-Type: application/json
 
 { "resetToken": "PASTE_RESET_TOKEN", "newPassword": "matkhaumoi1" }
+
+### Sửa hồ sơ: nhãn ngắn của màn ProfileEdit
+PUT {{baseUrl}}/users/me/profile
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{ "smoking": "Đang cai", "drinking": "Cuối tuần", "exercise": "Mỗi ngày", "education": "Thạc sĩ", "relationshipGoal": "Bạn đời" }
 
 ### Onboarding: gửi nhãn tiếng Việt như trên app
 PUT {{baseUrl}}/users/me/profile

@@ -1,7 +1,9 @@
 /**
- * DANH MỤC LỰA CHỌN - khớp với các màn hình onboarding của app Android.
- * DB lưu MÃ (code) tiếng Anh; app hiển thị NHÃN (label) tiếng Việt.
- * API nhận cả mã lẫn nhãn (VD "never" hoặc "Không hút thuốc"), luôn trả về mã.
+ * DANH MỤC LỰA CHỌN - khớp với app Android.
+ * DB lưu MÃ (code) tiếng Anh; app hiển thị NHÃN tiếng Việt. Mỗi lựa chọn: [mã, nhãn, nhãn ngắn?]
+ *   - label      : nhãn dài, dùng ở màn hình Onboarding, Bộ lọc, Xem hồ sơ người khác
+ *   - shortLabel : nhãn ngắn, dùng ở màn Sửa hồ sơ (ProfileEdit) và Xem trước hồ sơ (UserProfile)
+ * API nhận MÃ, NHÃN hoặc NHÃN NGẮN (VD "never" / "Không hút thuốc" / "Không bao giờ"), luôn trả về mã.
  * App lấy danh sách đầy đủ qua GET /api/meta/options.
  *
  * Thêm / sửa lựa chọn: chỉ sửa file này (cột DB là VARCHAR nên không cần migration).
@@ -20,13 +22,13 @@ const OPTIONS = {
   ],
   relationshipGoal: [
     ['serious', 'Mối quan hệ nghiêm túc'],
-    ['long_term', 'Tìm hiểu để tiến tới mối quan hệ lâu dài'],
-    ['dating', 'Hẹn hò và tìm hiểu'],
-    ['marriage', 'Kết hôn'],
-    ['friendship', 'Kết bạn'],
+    ['long_term', 'Tìm hiểu để tiến tới mối quan hệ lâu dài', 'Người yêu lâu dài'],
+    ['dating', 'Hẹn hò và tìm hiểu', 'Bạn hẹn hò'],
+    ['marriage', 'Kết hôn', 'Bạn đời'],
+    ['friendship', 'Kết bạn', 'Bạn bè mới'],
     ['meet_new_people', 'Gặp gỡ và kết nối người mới'],
     ['casual', 'Mối quan hệ không ràng buộc'],
-    ['not_sure', 'Chưa xác định, cứ tìm hiểu trước'],
+    ['not_sure', 'Chưa xác định, cứ tìm hiểu trước', 'Chưa rõ'],
   ],
   zodiac: [
     ['aries', 'Bạch Dương'],
@@ -43,33 +45,37 @@ const OPTIONS = {
     ['pisces', 'Song Ngư'],
   ],
   smoking: [
-    ['never', 'Không hút thuốc'],
+    ['never', 'Không hút thuốc', 'Không bao giờ'],
     ['social', 'Chỉ hút trong một số dịp'],
-    ['sometimes', 'Thỉnh thoảng hút thuốc'],
-    ['regularly', 'Hút thuốc thường xuyên'],
+    ['sometimes', 'Thỉnh thoảng hút thuốc', 'Thỉnh thoảng'],
+    ['regularly', 'Hút thuốc thường xuyên', 'Thường xuyên'],
+    ['quitting', 'Đang cai thuốc', 'Đang cai'], // chỉ có ở màn Sửa hồ sơ
   ],
   drinking: [
-    ['never', 'Không uống'],
+    ['never', 'Không uống', 'Không bao giờ'],
     ['special_occasions', 'Chỉ uống trong các dịp đặc biệt'],
-    ['sometimes', 'Thỉnh thoảng uống'],
-    ['often', 'Uống khá thường xuyên'],
+    ['sometimes', 'Thỉnh thoảng uống', 'Thỉnh thoảng'],
+    ['often', 'Uống khá thường xuyên', 'Thường xuyên'],
+    ['weekends', 'Uống vào cuối tuần', 'Cuối tuần'], // chỉ có ở màn Sửa hồ sơ
   ],
   exercise: [
-    ['very_active', 'Tập luyện thường xuyên'],
+    ['daily', 'Tập luyện mỗi ngày', 'Mỗi ngày'], // chỉ có ở màn Sửa hồ sơ
+    ['very_active', 'Tập luyện thường xuyên', 'Thường xuyên'],
     ['weekly', 'Tập vài lần mỗi tuần'],
-    ['sometimes', 'Thỉnh thoảng tập luyện'],
+    ['sometimes', 'Thỉnh thoảng tập luyện', 'Thỉnh thoảng'],
     ['rarely', 'Hiếm khi tập luyện'],
-    ['never', 'Không tập luyện'],
+    ['never', 'Không tập luyện', 'Không tập'],
   ],
   education: [
     ['high_school_student', 'Đang học trung học phổ thông'],
-    ['high_school', 'Tốt nghiệp trung học phổ thông'],
+    ['high_school', 'Tốt nghiệp trung học phổ thông', 'Trung học'],
     ['vocational', 'Trung cấp hoặc cao đẳng nghề'],
     ['college', 'Cao đẳng'],
     ['university_student', 'Đang học đại học'],
-    ['bachelor', 'Đại học'],
-    ['postgraduate', 'Sau đại học / Thạc sĩ'],
-    ['phd', 'Tiến sĩ'],
+    ['bachelor', 'Đại học', 'Đại học'],
+    ['postgraduate', 'Sau đại học / Thạc sĩ', 'Thạc sĩ'],
+    ['phd', 'Tiến sĩ', 'Tiến sĩ'],
+    ['other', 'Khác', 'Khác'], // chỉ có ở màn Sửa hồ sơ
   ],
 };
 
@@ -100,9 +106,16 @@ const norm = (s) => String(s).normalize('NFC').trim().replace(/\s+/g, ' ').toLow
 const lookup = {};
 for (const [key, list] of Object.entries(OPTIONS)) {
   lookup[key] = new Map();
-  for (const [code, label] of list) {
-    lookup[key].set(norm(code), code);
-    lookup[key].set(norm(label), code);
+  for (const [code, label, shortLabel] of list) {
+    for (const text of [code, label, shortLabel]) {
+      if (!text) continue;
+      const k = norm(text);
+      // Bắt lỗi khi thêm nhãn trùng nhau trong cùng 1 mục (VD 2 lựa chọn cùng tên "Thỉnh thoảng")
+      if (lookup[key].has(k) && lookup[key].get(k) !== code) {
+        throw new Error(`options.${key}: nhãn "${text}" bị trùng giữa ${lookup[key].get(k)} và ${code}`);
+      }
+      lookup[key].set(k, code);
+    }
   }
 }
 
@@ -116,15 +129,19 @@ function codes(key) {
   return OPTIONS[key].map(([code]) => code);
 }
 
-function labelOf(key, code) {
+function labelOf(key, code, short = false) {
   const found = OPTIONS[key].find(([c]) => c === code);
-  return found ? found[1] : null;
+  if (!found) return null;
+  return short ? found[2] || found[1] : found[1];
 }
 
-/** Dạng trả cho app: { key: [{ code, label }] } */
+/** Dạng trả cho app: { key: [{ code, label, shortLabel }] } (shortLabel = label nếu màn Sửa hồ sơ không có nhãn riêng) */
 function asJson() {
   return Object.fromEntries(
-    Object.entries(OPTIONS).map(([key, list]) => [key, list.map(([code, label]) => ({ code, label }))]),
+    Object.entries(OPTIONS).map(([key, list]) => [
+      key,
+      list.map(([code, label, shortLabel]) => ({ code, label, shortLabel: shortLabel || label })),
+    ]),
   );
 }
 

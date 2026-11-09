@@ -20,7 +20,7 @@
       "value": "http://13.228.203.107/api"
     },
     {
-      "key": "newPhone",
+      "key": "newEmail",
       "value": ""
     },
     {
@@ -102,8 +102,8 @@
       ]
     },
     {
-      "name": "0. App Android: SĐT + OTP + onboarding (Run folder)",
-      "description": "Chạy đúng luồng của app: đăng ký bằng SĐT -> OTP -> 17 màn hình onboarding -> hoàn tất -> đăng nhập 2 bước -> quên mật khẩu.\nSĐT được sinh ngẫu nhiên nên chạy lại bao nhiêu lần cũng được.\nMã OTP lấy từ field devOtp (server đang bật OTP_DEV_MODE=true).\nBước hoàn tất hồ sơ cần ≥ 2 ảnh: muốn ra 200 thì upload 2 ảnh ở request \"Upload ảnh\" (folder 2) bằng token của tài khoản này, hoặc đặt ONBOARDING_MIN_PHOTOS=0 trên server.",
+      "name": "0. App Android: Email + onboarding (Run folder)",
+      "description": "Chạy đúng luồng của app: đăng ký email + mật khẩu -> hồ sơ trống -> các màn hình onboarding -> hoàn tất -> đăng nhập -> quên mật khẩu qua email.\nEmail được sinh ngẫu nhiên nên chạy lại bao nhiêu lần cũng được.\nMã OTP (quên mật khẩu) lấy từ field devOtp (server đang bật OTP_DEV_MODE=true).\nBước hoàn tất hồ sơ cần ≥ 2 ảnh: muốn ra 200 thì upload 2 ảnh ở request \"Upload ảnh\" (folder 2) bằng token của tài khoản này, hoặc đặt ONBOARDING_MIN_PHOTOS=0 trên server.",
       "item": [
         {
           "name": "A0. Danh mục lựa chọn (mã ↔ nhãn)",
@@ -141,7 +141,7 @@
           ]
         },
         {
-          "name": "A1. [Register] Gửi OTP đăng ký",
+          "name": "A1. [Register] Đăng ký email + mật khẩu",
           "request": {
             "method": "POST",
             "header": [
@@ -151,14 +151,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/auth/otp/send",
+              "raw": "{{baseUrl}}/auth/register",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "auth",
-                "otp",
-                "send"
+                "register"
               ]
             },
             "auth": {
@@ -166,115 +165,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{newPhone}}\",\n  \"purpose\": \"register\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
-                  "const d = pm.response.json().data; console.log('OTP:', d.devOtp);",
-                  "pm.test('Có devOtp 6 số', () => pm.expect(d.devOtp).to.match(/^\\d{6}$/));",
-                  "pm.collectionVariables.set('otp', d.devOtp);"
-                ]
-              }
-            },
-            {
-              "listen": "prerequest",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "const p = '09' + String(Math.floor(Math.random() * 1e8)).padStart(8, '0');",
-                  "pm.collectionVariables.set('newPhone', p);",
-                  "pm.collectionVariables.set('newPassword', 'matkhau123');"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "A2. [OTP] Sai mã -> 400",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/auth/register/phone",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "register",
-                "phone"
-              ]
-            },
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{newPhone}}\",\n  \"otp\": \"000000\",\n  \"password\": \"{{newPassword}}\",\n  \"displayName\": \"Lan\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
-          },
-          "event": [
-            {
-              "listen": "test",
-              "script": {
-                "type": "text/javascript",
-                "exec": [
-                  "pm.test('400 (hoặc 201 nếu trúng mã 000000)', () => pm.expect(pm.response.code).to.be.oneOf([400]));",
-                  "console.log(pm.response.json().message);"
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "name": "A3. [OTP] Đúng mã -> tạo tài khoản",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/auth/register/phone",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "auth",
-                "register",
-                "phone"
-              ]
-            },
-            "auth": {
-              "type": "noauth"
-            },
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{newPhone}}\",\n  \"otp\": \"{{otp}}\",\n  \"password\": \"{{newPassword}}\",\n  \"displayName\": \"Lan\"\n}",
+              "raw": "{\n  \"email\": \"{{newEmail}}\",\n  \"password\": \"{{newPassword}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -297,8 +188,110 @@
                   "  console.log('Đã lưu token của', d.user && d.user.email);",
                   "}",
                   "const u = pm.response.json().data.user;",
-                  "pm.test('Chưa hoàn tất hồ sơ', () => pm.expect(u.onboarding.completed).to.eql(false));",
+                  "pm.test('Hồ sơ trống, chưa hoàn tất', () => pm.expect(u.onboarding.completed).to.eql(false));",
                   "console.log('Còn thiếu:', u.onboarding.missing);"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('newEmail', `lan${Date.now()}@demo.local`);",
+                  "pm.collectionVariables.set('newPassword', 'matkhau123');"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A2. [Register] Đăng ký lại cùng email -> 409",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{newEmail}}\",\n  \"password\": \"{{newPassword}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 409', () => pm.response.to.have.status(409));",
+                  "pm.test('success = false', () => pm.expect(pm.response.json().success).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "A3. [Register] Mật khẩu < 8 ký tự -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"x{{$timestamp}}@demo.local\",\n  \"password\": \"1234567\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                  "pm.test('success = false', () => pm.expect(pm.response.json().success).to.eql(false));"
                 ]
               }
             }
@@ -812,9 +805,9 @@
           ]
         },
         {
-          "name": "L1. [Login] SĐT + mật khẩu -> gửi OTP",
+          "name": "A16. [Sửa hồ sơ] Nhãn ngắn của màn ProfileEdit",
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "header": [
               {
                 "key": "Content-Type",
@@ -822,22 +815,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/auth/login/phone",
+              "raw": "{{baseUrl}}/users/me/profile",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "auth",
-                "login",
-                "phone"
+                "users",
+                "me",
+                "profile"
               ]
-            },
-            "auth": {
-              "type": "noauth"
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{newPhone}}\",\n  \"password\": \"{{newPassword}}\"\n}",
+              "raw": "{\n  \"smoking\": \"Đang cai\",\n  \"drinking\": \"Cuối tuần\",\n  \"exercise\": \"Mỗi ngày\",\n  \"education\": \"Thạc sĩ\",\n  \"relationshipGoal\": \"Bạn đời\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -854,15 +844,14 @@
                   "pm.test('Status 200', () => pm.response.to.have.status(200));",
                   "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
                   "const d = pm.response.json().data;",
-                  "pm.test('otpRequired', () => pm.expect(d.otpRequired).to.eql(true));",
-                  "pm.collectionVariables.set('otp', d.devOtp);"
+                  "pm.test('Lưu thành mã', () => { pm.expect(d.smoking).to.eql('quitting'); pm.expect(d.drinking).to.eql('weekends'); pm.expect(d.exercise).to.eql('daily'); pm.expect(d.education).to.eql('postgraduate'); pm.expect(d.relationshipGoal).to.eql('marriage'); });"
                 ]
               }
             }
           ]
         },
         {
-          "name": "L2. [OTP] Xác nhận đăng nhập",
+          "name": "L1. [Login] Email + mật khẩu",
           "request": {
             "method": "POST",
             "header": [
@@ -872,15 +861,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/auth/login/phone/verify",
+              "raw": "{{baseUrl}}/auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "auth",
-                "login",
-                "phone",
-                "verify"
+                "login"
               ]
             },
             "auth": {
@@ -888,7 +875,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{newPhone}}\",\n  \"otp\": \"{{otp}}\"\n}",
+              "raw": "{\n  \"email\": \"{{newEmail}}\",\n  \"password\": \"{{newPassword}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -909,14 +896,15 @@
                   "  pm.collectionVariables.set('refreshToken', d.tokens.refreshToken);",
                   "  pm.collectionVariables.set('myId', d.user ? d.user.id : '');",
                   "  console.log('Đã lưu token của', d.user && d.user.email);",
-                  "}"
+                  "}",
+                  "pm.test('Có onboarding để app biết vào Home hay quay lại onboarding', () => pm.expect(pm.response.json().data.user.onboarding).to.have.property('completed'));"
                 ]
               }
             }
           ]
         },
         {
-          "name": "F1. [ForgotPassword] Gửi OTP",
+          "name": "F1. [ForgotPassword] Gửi OTP tới email",
           "request": {
             "method": "POST",
             "header": [
@@ -926,14 +914,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/auth/otp/send",
+              "raw": "{{baseUrl}}/auth/password/forgot",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "auth",
-                "otp",
-                "send"
+                "password",
+                "forgot"
               ]
             },
             "auth": {
@@ -941,7 +929,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{newPhone}}\",\n  \"purpose\": \"reset_password\"\n}",
+              "raw": "{\n  \"email\": \"{{newEmail}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -957,14 +945,15 @@
                 "exec": [
                   "pm.test('Status 200', () => pm.response.to.have.status(200));",
                   "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));",
-                  "pm.collectionVariables.set('otp', pm.response.json().data.devOtp);"
+                  "const d = pm.response.json().data; console.log('OTP:', d.devOtp, '->', d.sentTo);",
+                  "pm.collectionVariables.set('otp', d.devOtp);"
                 ]
               }
             }
           ]
         },
         {
-          "name": "F2. [OTP] Xác thực -> resetToken",
+          "name": "F2. [OTP] Sai mã -> 400",
           "request": {
             "method": "POST",
             "header": [
@@ -974,14 +963,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/auth/otp/verify",
+              "raw": "{{baseUrl}}/auth/password/verify-otp",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "auth",
-                "otp",
-                "verify"
+                "password",
+                "verify-otp"
               ]
             },
             "auth": {
@@ -989,7 +978,54 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{newPhone}}\",\n  \"otp\": \"{{otp}}\"\n}",
+              "raw": "{\n  \"email\": \"{{newEmail}}\",\n  \"otp\": \"000000\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('400', () => pm.response.to.have.status(400));",
+                  "console.log(pm.response.json().message);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "F3. [OTP] Đúng mã -> resetToken",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/password/verify-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "password",
+                "verify-otp"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{newEmail}}\",\n  \"otp\": \"{{otp}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1012,7 +1048,54 @@
           ]
         },
         {
-          "name": "F3. [ResetPassword] Đặt mật khẩu mới",
+          "name": "F4. [ResetPassword] Mật khẩu không có số -> 400",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/password/reset",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "password",
+                "reset"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"resetToken\": \"{{resetToken}}\",\n  \"newPassword\": \"khongcoso\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                  "pm.test('success = false', () => pm.expect(pm.response.json().success).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "F5. [ResetPassword] Đặt mật khẩu mới",
           "request": {
             "method": "POST",
             "header": [
@@ -1060,7 +1143,7 @@
           ]
         },
         {
-          "name": "F4. Dùng lại resetToken -> 400",
+          "name": "F6. Dùng lại resetToken -> 400",
           "request": {
             "method": "POST",
             "header": [
@@ -1107,7 +1190,7 @@
           ]
         },
         {
-          "name": "F5. Đăng nhập bằng mật khẩu mới",
+          "name": "F7. Đăng nhập bằng mật khẩu mới",
           "request": {
             "method": "POST",
             "header": [
@@ -1117,14 +1200,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/auth/login/phone",
+              "raw": "{{baseUrl}}/auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "auth",
-                "login",
-                "phone"
+                "login"
               ]
             },
             "auth": {
@@ -1132,7 +1214,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"phone\": \"{{newPhone}}\",\n  \"password\": \"{{newPassword}}\"\n}",
+              "raw": "{\n  \"email\": \"{{newEmail}}\",\n  \"password\": \"{{newPassword}}\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -1146,15 +1228,21 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "// 429 = mật khẩu đúng nhưng vừa gửi OTP đăng nhập < 30 giây trước (L1) -> vẫn chứng minh mật khẩu mới dùng được",
-                  "pm.test('Mật khẩu mới được chấp nhận (200 hoặc 429 chờ gửi lại OTP)', () => pm.expect(pm.response.code).to.be.oneOf([200, 429]));"
+                  "pm.test('Status 200/201', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "const d = pm.response.json().data;",
+                  "if (d && d.tokens) {",
+                  "  pm.collectionVariables.set('accessToken', d.tokens.accessToken);",
+                  "  pm.collectionVariables.set('refreshToken', d.tokens.refreshToken);",
+                  "  pm.collectionVariables.set('myId', d.user ? d.user.id : '');",
+                  "  console.log('Đã lưu token của', d.user && d.user.email);",
+                  "}"
                 ]
               }
             }
           ]
         },
         {
-          "name": "E1. Tài khoản demo: đăng nhập bằng SĐT (An)",
+          "name": "P1. Đăng ký bằng SĐT đang tạm ngừng -> 403",
           "request": {
             "method": "POST",
             "header": [
@@ -1164,13 +1252,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/auth/login/phone",
+              "raw": "{{baseUrl}}/auth/register/phone",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "auth",
-                "login",
+                "register",
                 "phone"
               ]
             },
@@ -1179,14 +1267,13 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"phone\": \"0901000001\",\n  \"password\": \"123456\"\n}",
+              "raw": "{\n  \"phone\": \"0901234567\",\n  \"otp\": \"123456\",\n  \"password\": \"matkhau123\",\n  \"displayName\": \"Lan\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
-            },
-            "description": "Tài khoản seed: 0901000001 (An) ... 0901000007 (Khoa), mật khẩu 123456"
+            }
           },
           "event": [
             {
@@ -1194,8 +1281,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
-                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));"
+                  "pm.test('403 PHONE_AUTH_DISABLED', () => { pm.response.to.have.status(403); pm.expect(pm.response.json().code).to.eql('PHONE_AUTH_DISABLED'); });"
                 ]
               }
             }
@@ -1311,7 +1397,7 @@
           ]
         },
         {
-          "name": "Đăng ký",
+          "name": "Đăng ký (email + mật khẩu)",
           "request": {
             "method": "POST",
             "header": [
@@ -1335,14 +1421,14 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"test{{$timestamp}}@demo.local\",\n  \"password\": \"123456\",\n  \"displayName\": \"Test\",\n  \"birthday\": \"2004-06-01\",\n  \"gender\": \"male\",\n  \"interestedIn\": \"female\",\n  \"city\": \"Thủ Đức\",\n  \"latitude\": 10.87,\n  \"longitude\": 106.8031,\n  \"interestIds\": [\n    1,\n    2,\n    3\n  ]\n}",
+              "raw": "{\n  \"email\": \"test{{$timestamp}}@demo.local\",\n  \"password\": \"matkhau123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
                 }
               }
             },
-            "description": "Email tự sinh theo thời gian nên chạy nhiều lần không bị trùng.\nChỉ email, password, displayName, birthday, gender là bắt buộc. interestedIn, city, latitude/longitude, interestIds không bắt buộc nhưng dùng để tạo kết quả Home mặc định."
+            "description": "Chỉ nhận email + mật khẩu (≥ 8 ký tự). Hồ sơ được tạo trống, điền sau bằng PUT /users/me/profile (xem folder 0)."
           },
           "event": [
             {
@@ -1359,12 +1445,7 @@
                   "  console.log('Đã lưu token của', d.user && d.user.email);",
                   "}",
                   "const u = pm.response.json().data.user;",
-                  "pm.test('Tiêu chí mặc định lấy từ thông tin đăng ký', () => {",
-                  "  pm.expect(u.preferences.interestedIn).to.eql('female');",
-                  "  pm.expect(u.preferences.minAge).to.be.at.most(u.age);",
-                  "  pm.expect(u.preferences.maxAge).to.be.at.least(u.age);",
-                  "  pm.expect(u.interests.length).to.eql(3);",
-                  "});"
+                  "pm.test('Hồ sơ trống, chưa hoàn tất', () => { pm.expect(u.onboarding.completed).to.eql(false); pm.expect(u.onboarding.missing).to.include.members(['displayName', 'birthday', 'gender']); });"
                 ]
               }
             }
@@ -3095,7 +3176,7 @@
           ]
         },
         {
-          "name": "P7. Tạo tài khoản mới để test nới filter",
+          "name": "P7. Đăng nhập An để test nới filter",
           "request": {
             "method": "POST",
             "header": [
@@ -3105,13 +3186,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/auth/register",
+              "raw": "{{baseUrl}}/auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "auth",
-                "register"
+                "login"
               ]
             },
             "auth": {
@@ -3119,7 +3200,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"widen{{$timestamp}}@demo.local\",\n  \"password\": \"123456\",\n  \"displayName\": \"Widen\",\n  \"birthday\": \"2004-06-01\",\n  \"gender\": \"male\",\n  \"interestedIn\": \"female\",\n  \"latitude\": 10.87,\n  \"longitude\": 106.8031\n}",
+              "raw": "{\n  \"email\": \"an@demo.local\",\n  \"password\": \"123456\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3273,6 +3354,50 @@
               }
             }
           ]
+        },
+        {
+          "name": "P11. Trả tiêu chí của An về như cũ",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/preferences",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "preferences"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"interestedIn\": \"female\",\n  \"minAge\": 18,\n  \"maxAge\": 35,\n  \"maxDistanceKm\": 50\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                  "pm.test('success = true', () => pm.expect(pm.response.json().success).to.eql(true));"
+                ]
+              }
+            }
+          ]
         }
       ]
     },
@@ -3358,7 +3483,7 @@
           ]
         },
         {
-          "name": "Dưới 18 tuổi → 400",
+          "name": "Đăng nhập An (lấy token cho các ca dưới)",
           "request": {
             "method": "POST",
             "header": [
@@ -3368,13 +3493,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/auth/register",
+              "raw": "{{baseUrl}}/auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "auth",
-                "register"
+                "login"
               ]
             },
             "auth": {
@@ -3382,7 +3507,101 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"kid{{$timestamp}}@demo.local\",\n  \"password\": \"123456\",\n  \"displayName\": \"Kid\",\n  \"birthday\": \"2015-01-01\",\n  \"gender\": \"male\"\n}",
+              "raw": "{\n  \"email\": \"an@demo.local\",\n  \"password\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200/201', () => pm.expect(pm.response.code).to.be.oneOf([200, 201]));",
+                  "const d = pm.response.json().data;",
+                  "if (d && d.tokens) {",
+                  "  pm.collectionVariables.set('accessToken', d.tokens.accessToken);",
+                  "  pm.collectionVariables.set('refreshToken', d.tokens.refreshToken);",
+                  "  pm.collectionVariables.set('myId', d.user ? d.user.id : '');",
+                  "  console.log('Đã lưu token của', d.user && d.user.email);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Ngày sinh dưới 18 tuổi → 400",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "profile"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"birthday\": \"2015-01-01\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                  "pm.test('success = false', () => pm.expect(pm.response.json().success).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Lựa chọn không có trong danh mục → 400",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/users/me/profile",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "users",
+                "me",
+                "profile"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"smoking\": \"nghiện\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3428,7 +3647,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"an@demo.local\",\n  \"password\": \"123456\",\n  \"displayName\": \"An 2\",\n  \"birthday\": \"2004-01-01\",\n  \"gender\": \"male\"\n}",
+              "raw": "{\n  \"email\": \"an@demo.local\",\n  \"password\": \"matkhau123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3474,7 +3693,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"abc\",\n  \"password\": \"123\",\n  \"displayName\": \"\",\n  \"birthday\": \"x\",\n  \"gender\": \"robot\"\n}",
+              "raw": "{\n  \"email\": \"abc\",\n  \"password\": \"123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -3489,6 +3708,53 @@
                 "type": "text/javascript",
                 "exec": [
                   "pm.test('Status 400', () => pm.response.to.have.status(400));",
+                  "pm.test('success = false', () => pm.expect(pm.response.json().success).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Quên mật khẩu email chưa đăng ký → 404",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/password/forgot",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "password",
+                "forgot"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"khongco@demo.local\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 404', () => pm.response.to.have.status(404));",
                   "pm.test('success = false', () => pm.expect(pm.response.json().success).to.eql(false));"
                 ]
               }
