@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/reportUserRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!-- Header top bar -->
+    <LinearLayout
+        android:id="@+id/reportUserHeader"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageButton
+            android:id="@+id/btnReportBack"
+            style="@style/AuthBackButton" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Báo cáo"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="24dp">
+
+            <!-- Tiêu đề chính -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Có vấn đề gì với người này?"
+                android:textColor="@color/text_primary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <!-- Mô tả ẩn danh -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:lineSpacingExtra="2dp"
+                android:text="Báo cáo của bạn được gửi ẩn danh. Người này sẽ không biết bạn đã báo cáo."
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <!-- Khung cảnh báo hồng -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/bg_warning_pink"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="Cảnh báo"
+                    android:src="@drawable/ic_warning_red" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:lineSpacingExtra="2dp"
+                    android:text="Khi gửi báo cáo, bạn cũng sẽ chặn người này và hủy tương hợp. Hai bên sẽ không còn thấy nhau."
+                    android:textColor="#991B1B"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <!-- Danh sách lý do báo cáo (Radio Group) -->
+            <RadioGroup
+                android:id="@+id/rgReportReasons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <RadioButton
+                    android:id="@+id/rbReasonFakePhoto"
+                    style="@style/RelationshipGoalOption"
+                    android:checked="true"
+                    android:text="Ảnh giả hoặc mạo danh" />
+
+                <RadioButton
+                    android:id="@+id/rbReasonSensitiveContent"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Nội dung nhạy cảm, khiêu dâm" />
+
+                <RadioButton
+                    android:id="@+id/rbReasonHarassment"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Quấy rối hoặc bắt nạt" />
+
+                <RadioButton
+                    android:id="@+id/rbReasonSpam"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Lừa đảo hoặc spam" />
+
+                <RadioButton
+                    android:id="@+id/rbReasonUnderage"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Có vẻ chưa đủ 18 tuổi" />
+
+                <RadioButton
+                    android:id="@+id/rbReasonOther"
+                    style="@style/RelationshipGoalOption"
+                    android:layout_marginTop="10dp"
+                    android:text="Lý do khác" />
+
+            </RadioGroup>
+
+            <!-- Nhập mô tả thêm -->
+            <TextView
+                style="@style/AuthFieldLabel"
+                android:layout_marginTop="20dp"
+                android:text="Mô tả thêm (không bắt buộc)" />
+
+            <EditText
+                android:id="@+id/edtReportDescription"
+                style="@style/AuthInputEditText"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
+                android:gravity="top|start"
+                android:hint="Hãy cho chúng tôi biết thêm chi tiết..."
+                android:inputType="textMultiLine"
+                android:paddingTop="12dp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Thanh nút bấm cố định phía dưới -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="20dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSubmitReport"
+            style="@style/AuthPrimaryButton"
+            android:text="Báo cáo và chặn" />
+
+    </LinearLayout>
+
+</LinearLayout>

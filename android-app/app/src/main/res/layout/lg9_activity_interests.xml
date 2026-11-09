@@ -22,14 +22,22 @@
             android:id="@+id/btnBack"
             style="@style/AuthBackButton" />
 
+        <TextView
+            android:id="@+id/tvInterestsHeaderTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Sở thích"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <ProgressBar
             android:id="@+id/progressProfile"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
+            android:layout_width="60dp"
             android:layout_height="4dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_weight="1"
             android:indeterminate="false"
             android:max="16"
             android:progress="9"
@@ -40,6 +48,7 @@
             android:id="@+id/tvStep"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:text="9/16"
             android:textColor="@color/text_secondary"
             android:textSize="14sp"
@@ -63,7 +72,7 @@
 
             <TextView
                 style="@style/AuthCardTitle"
-                android:text="Bạn thích làm gì?"
+                android:text="Bạn thích gì?"
                 android:textSize="28sp" />
 
             <TextView
@@ -193,6 +202,6 @@
         android:id="@+id/btnContinue"
         style="@style/AuthPrimaryButton"
         android:layout_marginTop="16dp"
-        android:text="Tiếp tục" />
+        android:text="Lưu thay đổi" />
 
 </LinearLayout>

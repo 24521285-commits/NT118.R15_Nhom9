@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/deleteAccountRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/filters_background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- Header Top Bar -->
+    <LinearLayout
+        android:id="@+id/deleteAccountHeader"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageButton
+            android:id="@+id/btnDeleteAccountBack"
+            style="@style/AuthBackButton" />
+
+        <TextView
+            style="@style/AuthCardTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:text="Xóa tài khoản"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/border_input" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="24dp">
+
+            <!-- Thẻ Cảnh báo màu hồng -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#FDE8EE"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#FAD2DC"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hành động này không thể hoàn tác"
+                        android:textColor="@color/brand_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Khi xóa, bạn sẽ mất vĩnh viễn:"
+                        android:textColor="@color/text_secondary"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="✕   Ảnh, giới thiệu và sở thích trong hồ sơ"
+                        android:textColor="@color/brand_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="✕   Các lượt thích và cặp đôi đã ghép"
+                        android:textColor="@color/brand_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="✕   Toàn bộ tin nhắn và cuộc trò chuyện"
+                        android:textColor="@color/brand_primary"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tiêu đề: Vì sao bạn rời đi? -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AuthFieldLabel"
+                    android:text="Vì sao bạn rời đi?"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="(không bắt buộc)"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <!-- Khung chọn lý do -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/border_input"
+                app:strokeWidth="1dp">
+
+                <RadioGroup
+                    android:id="@+id/radioGroupDeleteReason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="4dp">
+
+                    <RadioButton
+                        android:id="@+id/radioReason1"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:buttonTint="@color/brand_primary"
+                        android:checked="true"
+                        android:text="Mình đã tìm được người phù hợp"
+                        android:textColor="@color/text_primary"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_input" />
+
+                    <RadioButton
+                        android:id="@+id/radioReason2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:buttonTint="@color/brand_primary"
+                        android:text="Mình muốn nghỉ một thời gian"
+                        android:textColor="@color/text_primary"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_input" />
+
+                    <RadioButton
+                        android:id="@+id/radioReason3"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:buttonTint="@color/brand_primary"
+                        android:text="Mình gặp vấn đề về quyền riêng tư"
+                        android:textColor="@color/text_primary"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_input" />
+
+                    <RadioButton
+                        android:id="@+id/radioReason4"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:buttonTint="@color/brand_primary"
+                        android:text="Lý do khác"
+                        android:textColor="@color/text_primary"
+                        android:textSize="13sp" />
+
+                </RadioGroup>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tiêu đề: Nhập XÓA để xác nhận -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AuthFieldLabel"
+                    android:text="Nhập "
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/AuthFieldLabel"
+                    android:text="XÓA"
+                    android:textColor="@color/brand_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/AuthFieldLabel"
+                    android:text=" để xác nhận"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edtConfirmDeleteText"
+                style="@style/AuthInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/bg_auth_input"
+                android:hint="XÓA"
+                android:inputType="textCapCharacters"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="#9CA3AF"
+                android:textSize="13sp" />
+
+            <!-- Nút Xóa tài khoản vĩnh viễn -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnConfirmDeleteAccountPermanently"
+                style="@style/AuthPrimaryButton"
+                android:layout_height="46dp"
+                android:layout_marginTop="16dp"
+                android:text="Xóa tài khoản vĩnh viễn"
+                android:textSize="14sp" />
+
+            <!-- Link Giữ lại tài khoản -->
+            <TextView
+                android:id="@+id/btnKeepAccount"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="Giữ lại tài khoản"
+                android:textColor="@color/text_primary"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

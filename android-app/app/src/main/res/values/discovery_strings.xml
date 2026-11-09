@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="discovery_filters">Bộ lọc khám phá</string>
+    <string name="discovery_profile_photo">Ảnh hồ sơ</string>
+    <string name="discovery_profile_details">Xem chi tiết hồ sơ</string>
+    <string name="discovery_pass">Bỏ qua hồ sơ</string>
+    <string name="discovery_like">Thích hồ sơ</string>
+    <string name="discovery_super_like">Siêu thích hồ sơ</string>
+    <string name="discovery_tab_explore">Khám phá</string>
+    <string name="discovery_tab_likes">Lượt thích</string>
+    <string name="discovery_tab_chat">Tin nhắn</string>
+    <string name="discovery_tab_profile">Hồ sơ</string>
+    <string name="discovery_sample_name">Trương Vĩnh Nguyên</string>
+    <string name="discovery_sample_age">20 tuổi</string>
+    <string name="discovery_sample_details">Chiều cao <b><font color="#172033">170 cm</font></b>   Cân nặng <b><font color="#172033">65 kg</font></b>   Giới tính <b><font color="#172033">Nam</font></b></string>
+    <string name="discovery_sample_distance">Cách bạn 1,2 km</string>
+</resources>

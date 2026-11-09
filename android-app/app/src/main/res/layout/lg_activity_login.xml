@@ -37,14 +37,14 @@
             <TextView
                 style="@style/AuthFieldLabel"
                 android:layout_marginTop="20dp"
-                android:labelFor="@id/edtPhone"
-                android:text="Số điện thoại" />
+                android:labelFor="@id/edtEmail"
+                android:text="Email" />
 
             <EditText
-                android:id="@+id/edtPhone"
+                android:id="@+id/edtEmail"
                 style="@style/AuthInputEditText"
-                android:hint="Nhập số điện thoại"
-                android:inputType="phone" />
+                android:hint="Nhập địa chỉ email"
+                android:inputType="textEmailAddress" />
 
             <TextView
                 style="@style/AuthFieldLabel"

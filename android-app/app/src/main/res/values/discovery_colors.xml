@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="discovery_muted">#B9BDC9</color>
+    <color name="discovery_pass_orange">#FF761F</color>
+    <color name="discovery_star_purple">#92269C</color>
+    <color name="discovery_navigation_background">#F4F4F5</color>
+</resources>

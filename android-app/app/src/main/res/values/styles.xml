@@ -124,4 +124,9 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <!-- Style 100% hình tròn cho ShapeableImageView -->
+    <style name="CircleImageStyle">
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

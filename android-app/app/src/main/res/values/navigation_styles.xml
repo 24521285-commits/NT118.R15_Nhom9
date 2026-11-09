@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppBottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:layout_marginHorizontal">16dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:background">@color/discovery_navigation_background</item>
+        <item name="backgroundTint">@color/discovery_navigation_background</item>
+        <item name="elevation">0dp</item>
+        <item name="itemActiveIndicatorStyle">@null</item>
+        <item name="itemHorizontalTranslationEnabled">false</item>
+        <item name="itemIconSize">24dp</item>
+        <item name="itemIconTint">@color/discovery_navigation_icon</item>
+        <item name="itemTextColor">@color/discovery_navigation_icon</item>
+        <item name="labelVisibilityMode">unlabeled</item>
+    </style>
+</resources>

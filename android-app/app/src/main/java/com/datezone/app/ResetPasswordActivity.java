@@ -65,6 +65,11 @@ public class ResetPasswordActivity extends AppCompatActivity {
             ViewCompat.requestApplyInsets(root);
         }
 
+        View btnBack = findViewById(R.id.btnBack);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> finish());
+        }
+
         edtNewPassword = findViewById(R.id.edtNewPassword);
         edtConfirmPassword = findViewById(R.id.edtConfirmPassword);
 
@@ -131,15 +136,17 @@ public class ResetPasswordActivity extends AppCompatActivity {
             return;
         }
 
-        Toast.makeText(
+        // Hiển thị Dialog thông báo Đặt lại mật khẩu thành công
+        ResetPasswordSuccessDialog dialog = new ResetPasswordSuccessDialog(
                 this,
-                "Đặt lại mật khẩu thành công! Vui lòng đăng nhập lại.",
-                Toast.LENGTH_LONG
-        ).show();
-
-        Intent intent = new Intent(ResetPasswordActivity.this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
-        finish();
+                () -> {
+                    // Chuyển sang màn hình chính Discovery (discovery_activity_home)
+                    Intent intent = new Intent(ResetPasswordActivity.this, HomeActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+        );
+        dialog.show();
     }
 }

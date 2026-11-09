@@ -2,6 +2,7 @@ package com.datezone.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 
@@ -12,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    private EditText edtPhone;
+    private EditText edtEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             ViewCompat.requestApplyInsets(root);
         }
 
-        edtPhone = findViewById(R.id.edtPhone);
+        edtEmail = findViewById(R.id.edtEmail);
 
         // Nút top-left Quay lại -> back về trang trước
         findViewById(R.id.btnBack).setOnClickListener(view -> finish());
@@ -67,31 +68,24 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void checkInputAndSendOtp() {
-        String phone = edtPhone.getText().toString().trim()
-                .replaceAll("[\\s().-]", "");
+        String email = edtEmail.getText().toString().trim();
 
-        if (phone.isEmpty()) {
-            edtPhone.setError("Vui lòng nhập số điện thoại");
-            edtPhone.requestFocus();
+        if (email.isEmpty()) {
+            edtEmail.setError("Vui lòng nhập địa chỉ email");
+            edtEmail.requestFocus();
             return;
         }
 
-        if (phone.startsWith("+84")) {
-            phone = "0" + phone.substring(3);
-        }
-
-        if (!phone.matches("^0[35789][0-9]{8}$")) {
-            edtPhone.setError("Số điện thoại không hợp lệ");
-            edtPhone.requestFocus();
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            edtEmail.setError("Địa chỉ email không hợp lệ");
+            edtEmail.requestFocus();
             return;
         }
-
-        String normalizedPhone = "+84" + phone.substring(1);
 
         // Chuyển sang màn hình Xác thực OTP với flow Quên mật khẩu
         Intent intent = new Intent(ForgotPasswordActivity.this, OtpVerificationActivity.class);
         intent.putExtra(OtpVerificationActivity.EXTRA_FLOW_TYPE, OtpVerificationActivity.FLOW_FORGOT_PASSWORD);
-        intent.putExtra(OtpVerificationActivity.EXTRA_PHONE_NUMBER, normalizedPhone);
+        intent.putExtra(OtpVerificationActivity.EXTRA_EMAIL, email);
         startActivity(intent);
     }
 }

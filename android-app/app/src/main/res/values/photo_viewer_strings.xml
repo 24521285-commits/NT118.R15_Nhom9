@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="photo_viewer_main_photo">Ảnh hồ sơ đang xem</string>
+    <string name="photo_viewer_send">Gửi ảnh</string>
+    <string name="photo_viewer_thumbnail_1">Ảnh số 1, đang được chọn</string>
+    <string name="photo_viewer_thumbnail_2">Xem ảnh số 2</string>
+    <string name="photo_viewer_thumbnail_3">Xem ảnh số 3</string>
+    <string name="photo_viewer_thumbnail_4">Xem ảnh số 4</string>
+    <string name="photo_viewer_thumbnail_5">Xem ảnh số 5</string>
+</resources>

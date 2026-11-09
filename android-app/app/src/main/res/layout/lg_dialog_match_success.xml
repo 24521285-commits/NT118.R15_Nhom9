@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/matchSuccessRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="28dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="36dp">
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Khung 2 thẻ ảnh tương hợp xếp đè & xoay nghiêng - KHÔNG BỊ CẮT BỞI BẤT KỲ KHUNG NÀO -->
+    <FrameLayout
+        android:layout_width="310dp"
+        android:layout_height="320dp"
+        android:layout_gravity="center"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+        <!-- THẺ 2: Ảnh đối tượng tương hợp (Phía sau, xoay nghiêng phải) -->
+        <FrameLayout
+            android:layout_width="185dp"
+            android:layout_height="245dp"
+            android:layout_gravity="top|end"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:rotation="11">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <ImageView
+                    android:id="@+id/ivMatchPhotoTarget"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Ảnh đối tượng tương hợp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/discovery_photo_1" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Heart Badge Trái tim đỉnh trên thẻ sau -->
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="top|start"
+                android:layout_marginStart="-10dp"
+                android:layout_marginTop="-10dp"
+                android:background="@drawable/bg_circle_button"
+                android:contentDescription="Trái tim"
+                android:elevation="14dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_discovery_heart"
+                app:tint="@color/brand_primary" />
+
+        </FrameLayout>
+
+        <!-- THẺ 1: Ảnh người dùng (Phía trước, xoay nghiêng trái) -->
+        <FrameLayout
+            android:layout_width="185dp"
+            android:layout_height="245dp"
+            android:layout_gravity="bottom|start"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:rotation="-11">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="18dp"
+                app:cardPreventCornerOverlap="false"
+                app:cardUseCompatPadding="true">
+
+                <ImageView
+                    android:id="@+id/ivMatchPhotoUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="Ảnh cá nhân"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/discovery_photo_2" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Heart Badge Trái tim đáy dưới thẻ trước -->
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="bottom|start"
+                android:layout_marginStart="-10dp"
+                android:layout_marginBottom="-10dp"
+                android:background="@drawable/bg_circle_button"
+                android:contentDescription="Trái tim"
+                android:elevation="24dp"
+                android:padding="10dp"
+                android:src="@drawable/ic_discovery_heart"
+                app:tint="@color/brand_primary" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <!-- Tiêu đề Tương hợp mới -->
+    <TextView
+        android:id="@+id/tvMatchTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        android:text="tương hợp mới !"
+        android:textColor="@color/brand_primary"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <!-- Dòng mô tả -->
+    <TextView
+        android:id="@+id/tvMatchSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:text="Start a conversation now with each other"
+        android:textColor="@color/text_secondary"
+        android:textSize="13sp" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Nút Gửi lời chào -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSayHello"
+        style="@style/AuthPrimaryButton"
+        android:layout_height="50dp"
+        android:text="Gửi lời chào!" />
+
+    <!-- Nút Tiếp tục -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnContinueMatch"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/n_bg_birthday"
+        android:textAllCaps="false"
+        android:textColor="@color/brand_primary"
+        android:textSize="@dimen/font_size_button"
+        android:textStyle="bold"
+        android:text="Tiếp tục" />
+
+</LinearLayout>

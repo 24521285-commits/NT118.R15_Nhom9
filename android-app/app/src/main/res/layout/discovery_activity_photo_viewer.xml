@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/photoViewerRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <FrameLayout
+        android:id="@+id/photoViewerHeader"
+        android:layout_width="0dp"
+        android:layout_height="88dp"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnPhotoViewerBack"
+            style="@style/AuthBackButton"
+            android:layout_gravity="center_vertical" />
+    </FrameLayout>
+
+    <!-- Keep the photo and the thumbnail strip visible together. -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/photoViewerImageBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.74" />
+
+    <FrameLayout
+        android:id="@+id/photoViewerImageContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/photoViewerImageBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/photoViewerHeader">
+
+        <!-- Replace the placeholder with the selected profile photo. -->
+        <ImageView
+            android:id="@+id/ivPhotoViewerMain"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/photo_viewer_main_photo"
+            android:scaleType="centerCrop"
+            android:src="@drawable/discovery_profile_placeholder" />
+    </FrameLayout>
+
+    <HorizontalScrollView
+        android:id="@+id/photoViewerThumbnailsScroll"
+        android:layout_width="0dp"
+        android:layout_height="88dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/photoViewerImageContainer">
+
+        <LinearLayout
+            android:id="@+id/photoViewerThumbnails"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="24dp"
+            android:paddingEnd="12dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPhotoThumbnail1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="12dp"
+                    android:alpha="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/photo_viewer_thumbnail_1"
+                    app:cardBackgroundColor="@color/bg_main"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:strokeColor="@color/brand_primary"
+                    app:strokeWidth="2dp">
+                    <ImageView
+                        android:id="@+id/ivPhotoThumbnail1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/discovery_profile_placeholder" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPhotoThumbnail2"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginEnd="12dp"
+                    android:alpha="0.45"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/photo_viewer_thumbnail_2"
+                    app:cardBackgroundColor="@color/bg_main"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:strokeColor="@color/border_input"
+                    app:strokeWidth="0dp">
+                    <ImageView
+                        android:id="@+id/ivPhotoThumbnail2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/discovery_profile_placeholder" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPhotoThumbnail3"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginEnd="12dp"
+                    android:alpha="0.45"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/photo_viewer_thumbnail_3"
+                    app:cardBackgroundColor="@color/bg_main"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:strokeColor="@color/border_input"
+                    app:strokeWidth="0dp">
+                    <ImageView
+                        android:id="@+id/ivPhotoThumbnail3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/discovery_profile_placeholder" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPhotoThumbnail4"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginEnd="12dp"
+                    android:alpha="0.45"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/photo_viewer_thumbnail_4"
+                    app:cardBackgroundColor="@color/bg_main"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:strokeColor="@color/border_input"
+                    app:strokeWidth="0dp">
+                    <ImageView
+                        android:id="@+id/ivPhotoThumbnail4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/discovery_profile_placeholder" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardPhotoThumbnail5"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_marginEnd="12dp"
+                    android:alpha="0.45"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:contentDescription="@string/photo_viewer_thumbnail_5"
+                    app:cardBackgroundColor="@color/bg_main"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="0dp"
+                    app:cardPreventCornerOverlap="false"
+                    app:strokeColor="@color/border_input"
+                    app:strokeWidth="0dp">
+                    <ImageView
+                        android:id="@+id/ivPhotoThumbnail5"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:importantForAccessibility="no"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/discovery_profile_placeholder" />
+                </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

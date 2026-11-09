@@ -86,62 +86,86 @@
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipAries"
                     style="@style/InterestChip"
-                    android:text="Bạch Dương" />
+                    android:text="Bạch Dương"
+                    app:chipIcon="@drawable/ic_zodiac_aries"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipTaurus"
                     style="@style/InterestChip"
-                    android:text="Kim Ngưu" />
+                    android:text="Kim Ngưu"
+                    app:chipIcon="@drawable/ic_zodiac_taurus"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipGemini"
                     style="@style/InterestChip"
-                    android:text="Song Tử" />
+                    android:text="Song Tử"
+                    app:chipIcon="@drawable/ic_zodiac_gemini"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipCancer"
                     style="@style/InterestChip"
-                    android:text="Cự Giải" />
+                    android:text="Cự Giải"
+                    app:chipIcon="@drawable/ic_zodiac_cancer"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipLeo"
                     style="@style/InterestChip"
-                    android:text="Sư Tử" />
+                    android:text="Sư Tử"
+                    app:chipIcon="@drawable/ic_zodiac_leo"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipVirgo"
                     style="@style/InterestChip"
-                    android:text="Xử Nữ" />
+                    android:text="Xử Nữ"
+                    app:chipIcon="@drawable/ic_zodiac_virgo"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipLibra"
                     style="@style/InterestChip"
-                    android:text="Thiên Bình" />
+                    android:text="Thiên Bình"
+                    app:chipIcon="@drawable/ic_zodiac_libra"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipScorpio"
                     style="@style/InterestChip"
-                    android:text="Bọ Cạp" />
+                    android:text="Bọ Cạp"
+                    app:chipIcon="@drawable/ic_zodiac_scorpio"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipSagittarius"
                     style="@style/InterestChip"
-                    android:text="Nhân Mã" />
+                    android:text="Nhân Mã"
+                    app:chipIcon="@drawable/ic_zodiac_sagittarius"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipCapricorn"
                     style="@style/InterestChip"
-                    android:text="Ma Kết" />
+                    android:text="Ma Kết"
+                    app:chipIcon="@drawable/ic_zodiac_capricorn"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipAquarius"
                     style="@style/InterestChip"
-                    android:text="Bảo Bình" />
+                    android:text="Bảo Bình"
+                    app:chipIcon="@drawable/ic_zodiac_aquarius"
+                    app:chipIconVisible="true" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/chipPisces"
                     style="@style/InterestChip"
-                    android:text="Song Ngư" />
+                    android:text="Song Ngư"
+                    app:chipIcon="@drawable/ic_zodiac_pisces"
+                    app:chipIconVisible="true" />
 
             </com.google.android.material.chip.ChipGroup>
 

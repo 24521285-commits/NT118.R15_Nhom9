@@ -47,18 +47,18 @@
                 android:hint="Nhập họ và tên"
                 android:inputType="textPersonName" />
 
-            <!-- Field 2: Số điện thoại -->
+            <!-- Field 2: Email -->
             <TextView
                 style="@style/AuthFieldLabel"
                 android:layout_marginTop="16dp"
-                android:labelFor="@id/edtPhone"
-                android:text="Số điện thoại" />
+                android:labelFor="@id/edtEmail"
+                android:text="Email" />
 
             <EditText
-                android:id="@+id/edtPhone"
+                android:id="@+id/edtEmail"
                 style="@style/AuthInputEditText"
-                android:hint="+84 ••• ••• •••"
-                android:inputType="phone" />
+                android:hint="example@email.com"
+                android:inputType="textEmailAddress" />
 
             <!-- Field 3: Mật khẩu -->
             <TextView

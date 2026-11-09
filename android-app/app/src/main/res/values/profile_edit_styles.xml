@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ProfileEditLabel" parent="AuthFieldLabel">
+        <item name="android:layout_marginTop">14dp</item>
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="ProfileEditInput" parent="AuthInputEditText">
+        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:background">@drawable/n_bg_birthday</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="ProfileEditHint" parent="AuthCardSubtitle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:lineSpacingExtra">3dp</item>
+    </style>
+</resources>

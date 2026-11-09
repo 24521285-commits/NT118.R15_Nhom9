@@ -75,6 +75,14 @@ public class AddPhotosActivity extends AppCompatActivity {
         photoSlots[4] = findViewById(R.id.photoSlot5);
         photoSlots[5] = findViewById(R.id.photoSlot6);
 
+        // Hiển thị ghi chú "(Ảnh chính)" trên ô ảnh đầu tiên
+        if (photoSlots[0] != null) {
+            View tvTag = photoSlots[0].findViewById(R.id.tvMainPhotoTag);
+            if (tvTag != null) {
+                tvTag.setVisibility(View.VISIBLE);
+            }
+        }
+
         for (int i = 0; i < photoSlots.length; i++) {
             final int index = i;
             if (photoSlots[i] != null) {

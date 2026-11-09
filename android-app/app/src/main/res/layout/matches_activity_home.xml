@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/matchesRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_main">
+
+    <LinearLayout
+        android:id="@+id/matchesContentLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="28dp"
+        app:layout_constraintBottom_toTopOf="@id/matchesBottomNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Tiêu đề & Mô tả -->
+        <TextView
+            android:id="@+id/tvMatchesTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/matches_title"
+            android:textColor="@color/black"
+            android:textSize="28sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvMatchesSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:lineSpacingExtra="3dp"
+            android:text="@string/matches_subtitle"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp" />
+
+        <!-- Danh sách Lưới 2 Cột RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMatchesList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingBottom="16dp"
+            android:scrollbars="none" />
+
+        <!-- Layout Trạng thái Trống (Khi hết lượt thích) -->
+        <LinearLayout
+            android:id="@+id/layoutMatchesEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="32dp"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:importantForAccessibility="no"
+                android:src="@drawable/ic_discovery_heart"
+                app:tint="@color/brand_primary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Chưa có ai thích bạn hôm nay"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:lineSpacingExtra="3dp"
+                android:text="Hãy tiếp tục khám phá các hồ sơ mới để tìm được người phù hợp với bạn nhé!"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEmptyExplore"
+                style="@style/AuthPrimaryButton"
+                android:layout_width="200dp"
+                android:layout_marginTop="24dp"
+                android:text="Khám phá ngay" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Bottom Navigation Bar -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/matchesBottomNavigation"
+        style="@style/AppBottomNavigation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/matches_bottom_navigation"
+        tools:menu="@menu/matches_bottom_navigation" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

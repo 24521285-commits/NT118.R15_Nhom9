@@ -18,8 +18,12 @@ import java.util.List;
 
 public class InterestsActivity extends AppCompatActivity {
 
+    public static final String EXTRA_SELECTED_INTERESTS = "EXTRA_SELECTED_INTERESTS";
+    public static final String EXTRA_IS_EDIT = "EXTRA_IS_EDIT";
+
     private TextView tvInterestCount;
     private ChipGroup chipGroupInterests;
+    private boolean isEditMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +64,44 @@ public class InterestsActivity extends AppCompatActivity {
         chipGroupInterests = findViewById(R.id.chipGroupInterests);
 
         chipGroupInterests.clearCheck();
+
+        ArrayList<String> initialSelected = null;
+        if (getIntent() != null) {
+            if (getIntent().hasExtra(EXTRA_IS_EDIT)) {
+                isEditMode = getIntent().getBooleanExtra(EXTRA_IS_EDIT, false);
+            }
+            if (getIntent().hasExtra(EXTRA_SELECTED_INTERESTS)) {
+                initialSelected = getIntent().getStringArrayListExtra(EXTRA_SELECTED_INTERESTS);
+                if (initialSelected != null) isEditMode = true;
+            }
+        }
+
+        if (isEditMode) {
+            View progress = findViewById(R.id.progressProfile);
+            View tvStep = findViewById(R.id.tvStep);
+            if (progress != null) progress.setVisibility(View.GONE);
+            if (tvStep != null) tvStep.setVisibility(View.GONE);
+        }
+
+        if (initialSelected != null) {
+            for (int i = 0; i < chipGroupInterests.getChildCount(); i++) {
+                View child = chipGroupInterests.getChildAt(i);
+                if (child instanceof Chip) {
+                    Chip chip = (Chip) child;
+                    if (initialSelected.contains(chip.getText().toString())) {
+                        chip.setChecked(true);
+                    }
+                }
+            }
+        }
+
         setupChipListeners();
         updateSelectedCount();
 
-        // Nút Quay lại góc trên bên trái -> quay về lg8_activity_weight
+        // Nút Quay lại
         findViewById(R.id.btnBack).setOnClickListener(v -> finish());
 
-        // Nút Tiếp tục dùng chung
+        // Nút Lưu thay đổi / Tiếp tục
         findViewById(R.id.btnContinue).setOnClickListener(v -> checkAndContinue());
     }
 
@@ -82,7 +117,7 @@ public class InterestsActivity extends AppCompatActivity {
 
     private void updateSelectedCount() {
         int count = getSelectedInterests().size();
-        tvInterestCount.setText("Chọn ít nhất 3 sở thích · Đã chọn " + count);
+        tvInterestCount.setText("Đã chọn " + count + " sở thích · Chọn ít nhất 3");
     }
 
     private List<String> getSelectedInterests() {
@@ -107,9 +142,15 @@ public class InterestsActivity extends AppCompatActivity {
             return;
         }
 
-        // Chuyển sang lg10_activity_relationship_goal
-        android.content.Intent intent = new android.content.Intent(InterestsActivity.this, RelationshipGoalActivity.class);
-        intent.putStringArrayListExtra("EXTRA_INTERESTS", new java.util.ArrayList<>(selected));
-        startActivity(intent);
+        if (isEditMode) {
+            android.content.Intent resultIntent = new android.content.Intent();
+            resultIntent.putStringArrayListExtra(EXTRA_SELECTED_INTERESTS, new java.util.ArrayList<>(selected));
+            setResult(RESULT_OK, resultIntent);
+            finish();
+        } else {
+            android.content.Intent intent = new android.content.Intent(InterestsActivity.this, RelationshipGoalActivity.class);
+            intent.putStringArrayListExtra("EXTRA_INTERESTS", new java.util.ArrayList<>(selected));
+            startActivity(intent);
+        }
     }
 }

@@ -54,8 +54,8 @@ public class ProfileReadyActivity extends AppCompatActivity {
     private void startApp() {
         Toast.makeText(this, "Chào mừng bạn đến với Date Zone!", Toast.LENGTH_SHORT).show();
 
-        // Chuyển về LoginActivity (hoặc MainActivity sau này) và dọn sạch backstack
-        Intent intent = new Intent(ProfileReadyActivity.this, LoginActivity.class);
+        // Chuyển sang màn hình chính Discovery (discovery_activity_home)
+        Intent intent = new Intent(ProfileReadyActivity.this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();

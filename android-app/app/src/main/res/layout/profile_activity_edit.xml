@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/editProfileRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/filters_background"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/editProfileHeader"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+        <ImageButton
+            android:id="@+id/btnEditProfileBack"
+            style="@style/AuthBackButton" />
+        <TextView
+            style="@style/AuthCardTitle"
+            android:layout_width="0dp"
+            android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:text="@string/profile_edit_title"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/btnEditProfileSave"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="@string/profile_edit_save"
+            android:textColor="@color/brand_primary"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/border_input" />
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/editProfileScroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbars="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="24dp">
+            <!-- SECTION 1: Ảnh của bạn -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AuthFieldLabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Ảnh của bạn"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvEditProfilePhotoCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2/6 ảnh"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+
+            </LinearLayout>
+
+            <!-- Khung 6 ô ảnh (2 hàng x 3 cột) -->
+            <GridLayout
+                android:id="@+id/gridEditProfilePhotos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:columnCount="3"
+                android:rowCount="2">
+
+                <!-- 6 ô ảnh được render động từ Java -->
+
+            </GridLayout>
+
+            <TextView
+                style="@style/ProfileEditHint"
+                android:layout_marginTop="8dp"
+                android:text="Bấm vào ảnh để thay, xóa hoặc đặt làm ảnh chính. Tối đa 6 ảnh, ảnh đầu tiên là ảnh chính." />
+            <TextView
+                style="@style/ProfileSectionTitle"
+                android:labelFor="@id/edtEditProfileBio"
+                android:text="@string/profile_edit_bio" />
+            <EditText
+                android:id="@+id/edtEditProfileBio"
+                style="@style/ProfileEditInput"
+                android:layout_height="128dp"
+                android:gravity="top|start"
+                android:inputType="textMultiLine|textCapSentences"
+                android:lineSpacingExtra="3dp"
+                android:maxLength="300"
+                android:maxLines="6"
+                android:padding="12dp"
+                android:scrollbars="vertical"
+                android:text="@string/profile_home_bio" />
+            <TextView
+                style="@style/ProfileEditHint"
+                android:text="@string/profile_edit_bio_hint" />
+            <TextView
+                style="@style/ProfileSectionTitle"
+                android:text="@string/profile_edit_basic" />
+            <TextView
+                style="@style/ProfileEditLabel"
+                android:labelFor="@id/edtEditProfileName"
+                android:text="@string/profile_edit_display_name" />
+            <EditText
+                android:id="@+id/edtEditProfileName"
+                style="@style/ProfileEditInput"
+                android:inputType="textPersonName|textCapWords"
+                android:maxLines="1"
+                android:text="@string/profile_home_name" />
+            <TextView
+                style="@style/ProfileEditLabel"
+                android:labelFor="@id/edtEditProfileBirthday"
+                android:text="@string/profile_edit_birthday" />
+            <EditText
+                android:id="@+id/edtEditProfileBirthday"
+                style="@style/ProfileEditInput"
+                android:inputType="date"
+                android:maxLines="1"
+                android:text="@string/profile_edit_birthday_value" />
+            <TextView
+                style="@style/ProfileEditHint"
+                android:text="@string/profile_edit_age_hint" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/ProfileEditLabel"
+                        android:labelFor="@id/edtEditProfileGender"
+                        android:text="@string/profile_edit_gender" />
+                    <EditText
+                        android:id="@+id/edtEditProfileGender"
+                        style="@style/ProfileEditInput"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="@string/profile_edit_gender_value" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/ProfileEditLabel"
+                        android:labelFor="@id/edtEditProfileHeight"
+                        android:text="@string/profile_edit_height" />
+                    <EditText
+                        android:id="@+id/edtEditProfileHeight"
+                        style="@style/ProfileEditInput"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="@string/profile_edit_height_value" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/ProfileEditLabel"
+                        android:labelFor="@id/edtEditProfileWeight"
+                        android:text="@string/profile_edit_weight" />
+                    <EditText
+                        android:id="@+id/edtEditProfileWeight"
+                        style="@style/ProfileEditInput"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="@string/profile_edit_weight_value" />
+                </LinearLayout>
+            </LinearLayout>
+            <TextView
+                style="@style/ProfileEditLabel"
+                android:labelFor="@id/edtEditProfileWorkSchool"
+                android:text="@string/profile_edit_work_school" />
+            <EditText
+                android:id="@+id/edtEditProfileWorkSchool"
+                style="@style/ProfileEditInput"
+                android:inputType="textCapSentences"
+                android:maxLines="1" />
+            <TextView
+                style="@style/ProfileEditLabel"
+                android:labelFor="@id/edtEditProfileLocation"
+                android:text="@string/profile_edit_location" />
+            <EditText
+                android:id="@+id/edtEditProfileLocation"
+                style="@style/ProfileEditInput"
+                android:inputType="textPostalAddress"
+                android:maxLines="1"
+                android:text="@string/profile_home_location" />
+            <!-- SECTION 3: Sở thích -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/AuthFieldLabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Sở thích"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/btnEditProfileInterests"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="Chỉnh sửa"
+                    android:textColor="@color/brand_primary"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroupSelectedInterests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:chipSpacingHorizontal="8dp"
+                app:chipSpacingVertical="8dp">
+
+                <!-- Các chip sở thích được nạp động từ Java -->
+
+            </com.google.android.material.chip.ChipGroup>
+            <TextView
+                style="@style/ProfileEditHint"
+                android:text="@string/profile_edit_interests_hint" />
+            <TextView
+                style="@style/ProfileSectionTitle"
+                android:text="@string/profile_edit_lifestyle" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardEditProfileLifestyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="18dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/border_input"
+                app:strokeWidth="1dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingHorizontal="14dp">
+                    <!-- 1. Mối quan hệ -->
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileRelationship"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_looking_for" />
+                            <TextView
+                                android:id="@+id/tvEditProfileRelationship"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/ivArrowEditProfileRelationship"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerEditProfileRelationshipExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="8dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupEditProfileRelationship"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Người yêu lâu dài" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Bạn hẹn hò" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Bạn đời" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Chưa rõ" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Bạn bè mới" />
+
+                        </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border_input" />
+
+                    <!-- 2. Cung hoàng đạo -->
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileZodiac"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_zodiac" />
+                            <TextView
+                                android:id="@+id/tvEditProfileZodiac"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/ivArrowEditProfileZodiac"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerEditProfileZodiacExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="8dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupEditProfileZodiac"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Bạch Dương" app:chipIcon="@drawable/ic_zodiac_aries" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Kim Ngưu" app:chipIcon="@drawable/ic_zodiac_taurus" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Song Tử" app:chipIcon="@drawable/ic_zodiac_gemini" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Cự Giải" app:chipIcon="@drawable/ic_zodiac_cancer" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Sư Tử" app:chipIcon="@drawable/ic_zodiac_leo" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Xử Nữ" app:chipIcon="@drawable/ic_zodiac_virgo" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Thiên Bình" app:chipIcon="@drawable/ic_zodiac_libra" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Bọ Cạp" app:chipIcon="@drawable/ic_zodiac_scorpio" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Nhân Mã" app:chipIcon="@drawable/ic_zodiac_sagittarius" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Ma Kết" app:chipIcon="@drawable/ic_zodiac_capricorn" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Bảo Bình" app:chipIcon="@drawable/ic_zodiac_aquarius" app:chipIconVisible="true" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Song Ngư" app:chipIcon="@drawable/ic_zodiac_pisces" app:chipIconVisible="true" />
+
+                        </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border_input" />
+
+                    <!-- 3. Hút thuốc -->
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileSmoking"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_smoking" />
+                            <TextView
+                                android:id="@+id/tvEditProfileSmoking"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/ivArrowEditProfileSmoking"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerEditProfileSmokingExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="8dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupEditProfileSmoking"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Không bao giờ" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Thỉnh thoảng" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Thường xuyên" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Đang cai" />
+
+                        </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border_input" />
+
+                    <!-- 4. Uống rượu bia -->
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileDrinking"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_drinking" />
+                            <TextView
+                                android:id="@+id/tvEditProfileDrinking"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/ivArrowEditProfileDrinking"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerEditProfileDrinkingExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="8dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupEditProfileDrinking"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Không bao giờ" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Thỉnh thoảng" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Thường xuyên" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Cuối tuần" />
+
+                        </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border_input" />
+
+                    <!-- 5. Tập thể dục -->
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileExercise"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_exercise" />
+                            <TextView
+                                android:id="@+id/tvEditProfileExercise"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/ivArrowEditProfileExercise"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerEditProfileExerciseExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="8dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupEditProfileExercise"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Mỗi ngày" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Thường xuyên" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Thỉnh thoảng" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Không tập" />
+
+                        </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="@color/border_input" />
+
+                    <!-- 6. Học vấn -->
+                    <LinearLayout
+                        android:id="@+id/rowEditProfileEducation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="64dp"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                style="@style/AuthFieldLabel"
+                                android:text="@string/profile_edit_education" />
+                            <TextView
+                                android:id="@+id/tvEditProfileEducation"
+                                style="@style/ProfileEditHint"
+                                android:layout_marginTop="3dp"
+                                android:text="@string/profile_edit_missing"
+                                android:textColor="@color/brand_primary" />
+                        </LinearLayout>
+                        <ImageView
+                            android:id="@+id/ivArrowEditProfileEducation"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:importantForAccessibility="no"
+                            android:src="@drawable/ic_filters_expand" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/containerEditProfileEducationExpanded"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingVertical="8dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chipGroupEditProfileEducation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:chipSpacingHorizontal="8dp"
+                            app:chipSpacingVertical="8dp"
+                            app:singleSelection="true">
+
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Đại học" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Thạc sĩ" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Tiến sĩ" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Trung học" />
+                            <com.google.android.material.chip.Chip style="@style/InterestChip" android:text="Khác" />
+
+                        </com.google.android.material.chip.ChipGroup>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEditProfileSaveChanges"
+                style="@style/AuthPrimaryButton"
+                android:layout_marginTop="20dp"
+                android:text="@string/profile_edit_save_changes" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

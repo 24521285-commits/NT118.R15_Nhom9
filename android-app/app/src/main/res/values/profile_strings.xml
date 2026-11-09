@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile_title">Hồ sơ</string>
+    <string name="profile_sample_name_age">Trương Vĩnh Nguyên, 20</string>
+    <string name="profile_sample_gender">Giới tính: Nam</string>
+    <string name="profile_location_title">Vị trí</string>
+    <string name="profile_sample_location">Quận 9, Thủ Đức, Thành phố Hồ Chí Minh</string>
+    <string name="profile_like">Thích</string>
+    <string name="profile_about_title">Giới thiệu</string>
+    <string name="profile_sample_bio">Nam hay cười :)\nYêu những buổi cafe nhẹ nhàng, âm nhạc và những chuyến đi. Cuối tuần cùng khám phá một nơi mới nhé!</string>
+    <string name="profile_interests_title">Sở thích</string>
+    <string name="profile_interest_music">Âm nhạc</string>
+    <string name="profile_interest_gaming">Chơi game</string>
+    <string name="profile_interest_travel">Du lịch</string>
+    <string name="profile_interest_reading">Đọc sách</string>
+    <string name="profile_interest_badminton">Cầu lông</string>
+    <string name="profile_gallery_title">Thư viện ảnh</string>
+    <string name="profile_view_all">Xem tất cả</string>
+    <string name="profile_gallery_photo_1">Ảnh hồ sơ số 1</string>
+    <string name="profile_gallery_photo_2">Ảnh hồ sơ số 2</string>
+    <string name="profile_gallery_photo_3">Ảnh hồ sơ số 3</string>
+    <string name="profile_gallery_photo_4">Ảnh hồ sơ số 4</string>
+</resources>

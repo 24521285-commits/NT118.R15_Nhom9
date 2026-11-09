@@ -40,7 +40,7 @@
                 android:id="@+id/tvOtpSubtitle"
                 style="@style/AuthCardSubtitle"
                 android:lineSpacingExtra="3dp"
-                android:text="Nhập mã gồm 6 chữ số chúng tôi đã gửi tới\n+84 ••• ••• 123" />
+                android:text="Nhập mã gồm 6 chữ số chúng tôi đã gửi tới\nemail của bạn" />
 
             <!-- 6 ô nhập OTP -->
             <LinearLayout

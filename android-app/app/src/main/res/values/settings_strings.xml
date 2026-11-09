@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_account">Tài khoản</string>
+    <string name="settings_login_info">Thông tin đăng nhập</string>
+    <string name="settings_login_summary">Quản lý số điện thoại và email</string>
+    <string name="settings_password">Đổi mật khẩu</string>
+    <string name="settings_devices">Thiết bị đăng nhập</string>
+    <string name="settings_advanced_filters">Bộ lọc nâng cao</string>
+    <string name="settings_advanced_summary">Sở thích, lối sống và định hướng</string>
+    <string name="settings_dating_hint">Các tùy chọn này giúp Date Zone gợi ý những người phù hợp hơn với bạn.</string>
+    <string name="settings_experience">Trải nghiệm &amp; an toàn</string>
+    <string name="settings_notifications">Thông báo</string>
+    <string name="settings_language">Ngôn ngữ</string>
+    <string name="settings_language_value">Tiếng Việt</string>
+    <string name="settings_support">Hỗ trợ &amp; thông tin</string>
+    <string name="settings_help_center">Trung tâm trợ giúp</string>
+    <string name="settings_contact">Liên hệ hỗ trợ</string>
+    <string name="settings_terms">Điều khoản &amp; chính sách</string>
+    <string name="settings_logout">Đăng xuất</string>
+    <string name="settings_delete_account">Xóa tài khoản</string>
+    <string name="settings_delete_summary">Xóa hồ sơ và dữ liệu tài khoản vĩnh viễn</string>
+</resources>

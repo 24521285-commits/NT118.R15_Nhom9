@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chatCallRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <!-- Ảnh nền mờ toàn màn hình (Ẩn để hiển thị nền đen chuẩn) -->
+    <ImageView
+        android:id="@+id/ivCallBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Ảnh nền cuộc gọi"
+        android:scaleType="centerCrop"
+        android:src="@drawable/discovery_photo_1"
+        android:visibility="gone" />
+
+    <!-- Lớp phủ tối mờ -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#A6000000"
+        android:visibility="gone" />
+
+    <!-- Màn hình xem trước Camera khi Gọi Video -->
+    <TextureView
+        android:id="@+id/textureCameraPreview"
+        android:layout_width="120dp"
+        android:layout_height="180dp"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Nút Thu nhỏ cuộc gọi góc trên bên trái -->
+    <ImageButton
+        android:id="@+id/btnMinimizeCall"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_circle_translucent"
+        android:contentDescription="Thu nhỏ cuộc gọi"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_discovery_chat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <!-- Nút Xoay camera góc trên cùng bên phải (cho Gọi Video) -->
+    <ImageButton
+        android:id="@+id/btnSwitchCamera"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/bg_circle_translucent"
+        android:contentDescription="Đổi camera"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_camera_switch"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
+
+    <!-- Khung thông tin đối phương giữa màn hình -->
+    <LinearLayout
+        android:id="@+id/layoutCallCenterInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/layoutCallActionButtons"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4">
+
+        <!-- Avatar hình tròn -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivCallAvatar"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:contentDescription="Avatar cuộc gọi"
+            android:scaleType="centerCrop"
+            android:src="@drawable/discovery_photo_1"
+            app:shapeAppearanceOverlay="@style/CircleImageStyle" />
+
+        <!-- Tên đối phương -->
+        <TextView
+            android:id="@+id/tvCallPartnerName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nguyên"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <!-- Trạng thái / Thời gian cuộc gọi -->
+        <TextView
+            android:id="@+id/tvCallStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Contacting..."
+            android:textColor="#D1D5DB"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!-- Hàng 4 nút điều khiển ở đáy -->
+    <LinearLayout
+        android:id="@+id/layoutCallActionButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Nút Loa (3 mức: Lớn - Nhỏ - Tắt) -->
+        <ImageButton
+            android:id="@+id/btnSpeaker"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_circle_translucent"
+            android:contentDescription="Loa"
+            android:padding="14dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_speaker_high"
+            app:tint="@color/white" />
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="1dp" />
+
+        <!-- Nút Video (Tắt / Mở) -->
+        <ImageButton
+            android:id="@+id/btnToggleVideo"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_circle_translucent"
+            android:contentDescription="Video"
+            android:padding="14dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_videocam"
+            app:tint="@color/white" />
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="1dp" />
+
+        <!-- Nút Micro (Tắt / Mở) -->
+        <ImageButton
+            android:id="@+id/btnToggleMic"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_circle_translucent"
+            android:contentDescription="Microphone"
+            android:padding="14dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_mic_on"
+            app:tint="@color/white" />
+
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="1dp" />
+
+        <!-- Nút Tắt máy (Đỏ) -->
+        <ImageButton
+            android:id="@+id/btnEndCall"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/bg_circle_add"
+            android:contentDescription="Kết thúc cuộc gọi"
+            android:padding="14dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_call_end"
+            app:tint="@color/white" />
+
+    </LinearLayout>
+
+    <!-- Khung Thu nhỏ cuộc gọi (Floating PIP Window di chuyển được) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardFloatingPip"
+        android:layout_width="110dp"
+        android:layout_height="160dp"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        app:cardBackgroundColor="#CC000000"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivPipAvatar"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/discovery_photo_1"
+                app:shapeAppearanceOverlay="@style/CircleImageStyle" />
+
+            <TextView
+                android:id="@+id/tvPipTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_marginBottom="16dp"
+                android:text="00:15"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+        </FrameLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

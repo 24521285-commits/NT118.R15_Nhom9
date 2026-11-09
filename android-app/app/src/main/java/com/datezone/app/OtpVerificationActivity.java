@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -19,18 +20,22 @@ import androidx.core.view.WindowInsetsCompat;
 public class OtpVerificationActivity extends AppCompatActivity {
 
     public static final String EXTRA_FLOW_TYPE = "EXTRA_FLOW_TYPE";
-    public static final String EXTRA_PHONE_NUMBER = "EXTRA_PHONE_NUMBER";
+    public static final String EXTRA_EMAIL = "EXTRA_EMAIL";
+    public static final String EXTRA_PHONE_NUMBER = "EXTRA_EMAIL";
 
     public static final String FLOW_LOGIN = "FLOW_LOGIN";
     public static final String FLOW_REGISTER = "FLOW_REGISTER";
     public static final String FLOW_FORGOT_PASSWORD = "FLOW_FORGOT_PASSWORD";
+    public static final String FLOW_CHANGE_EMAIL = "FLOW_CHANGE_EMAIL";
+    public static final String FLOW_VERIFY_CURRENT_EMAIL = "FLOW_VERIFY_CURRENT_EMAIL";
+    public static final String FLOW_CHANGE_PASSWORD = "FLOW_CHANGE_PASSWORD";
 
     private EditText[] otpBoxes;
     private TextView tvOtpSubtitle;
     private TextView tvResendOtp;
 
     private String flowType = FLOW_FORGOT_PASSWORD;
-    private String phoneNumber = "";
+    private String email = "";
     private CountDownTimer countDownTimer;
     private boolean isResendClickable = false;
 
@@ -73,8 +78,10 @@ public class OtpVerificationActivity extends AppCompatActivity {
             if (getIntent().hasExtra(EXTRA_FLOW_TYPE)) {
                 flowType = getIntent().getStringExtra(EXTRA_FLOW_TYPE);
             }
-            if (getIntent().hasExtra(EXTRA_PHONE_NUMBER)) {
-                phoneNumber = getIntent().getStringExtra(EXTRA_PHONE_NUMBER);
+            if (getIntent().hasExtra(EXTRA_EMAIL)) {
+                email = getIntent().getStringExtra(EXTRA_EMAIL);
+            } else if (getIntent().hasExtra(EXTRA_PHONE_NUMBER)) {
+                email = getIntent().getStringExtra(EXTRA_PHONE_NUMBER);
             }
         }
 
@@ -112,21 +119,22 @@ public class OtpVerificationActivity extends AppCompatActivity {
     }
 
     private void setupSubtitle() {
-        String maskedPhone = maskPhoneNumber(phoneNumber);
-        String subtitleText = "Nhập mã gồm 6 chữ số chúng tôi đã gửi tới\n" + maskedPhone;
+        String maskedEmail = maskEmail(email);
+        String subtitleText = "Nhập mã gồm 6 chữ số chúng tôi đã gửi tới\n" + maskedEmail;
         tvOtpSubtitle.setText(subtitleText);
     }
 
-    private String maskPhoneNumber(String phone) {
-        if (phone == null || phone.trim().isEmpty()) {
-            return "+84 ••• ••• 123";
+    private String maskEmail(String emailStr) {
+        if (emailStr == null || emailStr.trim().isEmpty()) {
+            return "email của bạn";
         }
-        String clean = phone.replaceAll("[^0-9]", "");
-        if (clean.length() >= 3) {
-            String last3 = clean.substring(clean.length() - 3);
-            return "+84 ••• ••• " + last3;
+        int atIndex = emailStr.indexOf('@');
+        if (atIndex > 2) {
+            String name = emailStr.substring(0, atIndex);
+            String domain = emailStr.substring(atIndex);
+            return name.substring(0, 2) + "•••" + domain;
         }
-        return "+84 ••• ••• 123";
+        return emailStr;
     }
 
     private void setupOtpInputs() {
@@ -186,19 +194,35 @@ public class OtpVerificationActivity extends AppCompatActivity {
         if (FLOW_FORGOT_PASSWORD.equals(flowType)) {
             // Sau khi bấm xác nhận từ Quên mật khẩu -> Mới hiện ra trang Đặt lại mật khẩu
             Intent intent = new Intent(OtpVerificationActivity.this, ResetPasswordActivity.class);
-            intent.putExtra(EXTRA_PHONE_NUMBER, phoneNumber);
+            intent.putExtra(EXTRA_EMAIL, email);
             startActivity(intent);
             finish();
         } else if (FLOW_LOGIN.equals(flowType)) {
             Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(OtpVerificationActivity.this, LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            Intent intent = new Intent(OtpVerificationActivity.this, HomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
         } else if (FLOW_REGISTER.equals(flowType)) {
             Toast.makeText(this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(OtpVerificationActivity.this, EnterNameActivity.class);
-            intent.putExtra(EXTRA_PHONE_NUMBER, phoneNumber);
+            intent.putExtra(EXTRA_EMAIL, email);
+            startActivity(intent);
+            finish();
+        } else if (FLOW_CHANGE_EMAIL.equals(flowType)) {
+            Intent intent = new Intent(OtpVerificationActivity.this, ChangeEmailSuccessActivity.class);
+            intent.putExtra(EXTRA_EMAIL, email);
+            startActivity(intent);
+            finish();
+        } else if (FLOW_VERIFY_CURRENT_EMAIL.equals(flowType)) {
+            Toast.makeText(this, "Xác minh email thành công!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(OtpVerificationActivity.this, ChangeEmailActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (FLOW_CHANGE_PASSWORD.equals(flowType)) {
+            Toast.makeText(this, "Xác minh OTP thành công!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(OtpVerificationActivity.this, ResetPasswordActivity.class);
+            intent.putExtra(EXTRA_EMAIL, email);
             startActivity(intent);
             finish();
         } else {
@@ -212,8 +236,8 @@ public class OtpVerificationActivity extends AppCompatActivity {
             countDownTimer.cancel();
         }
 
-        int textSecondaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.text_secondary);
-        int brandPrimaryColor = androidx.core.content.ContextCompat.getColor(this, R.color.brand_primary);
+        int textSecondaryColor = ContextCompat.getColor(this, R.color.text_secondary);
+        int brandPrimaryColor = ContextCompat.getColor(this, R.color.brand_primary);
 
         tvResendOtp.setTextColor(textSecondaryColor);
         tvResendOtp.setTypeface(null, android.graphics.Typeface.NORMAL);
@@ -236,7 +260,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
     }
 
     private void resendOtpCode() {
-        Toast.makeText(this, "Đã gửi lại mã OTP mới!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Đã gửi lại mã OTP mới tới email " + maskEmail(email), Toast.LENGTH_SHORT).show();
         for (EditText box : otpBoxes) {
             box.setText("");
         }
