@@ -47,7 +47,8 @@ public class ProfileHomeActivity extends AppCompatActivity {
                         bottom + bars.bottom
                 );
 
-                return insets;
+                // The root already reserves this space; children must not add it again.
+                return insets.inset(bars.left, bars.top, bars.right, bars.bottom);
             });
             ViewCompat.requestApplyInsets(root);
         }
